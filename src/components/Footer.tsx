@@ -84,7 +84,7 @@ const Footer = () => {
         <div className=" flex flex-col gap-3 min-[910px]:flex-[0_0_30%] ">
           <Link href="/">
             {logoSrc ? (
-              <Image src={logoSrc} alt="logo" width={40} height={60} unoptimized />
+              <Image src={logoSrc} alt="logo" width={80} height={60} unoptimized />
             ) : (
               <Image src={Logo} alt="logo" width={120} />
             )}

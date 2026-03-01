@@ -65,7 +65,7 @@ const Header = () => {
         <Link href="/" className=" cursor-pointer">
           <div>
             {logoSrc ? (
-              <Image src={logoSrc} alt="logo" width={40} height={40} unoptimized />
+              <Image src={logoSrc} alt="logo" width={80} height={40} unoptimized />
             ) : (
               <Image src={Logo} alt="logo" width={100} />
             )}
