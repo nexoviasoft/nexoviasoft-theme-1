@@ -5,7 +5,7 @@ export default function ResellerSuccessPage() {
     <div className="min-h-[80vh] flex items-center justify-center bg-gradient-to-b from-slate-50 to-slate-100 px-4 py-10">
       <div className="w-full max-w-md text-center">
         <div className="rounded-2xl bg-white shadow-lg shadow-slate-200/70 border border-slate-100 p-8">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 text-gray-700">
             <span className="text-2xl">✓</span>
           </div>
           <h1 className="text-2xl font-semibold tracking-tight text-slate-900">

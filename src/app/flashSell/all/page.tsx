@@ -61,7 +61,7 @@ const FlashSaleListing = async () => {
     <div className="max-w-7xl mx-auto px-5 py-8">
       {/* Header Section */}
       <div className="mb-8">
-        <div className="bg-gradient-to-r from-red-500 to-orange-500 rounded-lg p-6 text-white mb-6">
+        <div className="bg-black rounded-lg p-6 text-white mb-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div>
               <h1 className="text-3xl md:text-4xl font-bold mb-2">
@@ -132,7 +132,7 @@ const FlashSaleListing = async () => {
             <p className="text-gray-600 mb-4">
               These flash sale deals are available for a limited time only.
             </p>
-            <button className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-red-600 hover:to-orange-600 transition-all duration-200">
+            <button className="bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-200">
               Shop All Deals
             </button>
           </div>

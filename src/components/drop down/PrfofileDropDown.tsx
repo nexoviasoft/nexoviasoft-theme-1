@@ -36,7 +36,7 @@ const ProfileDropDown: React.FC = () => {
       key: "1",
       label: (
         <div className="flex items-center gap-3 px-1 py-1.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-fuchsia-500 text-xs font-semibold text-white">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-xs font-semibold text-white">
             {initials}
           </div>
           <div className="min-w-0">
@@ -81,7 +81,7 @@ const ProfileDropDown: React.FC = () => {
     },
     {
       key: "7",
-      icon: <IoLogInOutline size={20} style={{ color: "#dc2626" }} />,
+      icon: <IoLogInOutline size={20} style={{ color: "#404040" }} />,
       label: "Log out",
       danger: true,
     },
@@ -124,7 +124,7 @@ const ProfileDropDown: React.FC = () => {
         items,
         onClick: handleMenuClick,
         className:
-          "rounded-2xl border border-pink-50 bg-white/95 px-1 py-1 shadow-lg",
+          "rounded-2xl border border-gray-200 bg-white px-1 py-1 shadow-lg",
       }}
       placement="bottomRight"
       trigger={["click"]}
@@ -136,9 +136,9 @@ const ProfileDropDown: React.FC = () => {
     >
       <button
         type="button"
-        className="flex items-center gap-2 rounded-full border border-gray-200 bg-white/80 px-3 py-1.5 text-xs md:text-sm text-gray-700 hover:border-pink-200 hover:bg-pink-50 transition-colors duration-200 ease-linear"
+        className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs md:text-sm text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-colors duration-200 ease-linear"
       >
-        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-fuchsia-500 text-[11px] font-semibold text-white">
+        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-black text-[11px] font-semibold text-white">
           {initials || <FaRegUser size={14} />}
         </div>
         <span className="hidden md:inline-block max-w-[120px] truncate">

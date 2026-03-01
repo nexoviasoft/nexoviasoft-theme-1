@@ -13,10 +13,10 @@ module.exports = {
         hindSiliguri: ["var(--font-hindSiliguri)"],
       },
       colors: {
-        // Xinzo brand colors (based on logo)
-        primary: "#2563EB", // primary blue
-        primaryDark: "#1D4ED8",
-        accent: "#F97316", // orange bag accent
+        // Black and white theme
+        primary: "#000000",
+        primaryDark: "#1a1a1a",
+        accent: "#404040",
       },
     },
   },

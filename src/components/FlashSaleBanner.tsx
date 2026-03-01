@@ -45,8 +45,8 @@ const FlashSaleBanner = async () => {
 
   return (
     <Link href="/flashSell" className="block">
-      <div className="bg-gradient-to-r from-[#1d4ed8] via-[#2563eb] to-[#7c3aed] text-white py-3 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/10"></div>
+      <div className="bg-black text-white py-3 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-white/5"></div>
         <div className="relative z-10 flex items-center justify-between gap-3 max-w-7xl mx-auto">
           <div className="flex items-center gap-3">
             <IoFlash className="text-2xl animate-pulse" />
@@ -67,7 +67,7 @@ const FlashSaleBanner = async () => {
           )}
         </div>
         <div className="absolute top-0 left-0 w-full h-full">
-          <div className="animate-pulse absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full"></div>
+          <div className="animate-pulse absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full"></div>
         </div>
       </div>
     </Link>

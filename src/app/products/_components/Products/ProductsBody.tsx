@@ -223,9 +223,9 @@ const ProductsBody = () => {
     return (
       <section className="w-full flex justify-center items-center py-16">
         <div className="max-w-md w-full text-center space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full bg-pink-50 px-3 py-1 border border-pink-100">
-            <span className="h-2 w-2 rounded-full bg-pink-500 animate-pulse" />
-            <span className="text-[11px] font-medium text-pink-700">
+          <div className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 border border-gray-200">
+            <span className="h-2 w-2 rounded-full bg-black animate-pulse" />
+            <span className="text-[11px] font-medium text-gray-700">
               আপনার জন্য পণ্যগুলো লোড হচ্ছে
             </span>
           </div>
@@ -241,12 +241,12 @@ const ProductsBody = () => {
   if (error) {
     return (
       <section className="w-full flex justify-center items-center py-16">
-        <div className="max-w-md w-full text-center space-y-3 rounded-2xl border border-red-100 bg-red-50/60 px-6 py-6">
-          <p className="text-sm font-semibold text-red-700">কিছু ভুল হয়েছে</p>
-          <p className="text-sm text-red-600 break-words">
+        <div className="max-w-md w-full text-center space-y-3 rounded-2xl border border-gray-200 bg-gray-50 px-6 py-6">
+          <p className="text-sm font-semibold text-gray-800">কিছু ভুল হয়েছে</p>
+          <p className="text-sm text-gray-700 break-words">
             {error}
           </p>
-          <p className="text-xs text-red-500">
+          <p className="text-xs text-gray-600">
             অনুগ্রহ করে পেজটি রিফ্রেশ করুন। যদি সমস্যা ঠিক না হয়, কিছুক্ষণ পরে আবার চেষ্টা করুন।
           </p>
         </div>

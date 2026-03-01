@@ -78,7 +78,7 @@ export default function LoginForm() {
 
             <div className="p-6 border-t border-gray-100">
               {error && (
-                <div className="mb-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">
+                <div className="mb-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded px-3 py-2">
                   {error}
                 </div>
               )}

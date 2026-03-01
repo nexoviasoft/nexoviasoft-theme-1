@@ -9,9 +9,9 @@ const Products = () => {
     <Suspense
       fallback={<ThemeLoader message="পণ্য তালিকা লোড হচ্ছে..." />}
     >
-      <div className="bg-gradient-to-b from-white via-pink-50/40 to-white">
+      <div className="bg-white">
         <div className="max-w-7xl mx-auto px-5">
-          <div className="pt-8 pb-6 border-b border-pink-100">
+          <div className="pt-8 pb-6 border-b border-gray-200">
             <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
               <div />
               <div className="w-full md:w-auto md:min-w-[220px]">

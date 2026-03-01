@@ -199,7 +199,7 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
         </div>
       }
     >
-      <div className="min-h-screen bg-gradient-to-b from-white via-pink-50/40 to-white">
+      <div className="min-h-screen bg-white">
         <section className="max-w-7xl mx-auto px-5 py-8 md:py-10">
           <div className="flex flex-col gap-5">
             {/* top breadcrumb / header section */}
@@ -210,18 +210,18 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
             {/* main product section */}
             <div className="grid gap-5 md:gap-6 lg:grid-cols-[minmax(0,1.05fr),minmax(0,1fr)]">
               {/* image gallery */}
-              <div className="rounded-2xl border border-pink-100 bg-white/90 p-3 md:p-4 flex items-center justify-center">
+              <div className="rounded-2xl border border-gray-200 bg-white/90 p-3 md:p-4 flex items-center justify-center">
                 <ImageGallery images={product?.images} />
               </div>
 
               {/* product details */}
-              <div className="rounded-2xl border border-pink-100 bg-white/90 p-4 md:p-5 lg:p-6">
+              <div className="rounded-2xl border border-gray-200 bg-white/90 p-4 md:p-5 lg:p-6">
                 <ProductDetails product={product} promos={promos} />
               </div>
             </div>
 
             {/* description / additional info / reviews / return policies */}
-            <div className="rounded-2xl border border-pink-100 bg-white/90 sm:p-5 p-3 mt-2 overflow-hidden">
+            <div className="rounded-2xl border border-gray-200 bg-white/90 sm:p-5 p-3 mt-2 overflow-hidden">
               <Tab product={product} returnPolicyContent={returnPolicyContent} />
             </div>
 

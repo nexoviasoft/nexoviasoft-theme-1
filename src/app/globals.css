@@ -4,9 +4,9 @@
 
 @layer base {
   :root {
-    /* Xinzo brand colors (blue + orange accent) */
-    --primary: 221, 83%, 53%; /* #2563EB */
-    --secondary: 24, 94%, 53%; /* #F97316 */
+    /* Black and white theme */
+    --primary: 0, 0%, 0%; /* #000000 */
+    --secondary: 0, 0%, 50%; /* #808080 */
   }
 }
 
@@ -14,7 +14,7 @@
 .btn-submit,
 button[type="submit"],
 .submit-btn {
-  background-color: #2563eb;
+  background-color: #000000;
   color: #ffffff;
   padding: 12px 16px;
   border-radius: 8px;
@@ -31,12 +31,12 @@ button[type="submit"],
 .btn-submit:hover,
 button[type="submit"]:hover,
 .submit-btn:hover {
-  background-color: #1d4ed8;
+  background-color: #333333;
 }
 
 .btn-cancel,
 .cancel-btn {
-  background-color: #dc2626;
+  background-color: #333333;
   color: #ffffff;
   padding: 12px 16px;
   border-radius: 8px;
@@ -52,7 +52,7 @@ button[type="submit"]:hover,
 }
 .btn-cancel:hover,
 .cancel-btn:hover {
-  background-color: #b91c1c;
+  background-color: #000000;
 }
 
 /* GLOBAL SCROLLBAR STYLES */
@@ -62,14 +62,14 @@ button[type="submit"]:hover,
 }
 
 *::-webkit-scrollbar-track {
-  background: #f3f4f6;
+  background: #f5f5f5;
 }
 
 *::-webkit-scrollbar-thumb {
-  background: #2563eb;
+  background: #000000;
   border-radius: 10px;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: #1d4ed8;
+  background: #333333;
 }

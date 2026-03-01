@@ -79,7 +79,7 @@ const Footer = () => {
   const visibleCategories = categories.length ? categories : fallbackCategories;
 
   return (
-    <footer className=" bg-[#212121]">
+    <footer className=" bg-black">
       <div className=" max-w-7xl mx-auto py-16 px-5 flex min-[910px]:flex-row flex-col gap-5">
         <div className=" flex flex-col gap-3 min-[910px]:flex-[0_0_30%] ">
           <Link href="/">
@@ -99,15 +99,15 @@ const Footer = () => {
           <div className=" flex gap-2 text-white">
             <Link
               href={`mailto:${email}`}
-              className=" border rounded-full p-2 text-lg hover:border-rose-500 hover:text-rose-500 transition-all duration-200 ease-linear cursor-pointer"
+              className=" border border-gray-500 rounded-full p-2 text-lg hover:border-white hover:text-white transition-all duration-200 ease-linear cursor-pointer"
             >
               <MdOutlineEmail />
             </Link>
             <Link
-              href="https://www.facebook.com/profile.php?id=61578248000957"
+              href="https://www.facebook.com/share/1H2Wg6fEpq/?mibextid=wwXIfr"
               target="_blank"
               rel="noopener noreferrer"
-              className=" border rounded-full p-2 text-lg hover:border-rose-500 hover:text-rose-500 transition-all duration-200 ease-linear cursor-pointer"
+              className=" border border-gray-500 rounded-full p-2 text-lg hover:border-white hover:text-white transition-all duration-200 ease-linear cursor-pointer"
             >
               <FaFacebookF />
             </Link>
@@ -248,7 +248,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className=" border-t">
+      <div className=" border-t border-gray-700">
         <div className="max-w-7xl mx-auto px-5 sm:py-4 py-3 flex items-center justify-between gap-2 min-[700px]:flex-row flex-col">
           <div>
             <p className="text-[#ffffffe6] text-[15px]">

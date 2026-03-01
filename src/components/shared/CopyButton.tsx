@@ -36,9 +36,9 @@ export default function CopyButton({
       type="button"
       onClick={handleCopy}
       title={label}
-      className={`inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 hover:bg-emerald-100 focus:outline-none focus:ring-2 focus:ring-emerald-200 disabled:opacity-60 transition-colors ${className}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border border-gray-300 bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-60 transition-colors ${className}`}
     >
-      <FiCopy size={size} className={copied ? "text-emerald-600" : ""} />
+      <FiCopy size={size} className={copied ? "text-black" : ""} />
       <span>{copied ? "কপি হয়েছে" : label}</span>
     </button>
   );

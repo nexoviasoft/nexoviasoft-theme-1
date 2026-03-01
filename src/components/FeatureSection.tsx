@@ -42,7 +42,7 @@ const items = [
 
 const FeatureSection = () => {
   return (
-    <section className=" mt-8 bg-gray-100 ">
+    <section className=" mt-8 bg-gray-100 border-t border-b border-gray-200">
       <div className=" max-w-7xl mx-auto px-5 py-5 grid grid-cols-[repeat(auto-fit,_minmax(90px,_1fr))] sm:grid-cols-[repeat(auto-fit,_minmax(160px,_1fr))] gap-3">
         {items.map((item) => (
           <div key={item.id} className=" flex flex-col items-center gap-1 ">

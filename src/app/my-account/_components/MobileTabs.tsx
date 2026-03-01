@@ -32,7 +32,7 @@ const MobileTabs = () => {
               "flex items-center gap-1.5 whitespace-nowrap px-3 py-2 rounded-full text-xs font-medium border transition-colors",
               path === item.link
                 ? "bg-primary text-white border-primary shadow-sm"
-                : "bg-white text-gray-700 border-pink-100 hover:bg-pink-50"
+                : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
             )}
           >
             <span className="flex items-center justify-center">
@@ -46,7 +46,7 @@ const MobileTabs = () => {
         <button
           type="button"
           onClick={() => setLogoutModalOpen(true)}
-          className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-4 py-2 text-xs font-medium text-red-700 hover:bg-red-100 transition-colors"
+          className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-gray-100 px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors"
         >
           <MdLogout size={16} />
           লগআউট

@@ -58,15 +58,15 @@ interface TrackingOrderStatus {
 const getStatusColor = (status: string) => {
   switch (status.toLowerCase()) {
     case "delivered":
-      return "bg-emerald-100 text-emerald-800";
+      return "bg-gray-200 text-gray-800";
     case "pending":
-      return "bg-amber-50 text-amber-700";
+      return "bg-gray-100 text-gray-700";
     case "cancelled":
-      return "bg-red-100 text-red-800";
+      return "bg-gray-300 text-gray-800";
     case "shipped":
-      return "bg-sky-100 text-sky-800";
+      return "bg-gray-200 text-gray-800";
     case "paid":
-      return "bg-emerald-50 text-emerald-700";
+      return "bg-gray-100 text-gray-700";
     default:
       return "bg-gray-100 text-gray-800";
   }
@@ -289,26 +289,26 @@ const Orders = () => {
   if (orders.length === 0) {
     return (
       <div className="w-full flex flex-col gap-5">
-        <div className="rounded-2xl bg-gradient-to-r from-[#1d4ed8] via-[#2563eb] to-[#7c3aed] text-white shadow-md px-4 py-4 sm:px-5 sm:py-5">
+        <div className="rounded-2xl bg-black text-white shadow-md px-4 py-4 sm:px-5 sm:py-5">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="space-y-1.5">
-              <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-emerald-100/90">
+              <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-white/80">
                 My account
               </p>
               <h2 className="text-xl md:text-2xl font-semibold">My orders</h2>
-              <p className="text-xs sm:text-sm text-emerald-50/95 max-w-md">
+              <p className="text-xs sm:text-sm text-white/90 max-w-md">
                 আপনি এখনও কোনো অর্ডার করেননি। প্রথম অর্ডারের সাথে প্রিমিয়াম
                 অভিজ্ঞতা শুরু করুন।
               </p>
             </div>
             <div className="flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs sm:text-sm">
-              <FiPackage className="text-emerald-100" />
+              <FiPackage className="text-white/90" />
               <span>অর্ডার হিস্টোরি এখানে দেখা যাবে</span>
             </div>
           </div>
         </div>
         <div className="flex items-center justify-center min-h-[220px]">
-          <div className="max-w-md w-full text-center space-y-4 rounded-2xl border border-dashed border-emerald-200 bg-white/70 px-6 py-8">
+          <div className="max-w-md w-full text-center space-y-4 rounded-2xl border border-dashed border-gray-300 bg-white/70 px-6 py-8">
             <p className="text-sm font-semibold text-gray-900">
               বর্তমানে কোনো অর্ডার পাওয়া যায়নি
             </p>
@@ -333,27 +333,27 @@ const Orders = () => {
   return (
     <>
     <div className="w-full flex flex-col gap-5">
-      <div className="rounded-2xl bg-gradient-to-r from-[#1d4ed8] via-[#2563eb] to-[#7c3aed] text-white shadow-md px-4 py-4 sm:px-5 sm:py-5">
+      <div className="rounded-2xl bg-black text-white shadow-md px-4 py-4 sm:px-5 sm:py-5">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="space-y-1.5">
-            <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-emerald-100/90">
+            <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-white/80">
               My account
             </p>
             <h2 className="text-xl md:text-2xl font-semibold">My orders</h2>
-            <p className="text-xs sm:text-sm text-emerald-50/95 max-w-md">
+            <p className="text-xs sm:text-sm text-white/90 max-w-md">
               আপনার সব অর্ডারের স্ট্যাটাস, পেমেন্ট এবং পণ্য তালিকা প্রিমিয়াম
               ভিউতে দেখুন।
             </p>
           </div>
           <div className="grid grid-cols-2 gap-2 w-full sm:w-auto">
             <div className="rounded-xl bg-white/10 px-3 py-2 flex items-center gap-2">
-              <FiPackage className="text-emerald-50" />
+              <FiPackage className="text-white/90" />
               <span className="text-[11px] font-medium">
                 মোট অর্ডার {orders.length}
               </span>
             </div>
             <div className="rounded-xl bg-white/10 px-3 py-2 flex items-center gap-2">
-              <FiTruck className="text-emerald-50" />
+              <FiTruck className="text-white/90" />
               <span className="text-[11px] font-medium">
                 ট্র্যাক করুন ডেলিভারি স্ট্যাটাস
               </span>
@@ -370,19 +370,19 @@ const Orders = () => {
             value={trackingId}
             onChange={(e) => setTrackingId(e.target.value)}
             placeholder="ট্র্যাকিং আইডি লিখুন"
-            className="w-full rounded-full border border-emerald-200 bg-white/90 px-4 py-2 text-xs sm:text-sm text-gray-900 placeholder:text-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:border-transparent"
+            className="w-full rounded-full border border-gray-300 bg-white/90 px-4 py-2 text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
           />
           <button
             type="submit"
             disabled={trackingLoading || !trackingId.trim()}
-            className="inline-flex items-center justify-center rounded-full bg-white/90 px-4 py-2 text-xs sm:text-sm font-semibold text-emerald-700 hover:bg-white disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+            className="inline-flex items-center justify-center rounded-full bg-white/90 px-4 py-2 text-xs sm:text-sm font-semibold text-black hover:bg-white disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
           >
             {trackingLoading ? "ট্র্যাক করা হচ্ছে..." : "অর্ডার ট্র্যাক করুন"}
           </button>
         </form>
 
         {trackingError && (
-            <p className="mt-2 text-[11px] sm:text-xs text-red-100">
+            <p className="mt-2 text-[11px] sm:text-xs text-white/90">
             {trackingError}
           </p>
         )}
@@ -390,42 +390,42 @@ const Orders = () => {
         {trackingResult && (
           <div className="mt-3 rounded-xl bg-white/10 px-3 py-2 text-[11px] sm:text-xs space-y-1">
             <p className="flex flex-wrap items-center gap-2">
-              <span className="text-emerald-100/80">Tracking ID:</span>{" "}
+              <span className="text-white/90/80">Tracking ID:</span>{" "}
               <span className="font-semibold">
                 {trackingResult.trackingId || trackingId}
               </span>
               <CopyButton
                 text={trackingResult.trackingId || trackingId || ""}
-                className="!bg-white/20 !border-emerald-100/50 !text-emerald-50 !hover:bg-white/30"
+                className="!bg-white/20 !border-gray-200/50 !text-white/90 !hover:bg-white/30"
                 size={12}
               />
             </p>
             <p>
-              <span className="text-emerald-100/80">Status:</span>{" "}
+              <span className="text-white/90/80">Status:</span>{" "}
               <span className="font-semibold">
                 {trackingResult.status?.toUpperCase()}
               </span>
             </p>
             {trackingResult.message && (
-              <p className="text-emerald-100">{trackingResult.message}</p>
+              <p className="text-white/90">{trackingResult.message}</p>
             )}
             {trackingResult.shippingProvider && (
               <p>
-                <span className="text-emerald-100/80">Provider:</span>{" "}
+                <span className="text-white/90/80">Provider:</span>{" "}
                 <span className="font-semibold">
                   {trackingResult.shippingProvider}
                 </span>
               </p>
             )}
             <p>
-              <span className="text-emerald-100/80">Order ID:</span>{" "}
+              <span className="text-white/90/80">Order ID:</span>{" "}
               <span className="font-semibold">#{trackingResult.orderId}</span>
             </p>
 
             {trackingResult.statusHistory &&
               trackingResult.statusHistory.length > 0 && (
-                <div className="mt-2 border-t border-emerald-100/30 pt-2">
-                  <p className="text-[10px] font-semibold text-emerald-50 mb-1">
+                <div className="mt-2 border-t border-gray-200/30 pt-2">
+                  <p className="text-[10px] font-semibold text-white/90 mb-1">
                     স্ট্যাটাস হিস্টোরি
                   </p>
                   <ul className="space-y-1">
@@ -435,7 +435,7 @@ const Orders = () => {
                           {formatDate(entry.createdAt)} —{" "}
                           {entry.newStatus.toUpperCase()}
                         </span>
-                                <span className="text-pink-100/80">
+                                <span className="text-white/80">
                                   {entry.comment ||
                                     getStatusMessage(entry.newStatus)}
                                 </span>
@@ -451,7 +451,7 @@ const Orders = () => {
         {orders.map((order) => (
           <div
             key={order.id}
-            className="bg-white/95 p-4 sm:p-5 rounded-2xl shadow-sm border border-pink-50"
+            className="bg-white/95 p-4 sm:p-5 rounded-2xl shadow-sm border border-gray-200"
           >
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
               <div className="space-y-1">
@@ -511,7 +511,7 @@ const Orders = () => {
                     </p>
                   )}
                 </div>
-                <div className="inline-flex items-center rounded-full bg-pink-50 px-4 py-2 text-primary text-base sm:text-lg font-semibold">
+                <div className="inline-flex items-center rounded-full bg-gray-100 px-4 py-2 text-primary text-base sm:text-lg font-semibold">
                   <TbCurrencyTaka size={24} />
                   <span>{order.totalAmount}</span>
                 </div>
@@ -523,7 +523,7 @@ const Orders = () => {
                       type="button"
                       onClick={() => fetchTrackingByOrder(order)}
                       disabled={trackingLoadingOrderId === order.id}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs sm:text-sm font-medium text-emerald-700 hover:bg-emerald-100 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-gray-300 bg-gray-100 px-3 py-1.5 text-xs sm:text-sm font-medium text-black hover:bg-gray-200 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
                     >
                       <FiTruck size={14} />
                       {trackingLoadingOrderId === order.id
@@ -541,7 +541,7 @@ const Orders = () => {
                   <button
                     onClick={() => showCancelModal(order.id)}
                     disabled={cancellingOrderId === order.id}
-                    className="px-4 py-2 rounded-full bg-red-500 text-white text-xs sm:text-sm font-medium hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="px-4 py-2 rounded-full bg-black text-white text-xs sm:text-sm font-medium hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
                     {cancellingOrderId === order.id
                       ? "Cancelling..."
@@ -551,8 +551,8 @@ const Orders = () => {
               </div>
               {trackingExpandedOrderId === order.id &&
                 trackingDataByOrderId[order.id] && (
-                  <div className="mt-4 rounded-xl border border-emerald-100 bg-emerald-50/30 p-4 space-y-2">
-                    <p className="flex flex-wrap items-center gap-2 text-xs font-semibold text-emerald-800">
+                  <div className="mt-4 rounded-xl border border-gray-200 bg-emerald-50/30 p-4 space-y-2">
+                    <p className="flex flex-wrap items-center gap-2 text-xs font-semibold text-gray-800">
                       ট্র্যাকিং স্ট্যাটাস —{" "}
                       <span className="font-mono">
                         {trackingDataByOrderId[order.id].trackingId ||
@@ -591,8 +591,8 @@ const Orders = () => {
                     {trackingDataByOrderId[order.id].statusHistory &&
                       trackingDataByOrderId[order.id].statusHistory!.length >
                         0 && (
-                      <div className="mt-3 border-t border-emerald-100 pt-3">
-                        <p className="text-[10px] font-semibold uppercase tracking-wide text-emerald-700 mb-2">
+                      <div className="mt-3 border-t border-gray-200 pt-3">
+                        <p className="text-[10px] font-semibold uppercase tracking-wide text-black mb-2">
                           স্ট্যাটাস হিস্টোরি
                         </p>
                         <ul className="space-y-1.5">

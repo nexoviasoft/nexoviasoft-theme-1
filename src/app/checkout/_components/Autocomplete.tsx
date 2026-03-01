@@ -114,7 +114,7 @@ const Autocomplete = () => {
         value={inputValue}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        className="w-full py-[10px] px-[8px] border-[1.5px] border-gray-300 rounded-md focus:outline-none placeholder:text-gray-500 focus:border-[#6D198A]"
+        className="w-full py-[10px] px-[8px] border-[1.5px] border-gray-300 rounded-md focus:outline-none placeholder:text-gray-500 focus:border-[#000000]"
         placeholder="জেলা *"
       />
       {isOpen && (
@@ -127,7 +127,7 @@ const Autocomplete = () => {
                 onMouseEnter={() => setActiveIndex(index)}
                 className={`p-2 cursor-pointer ${
                   index === activeIndex
-                    ? "bg-blue-500 text-white"
+                    ? "bg-black text-white"
                     : "hover:bg-gray-100"
                 }`}
               >

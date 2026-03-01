@@ -35,15 +35,15 @@ interface TrackedOrder {
 const getStatusColor = (status: string) => {
   switch (status.toLowerCase()) {
     case "delivered":
-      return "bg-emerald-100 text-emerald-800";
+      return "bg-gray-200 text-gray-800";
     case "pending":
-      return "bg-amber-50 text-amber-700";
+      return "bg-gray-100 text-gray-700";
     case "cancelled":
-      return "bg-red-100 text-red-800";
+      return "bg-gray-300 text-gray-800";
     case "shipped":
-      return "bg-sky-100 text-sky-800";
+      return "bg-gray-200 text-gray-800";
     case "paid":
-      return "bg-emerald-50 text-emerald-700";
+      return "bg-gray-100 text-gray-700";
     default:
       return "bg-gray-100 text-gray-800";
   }
@@ -146,15 +146,15 @@ function OrderTrackingContent() {
 
   return (
     <section className="max-w-3xl mx-auto px-4 py-8 sm:py-10">
-      <div className="rounded-2xl bg-gradient-to-r from-[#1d4ed8] via-[#2563eb] to-[#7c3aed] text-white shadow-md px-4 py-5 sm:px-6 sm:py-6">
+      <div className="rounded-2xl bg-black text-white shadow-md px-4 py-5 sm:px-6 sm:py-6">
         <div className="space-y-1.5">
-          <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-blue-100/90">
+          <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-white/80">
             Order tracking
           </p>
           <h1 className="text-xl md:text-2xl font-semibold">
             আপনার অর্ডার ট্র্যাক করুন
           </h1>
-          <p className="text-xs sm:text-sm text-blue-50/95 max-w-xl">
+          <p className="text-xs sm:text-sm text-white/90 max-w-xl">
             ইনভয়েসে দেওয়া ট্র্যাকিং আইডি লিখে আপনার অর্ডারের বর্তমান স্ট্যাটাস,
             ডেলিভারি তথ্য এবং পেমেন্ট স্ট্যাটাস দেখে নিন।
           </p>
@@ -169,24 +169,24 @@ function OrderTrackingContent() {
             value={trackingId}
             onChange={(e) => setTrackingId(e.target.value)}
             placeholder="ট্র্যাকিং আইডি লিখুন"
-            className="w-full rounded-full border border-blue-200 bg-white/90 px-4 py-2 text-xs sm:text-sm text-gray-900 placeholder:text-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
+            className="w-full rounded-full border border-gray-300 bg-white px-4 py-2 text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
           />
           <button
             type="submit"
             disabled={loading || !trackingId.trim()}
-            className="inline-flex items-center justify-center rounded-full bg-white/90 px-4 py-2 text-xs sm:text-sm font-semibold text-blue-700 hover:bg-white disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+            className="inline-flex items-center justify-center rounded-full bg-white px-4 py-2 text-xs sm:text-sm font-semibold text-black hover:bg-gray-100 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
           >
             {loading ? "ট্র্যাক করা হচ্ছে..." : "অর্ডার ট্র্যাক করুন"}
           </button>
         </form>
 
         {error && (
-          <p className="mt-2 text-[11px] sm:text-xs text-red-100">{error}</p>
+          <p className="mt-2 text-[11px] sm:text-xs text-white/90">{error}</p>
         )}
       </div>
 
       {order && (
-        <div className="mt-6 bg-white rounded-2xl shadow-sm border border-pink-50 p-4 sm:p-5 space-y-4">
+        <div className="mt-6 bg-white rounded-2xl shadow-sm border border-gray-200 p-4 sm:p-5 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div className="space-y-1">
               <p className="text-xs font-semibold tracking-wide text-gray-500">

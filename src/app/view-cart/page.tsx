@@ -19,7 +19,7 @@ const Input = styled.input`
     border-color 0.2s ease,
     box-shadow 0.2s ease;
   &:focus {
-    border-color: #d31a7a;
+    border-color: #000000;
     box-shadow: 0 0 0 3px rgba(211, 26, 122, 0.1);
   }
 `;
@@ -102,7 +102,7 @@ export default function RegisterPage() {
               দ্রুত ডেলিভারি, নিরাপদ পেমেন্ট, সন্তুষ্টি গ্যারান্টি
             </p>
             {error && (
-              <div className="mb-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">
+              <div className="mb-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded px-3 py-2">
                 {error}
               </div>
             )}

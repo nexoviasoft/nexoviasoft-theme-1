@@ -84,7 +84,7 @@ const RefundPolicyPage = () => {
           </p>
         </div>
         <div className="rounded-2xl bg-white border border-gray-200 p-4 flex flex-col gap-1">
-          <div className="text-red-500 sm:text-xl text-lg">
+          <div className="text-gray-600 sm:text-xl text-lg">
             <FiXCircle />
           </div>
           <p className="text-xs font-semibold text-gray-900">নন‑রিফান্ডেবল</p>

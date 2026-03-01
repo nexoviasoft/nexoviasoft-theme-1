@@ -145,10 +145,10 @@ const FraudCheckerClient = () => {
   const redxReturned = redx?.returned ?? 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 via-white to-pink-50 py-10 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-white py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="flex flex-col items-center text-center space-y-4">
-          <div className="h-16 w-16 rounded-3xl bg-gradient-to-br from-pink-500 via-rose-500 to-fuchsia-500 flex items-center justify-center text-white text-3xl shadow-lg shadow-pink-300/50">
+          <div className="h-16 w-16 rounded-3xl bg-black flex items-center justify-center text-white text-3xl shadow-lg shadow-gray-300/50">
             <IoShieldCheckmark />
           </div>
           <div>
@@ -163,13 +163,13 @@ const FraudCheckerClient = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-[0_18px_45px_rgba(244,114,182,0.18)] border border-pink-100 p-5 sm:p-6 space-y-4">
+        <div className="bg-white rounded-2xl shadow-[0_18px_45px_rgba(0,0,0,0.08)] border border-gray-200 p-5 sm:p-6 space-y-4">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
               <label className="block text-sm font-medium text-slate-800">
                 মোবাইল নম্বর
               </label>
-              <div className="flex items-center gap-3 px-3 py-3 rounded-full border border-pink-200 bg-pink-50">
+              <div className="flex items-center gap-3 px-3 py-3 rounded-full border border-gray-300 bg-gray-100">
                 <FiPhone className="text-slate-400 text-xl" />
                 <input
                   type="tel"
@@ -182,7 +182,7 @@ const FraudCheckerClient = () => {
             </div>
             <button
               type="submit"
-              className="w-full inline-flex items-center justify-center px-6 py-3 rounded-full text-sm sm:text-base font-semibold text-white bg-gradient-to-r from-pink-500 via-rose-500 to-fuchsia-500 hover:from-pink-600 hover:via-rose-600 hover:to-fuchsia-500 shadow-md shadow-pink-300/50 transition-all duration-150"
+              className="w-full inline-flex items-center justify-center px-6 py-3 rounded-full text-sm sm:text-base font-semibold text-white bg-black hover:bg-gray-800 shadow-md shadow-gray-300/50 transition-all duration-150"
             >
               ফ্রড চেক করুন
             </button>
@@ -192,15 +192,15 @@ const FraudCheckerClient = () => {
             <div
               className={`mt-4 rounded-xl px-4 py-3 text-sm flex items-start gap-2 ${
                 status === "success"
-                  ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                  : "bg-rose-50 text-rose-700 border border-rose-200"
+                  ? "bg-gray-100 text-gray-700 border border-gray-300"
+                  : "bg-gray-100 text-gray-600 border border-gray-300"
               }`}
             >
               <span className="mt-0.5">
                 {status === "success" ? (
-                  <FiCheckCircle className="text-emerald-500" />
+                  <FiCheckCircle className="text-gray-600" />
                 ) : (
-                  <FiInfo className="text-rose-500" />
+                  <FiInfo className="text-gray-600" />
                 )}
               </span>
               <p>{message}</p>
@@ -230,7 +230,7 @@ const FraudCheckerClient = () => {
                   </div>
                   <div className="rounded-xl bg-white border border-slate-100 px-4 py-3">
                     <p className="text-xs text-slate-500 mb-1">অপারেটর</p>
-                    <p className="text-sm font-semibold text-emerald-600">
+                    <p className="text-sm font-semibold text-gray-700">
                       {phoneInfo?.operator ?? phoneInfo?.operator_name ?? "অজানা"}
                     </p>
                   </div>
@@ -238,7 +238,7 @@ const FraudCheckerClient = () => {
                     <p className="text-xs text-slate-500 mb-1">
                       ইন্টারন্যাশনাল নম্বর
                     </p>
-                    <p className="text-sm font-semibold text-sky-600 break-words">
+                    <p className="text-sm font-semibold text-gray-700 break-words">
                       {phoneInfo?.e164 ?? phoneInfo?.international ?? ""}
                     </p>
                   </div>
@@ -262,13 +262,13 @@ const FraudCheckerClient = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-sm">
                   <div className="rounded-xl bg-white border border-slate-100 px-4 py-3">
                     <p className="text-xs text-slate-500 mb-1">সফল ডেলিভারি</p>
-                    <p className="text-xl font-bold text-emerald-600">
+                    <p className="text-xl font-bold text-gray-700">
                       {successfulOrders}
                     </p>
                   </div>
                   <div className="rounded-xl bg-white border border-slate-100 px-4 py-3">
                     <p className="text-xs text-slate-500 mb-1">রিটার্ন অর্ডার</p>
-                    <p className="text-xl font-bold text-red-500">
+                    <p className="text-xl font-bold text-gray-700">
                       {returnedOrders}
                     </p>
                   </div>
@@ -276,7 +276,7 @@ const FraudCheckerClient = () => {
                     <p className="text-xs text-slate-500 mb-1">
                       সামগ্রিক সফলতার হার
                     </p>
-                    <p className="text-xl font-bold text-sky-600">
+                    <p className="text-xl font-bold text-gray-700">
                       {successRate}%
                     </p>
                   </div>
@@ -284,7 +284,7 @@ const FraudCheckerClient = () => {
                 <div className="mt-4">
                   <div className="h-2 w-full rounded-full bg-slate-100 overflow-hidden">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-emerald-400 via-sky-400 to-fuchsia-400"
+                      className="h-full rounded-full bg-gray-300"
                       style={{ width: `${successRate}%` }}
                     />
                   </div>
@@ -292,69 +292,69 @@ const FraudCheckerClient = () => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="rounded-2xl border border-emerald-100 bg-gradient-to-b from-emerald-50 via-white to-emerald-50 px-4 py-4 sm:px-5 sm:py-5">
+                <div className="rounded-2xl border border-gray-200 bg-gray-50 px-4 py-4 sm:px-5 sm:py-5">
                   <h3 className="text-sm font-semibold text-slate-900 mb-2">
                     Pathao
                   </h3>
-                  <p className="text-xs text-emerald-700 mb-3">
+                  <p className="text-xs text-gray-700 mb-3">
                     কুরিয়ার রিপোর্ট
                   </p>
                   <p className="text-xs text-slate-600 mb-1">
                     মোট ডেলিভারি:{" "}
-                    <span className="text-emerald-700 font-semibold">
+                    <span className="text-gray-700 font-semibold">
                       {pathaoTotal}
                     </span>
                   </p>
                   <p className="text-xs text-slate-600 mb-1">
                     সফল:{" "}
-                    <span className="text-emerald-700 font-semibold">
+                    <span className="text-gray-700 font-semibold">
                       {pathaoSuccess}
                     </span>
                   </p>
                   <p className="text-xs text-slate-600 mb-1">
                     রিটার্ন:{" "}
-                    <span className="text-amber-700 font-semibold">
+                    <span className="text-gray-600 font-semibold">
                       {pathaoReturned}
                     </span>
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-sky-100 bg-gradient-to-b from-sky-50 via-white to-sky-50 px-4 py-4 sm:px-5 sm:py-5">
+                <div className="rounded-2xl border border-gray-200 bg-gray-50 px-4 py-4 sm:px-5 sm:py-5">
                   <h3 className="text-sm font-semibold text-slate-900 mb-2">
                     Steadfast
                   </h3>
                   {steadfast ? (
                     <>
-                      <p className="text-xs text-sky-700 mb-3">
+                      <p className="text-xs text-gray-700 mb-3">
                         কুরিয়ার রিপোর্ট
                       </p>
                       <p className="text-xs text-slate-600 mb-1">
                         মোট ডেলিভারি:{" "}
-                        <span className="text-sky-700 font-semibold">
+                        <span className="text-gray-700 font-semibold">
                           {steadfastTotal}
                         </span>
                       </p>
                       <p className="text-xs text-slate-600 mb-1">
                         সফল:{" "}
-                        <span className="text-emerald-700 font-semibold">
+                        <span className="text-gray-700 font-semibold">
                           {steadfastSuccess}
                         </span>
                       </p>
                       <p className="text-xs text-slate-600 mb-1">
                         রিটার্ন:{" "}
-                        <span className="text-amber-700 font-semibold">
+                        <span className="text-gray-600 font-semibold">
                           {steadfastReturned}
                         </span>
                       </p>
                     </>
                   ) : (
-                    <p className="text-xs text-sky-700">
+                    <p className="text-xs text-gray-700">
                       API সংযোগ পাওয়া যায়নি, পরে আবার চেষ্টা করুন।
                     </p>
                   )}
                 </div>
 
-                <div className="rounded-2xl border border-rose-100 bg-gradient-to-b from-rose-50 via-white to-rose-50 px-4 py-4 sm:px-5 sm:py-5">
+                <div className="rounded-2xl border border-gray-200 bg-gray-50 px-4 py-4 sm:px-5 sm:py-5">
                   <h3 className="text-sm font-semibold text-slate-900 mb-2">
                     RedX
                   </h3>
@@ -371,13 +371,13 @@ const FraudCheckerClient = () => {
                       </p>
                       <p className="text-xs text-slate-600 mb-1">
                         সফল:{" "}
-                        <span className="text-emerald-700 font-semibold">
+                        <span className="text-gray-700 font-semibold">
                           {redxSuccess}
                         </span>
                       </p>
                       <p className="text-xs text-slate-600 mb-1">
                         রিটার্ন:{" "}
-                        <span className="text-amber-700 font-semibold">
+                        <span className="text-gray-600 font-semibold">
                           {redxReturned}
                         </span>
                       </p>

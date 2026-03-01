@@ -50,11 +50,11 @@ const CouponCode = ({
                 className={`text-xs px-3 py-1 rounded-full border transition-colors ${
                   isActive
                     ? "bg-primary text-white border-primary"
-                    : "bg-pink-50 text-pink-700 border-pink-200 hover:bg-primary/10"
+                    : "bg-gray-100 text-gray-700 border-gray-300 hover:bg-primary/10"
                 }`}
               >
                 <span className="font-semibold">{promo.code}</span>
-                <span className="ml-1 text-[11px] text-pink-900/80">
+                <span className="ml-1 text-[11px] text-gray-600">
                   {promo.discountType === "percentage"
                     ? `${promo.discountValue}% ছাড়`
                     : `${promo.discountValue}৳ ছাড়`}
@@ -71,10 +71,10 @@ const CouponCode = ({
             type="button"
             onClick={() => onSelectPromo?.(fallbackCode)}
             disabled={loading}
-            className="text-xs px-3 py-1 rounded-full border transition-colors bg-pink-50 text-pink-700 border-pink-200 hover:bg-primary/10 disabled:opacity-70"
+            className="text-xs px-3 py-1 rounded-full border transition-colors bg-gray-100 text-gray-700 border-gray-300 hover:bg-primary/10 disabled:opacity-70"
           >
             <span className="font-semibold">{fallbackCode}</span>
-            <span className="ml-1 text-[11px] text-pink-900/80">
+            <span className="ml-1 text-[11px] text-gray-600">
               {loading ? "Applying..." : "ক্লিক করে অ্যাপ্লাই করুন"}
             </span>
           </button>

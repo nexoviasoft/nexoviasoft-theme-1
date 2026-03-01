@@ -2,16 +2,11 @@ import { ThemeConfig } from "antd";
 
 const theme: ThemeConfig = {
   token: {
-    colorPrimary: "#2563EB",
+    colorPrimary: "#000000",
     borderRadius: 3,
     fontFamily: "var(--font-hindSiliguri)",
   },
   components: {
-    Tabs: {
-      // cardBg: "#10BBFA",
-      // itemColor: "#fff",
-      // itemHoverColor: "#fff",
-    },
     Collapse: {
       contentBg: "#fff",
       headerBg: "#fff",
@@ -21,7 +16,7 @@ const theme: ThemeConfig = {
     },
     Rate: {
       starSize: 13,
-      starColor: "#ffa534",
+      starColor: "#404040",
     },
   },
 };

@@ -8,7 +8,7 @@ const Input = styled.input`
   flex: 1;
   width: 100%;
   &:focus {
-    border: 1.5px solid #6d198a;
+    border: 1.5px solid #000000;
   }
 `;
 interface PaymentMethodInfoProps {

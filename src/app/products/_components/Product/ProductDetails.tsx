@@ -188,7 +188,7 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
             {product?.categories?.map((category, index) => (
               <span
                 key={category?.slug}
-                className="rounded-full bg-pink-50 px-2 py-[2px] text-[11px] font-medium text-primary"
+                className="rounded-full bg-gray-100 px-2 py-[2px] text-[11px] font-medium text-primary"
               >
                 {category?.name}
                 {index < product.categories.length - 1 && ","}
@@ -217,7 +217,7 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
       {/* title & stock info end */}
 
       {/* product  variant start */}
-      <div className="pt-1 border-t border-pink-100">
+      <div className="pt-1 border-t border-gray-200">
         <Variant variant={product?.variant} handlePrice={handlePrice} />
       </div>
       {/* product variant end */}
@@ -240,7 +240,7 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
                 {formatteeNumber(originalPrice)}
               </span>
             </div>
-            <span className="inline-flex items-center rounded-full bg-red-50 px-2 py-[1px] text-[11px] font-medium text-red-600">
+            <span className="inline-flex items-center rounded-full bg-gray-200 px-2 py-[1px] text-[11px] font-medium text-gray-700">
               {product?.off}% OFF
             </span>
           </div>
@@ -263,10 +263,10 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
                 )}&companyId=${encodeURIComponent(
                   product?.companyId || "",
                 )}&promoCode=${encodeURIComponent(promo.code)}`}
-                className="text-xs px-3 py-1 rounded-full border bg-pink-50 text-pink-700 border-pink-200 hover:bg-primary hover:text-white transition-colors"
+                className="text-xs px-3 py-1 rounded-full border bg-gray-100 text-gray-700 border-gray-300 hover:bg-primary hover:text-white transition-colors"
               >
                 <span className="font-semibold">{promo.code}</span>
-                <span className="ml-1 text-[11px] text-pink-900/80">
+                <span className="ml-1 text-[11px] text-gray-600">
                   {promo.discountType === "percentage"
                     ? `${promo.discountValue}% ছাড়`
                     : `${promo.discountValue}৳ ছাড়`}
@@ -320,7 +320,7 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
         </Link>
       </div>
       <div className="grid min-[820px]:grid-cols-2 md:grid-cols-1 min-[500px]:grid-cols-2 grid-cols-1 grid-rows-2 min-[500px]:grid-rows-1 md:grid-rows-2 min-[820px]:grid-rows-1 gap-3 text-sm sm:text-base">
-        <div className="flex flex-col items-center justify-center text-center border border-pink-100 bg-pink-50/40 px-5 py-3 rounded-xl w-full">
+        <div className="flex flex-col items-center justify-center text-center border border-gray-200 bg-gray-50 px-5 py-3 rounded-xl w-full">
           <div>
             <FaRegClock size={20} />
           </div>
@@ -329,7 +329,7 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
             <strong> ২-৩ দিন</strong>
           </p>
         </div>
-        <div className="flex flex-col items-center justify-center text-center border border-pink-100 bg-pink-50/40 px-5 py-3 rounded-xl">
+        <div className="flex flex-col items-center justify-center text-center border border-gray-200 bg-gray-50 px-5 py-3 rounded-xl">
           <div>
             <TbTruckReturn size={23} />
           </div>
@@ -341,16 +341,16 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
       </div>
       <div className="flex items-center flex-wrap gap-5">
         <div className="flex items-center gap-1">
-          <div className="text-lg sm:text-xl text-green-600">
+          <div className="text-lg sm:text-xl text-gray-600">
             <RiShieldCheckFill />
           </div>
           <p className="text-sm sm:text-base">নিরাপদ পেমেন্টের নিশ্চয়তা</p>
         </div>
         <div className="flex gap-3">
-          <div className="text-3xl bg-gray-100 px-3 text-blue-800 rounded-lg">
+          <div className="text-3xl bg-gray-100 px-3 text-gray-800 rounded-lg">
             <RiVisaLine />
           </div>
-          <div className="text-3xl bg-gray-100 px-3 text-rose-600 rounded-lg">
+          <div className="text-3xl bg-gray-100 px-3 text-gray-700 rounded-lg">
             <RiMastercardFill />
           </div>
         </div>

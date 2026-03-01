@@ -60,7 +60,7 @@ const Header = () => {
   };
 
   return (
-    <nav className=" bg-gray-100/70 shadow backdrop-blur sticky top-0 z-40">
+    <nav className=" bg-white shadow backdrop-blur sticky top-0 z-40 border-b border-gray-200">
       <div className=" max-w-7xl px-5 mx-auto flex items-center justify-between gap-5 py-2">
         <Link href="/" className=" cursor-pointer">
           <div>
@@ -133,12 +133,12 @@ const Header = () => {
               >
                 ফ্ল্যাশ সেল
               </Link>
-            <Link
+            {/* <Link
                 href="/reseller"
                 className=" text-lg font-medium px-3 py-2 hover:text-primary transition-all ease-linear duration-200"
               >
                 রিসেলার
-              </Link> 
+              </Link>  */}
             </ul>
           </div>
           <div className=" flex gap-4 items-center  ">
@@ -163,7 +163,7 @@ const Header = () => {
       {/* small device menu bar  */}
 
       <div
-        className={`bg-white shadow-md absolute backdrop-blur-xl min-[950px]:hidden block transition-all ease-linear duration-200 ${cn(
+        className={`bg-white shadow-md absolute backdrop-blur-xl min-[950px]:hidden block transition-all ease-linear duration-200 border-r border-gray-200 ${cn(
           toggle ? "left-0" : "-left-80",
           toggle && "right-0",
         )}`}
@@ -204,13 +204,13 @@ const Header = () => {
           >
             ফ্ল্যাশ সেল
           </Link>
-          <Link
+          {/* <Link
             onClick={() => setToggle(!toggle)}
             href="/reseller"
             className=" text-lg font-medium px-5 py-2 hover:text-primary transition-all ease-linear duration-200 hover:bg-primary/5"
           >
             রিসেলার
-          </Link>
+          </Link> */}
           {userSession && (
             <>
               <Link
@@ -226,7 +226,7 @@ const Header = () => {
                   setToggle(!toggle);
                   setLogoutModalOpen(true);
                 }}
-                className=" w-full text-left text-lg font-medium px-5 py-2 text-red-600 hover:bg-red-50 transition-all ease-linear duration-200 flex items-center gap-2"
+                className=" w-full text-left text-lg font-medium px-5 py-2 text-gray-700 hover:bg-gray-100 transition-all ease-linear duration-200 flex items-center gap-2"
               >
                 <MdLogout size={20} />
                 লগআউট

@@ -115,7 +115,7 @@ const ActiveFilter: React.FC = () => {
         {filterItems.length > 0 && (
           <button
             onClick={handleClearAll}
-            className="text-xs font-medium text-pink-600 hover:text-pink-700 hover:underline underline-offset-4"
+            className="text-xs font-medium text-gray-700 hover:text-black hover:underline underline-offset-4"
           >
             সব মুছে দিন
           </button>
@@ -131,10 +131,10 @@ const ActiveFilter: React.FC = () => {
           <button
             key={key}
             onClick={() => handleRemoveFilter(key)}
-            className="group flex items-center gap-1 rounded-full bg-pink-50 px-3 py-1 text-xs font-medium text-pink-700 border border-pink-100 hover:bg-pink-600 hover:text-white transition-colors"
+            className="group flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 border border-gray-200 hover:bg-black hover:text-white transition-colors"
           >
             <span className="truncate max-w-[140px]">{label}</span>
-            <span className="inline-flex items-center justify-center rounded-full bg-pink-100 text-pink-700 group-hover:bg-white group-hover:text-pink-600 h-4 w-4 text-[10px]">
+            <span className="inline-flex items-center justify-center rounded-full bg-gray-200 text-gray-700 group-hover:bg-white group-hover:text-black h-4 w-4 text-[10px]">
               <HiMiniXMark />
             </span>
           </button>

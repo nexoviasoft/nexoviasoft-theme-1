@@ -36,7 +36,7 @@ const Category = async () => {
                 lg:[flex:0_0_13%] min-[1170px]:[flex:0_0_10%]  sm:w-28 w-16 flex flex-col justify-between gap-1 rounded-lg  overflow-hidden relative cursor-pointer select-none bg-[#F3F3F3] sm:p-2 p-1 group/category "
               >
                 {(category.photo || category.image?.url) && (
-                  <div className=" bg-red-300 rounded-lg overflow-hidden ">
+                  <div className=" bg-gray-200 rounded-lg overflow-hidden ">
                     <Image
                       src={category.photo || category.image!.url}
                       alt={category.image?.alt || category.name}

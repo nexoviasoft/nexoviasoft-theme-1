@@ -55,7 +55,7 @@ const FlashSaleDetail = async ({ params }: FlashSaleDetailProps) => {
       case "active":
         return "bg-green-100 text-green-800";
       case "upcoming":
-        return "bg-blue-100 text-blue-800";
+        return "bg-gray-200 text-gray-800";
       case "ended":
         return "bg-gray-100 text-gray-800";
       default:
@@ -101,7 +101,7 @@ const FlashSaleDetail = async ({ params }: FlashSaleDetailProps) => {
       {/* Main Content */}
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-red-500 to-orange-500 p-6 text-white">
+        <div className="bg-black p-6 text-white">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
               <h1 className="text-3xl md:text-4xl font-bold mb-2">
@@ -167,13 +167,13 @@ const FlashSaleDetail = async ({ params }: FlashSaleDetailProps) => {
             {isActive && (
               <Link
                 href="/flashSell/all"
-                className="flex-1 bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-red-600 hover:to-orange-600 transition-all duration-200 text-center"
+                className="flex-1 bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-200 text-center"
               >
                 Shop This Sale
               </Link>
             )}
             {isUpcoming && (
-              <button className="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all duration-200">
+              <button className="flex-1 bg-gray-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-black transition-all duration-200">
                 Set Reminder
               </button>
             )}
@@ -187,10 +187,10 @@ const FlashSaleDetail = async ({ params }: FlashSaleDetailProps) => {
 
           {/* Terms */}
           <div className="mt-8 p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
-            <h4 className="font-semibold text-emerald-800 mb-2">
+            <h4 className="font-semibold text-gray-800 mb-2">
               Terms & Conditions
             </h4>
-            <ul className="text-sm text-emerald-700 space-y-1">
+            <ul className="text-sm text-gray-700 space-y-1">
               <li>• Limited time offer, subject to availability</li>
               <li>• Cannot be combined with other promotions</li>
               <li>• While stocks last</li>

@@ -49,14 +49,14 @@ const CustomerInfo = ({
         }}
       >
         {/* customer info start */}
-        <div className="flex flex-col gap-3 rounded-2xl border border-pink-100 bg-white/90 shadow-sm p-5 md:p-6">
+        <div className="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white/90 shadow-sm p-5 md:p-6">
           <h1 className="text-lg md:text-xl font-semibold text-gray-900">
             কাস্টমার তথ্য
           </h1>
           <div className="flex flex-col gap-5">
             <div className="grid min-[550px]:grid-cols-2 grid-cols-1 gap-5">
               <input
-                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#6d198a] placeholder:text-gray-500"
+                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#000000] placeholder:text-gray-500"
                 type="email"
                 placeholder="ইমেইল (optional)"
                 value={email}
@@ -64,7 +64,7 @@ const CustomerInfo = ({
                 readOnly={!!email}
               />
               <input
-                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#6d198a] placeholder:text-gray-500"
+                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#000000] placeholder:text-gray-500"
                 type="text"
                 placeholder="সম্পূর্ণ নাম *"
                 value={name}
@@ -74,14 +74,14 @@ const CustomerInfo = ({
             </div>
             <div className="grid min-[550px]:grid-cols-2 grid-cols-1 gap-5">
               <input
-                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#6d198a] placeholder:text-gray-500"
+                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#000000] placeholder:text-gray-500"
                 type="text"
                 placeholder="এলাকা / সিটি"
                 value={district || ""}
                 onChange={(e) => setDistrict?.(e.target.value)}
               />
               <input
-                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#6d198a] placeholder:text-gray-500"
+                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#000000] placeholder:text-gray-500"
                 type="text"
                 placeholder="সম্পূর্ণ ঠিকানা *"
                 value={address}
@@ -91,7 +91,7 @@ const CustomerInfo = ({
             </div>
             <div className="grid grid-cols-1">
               <input
-                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#6d198a] placeholder:text-gray-500"
+                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#000000] placeholder:text-gray-500"
                 type="text"
                 placeholder="ফোন নম্বর *"
                 value={phone}
@@ -104,7 +104,7 @@ const CustomerInfo = ({
         {/* customer info end  */}
 
         {/* delivery type */}
-        <div className="flex flex-col gap-3 rounded-2xl border border-pink-100 bg-white/90 shadow-sm p-5 md:p-6">
+        <div className="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white/90 shadow-sm p-5 md:p-6">
           <h2 className="text-lg md:text-xl font-semibold text-gray-900">
             ডেলিভারি টাইপ
           </h2>
@@ -135,7 +135,7 @@ const CustomerInfo = ({
         </div>
 
         {/* payment method */}
-        <div className="flex flex-col gap-3 rounded-2xl border border-pink-100 bg-white/90 shadow-sm p-5 md:p-6">
+        <div className="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white/90 shadow-sm p-5 md:p-6">
           <h2 className="text-lg md:text-xl font-semibold text-gray-900">
             পেমেন্ট পদ্ধতি
           </h2>

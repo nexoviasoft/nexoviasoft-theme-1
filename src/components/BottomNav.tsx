@@ -7,7 +7,7 @@ import CartDrawer from "./shopping cart/CartDrawer";
 
 const BottomNav = () => {
   return (
-    <div className=" md:hidden block sticky bg-gray-200/70 backdrop-blur left-0 right-0 bottom-0 border-t border-gray-400">
+    <div className=" md:hidden block sticky bg-white backdrop-blur left-0 right-0 bottom-0 border-t border-gray-300">
       <div className="w-full  grid grid-cols-5 gap-4 justify-between items-center px-5  ">
         <Link
           href="/"

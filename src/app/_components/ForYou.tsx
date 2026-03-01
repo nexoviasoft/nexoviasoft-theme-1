@@ -26,7 +26,7 @@ const ForYou = async () => {
         </h1>
         <Link
           href={"/products"}
-          className=" text-primary underline underline-offset-4 hover:text-blue-600 cursor-pointer transition-all font-medium"
+          className=" text-primary underline underline-offset-4 hover:text-gray-700 cursor-pointer transition-all font-medium"
         >
           সব পণ্য দেখুন
         </Link>
@@ -54,7 +54,7 @@ const ForYou = async () => {
       <div className="flex items-center justify-center">
         <Link
           href={"/products"}
-          className="mt-5 text-center bg-primary hover:bg-pink-700 max-w-max text-white px-10 py-2 rounded cursor-pointer"
+          className="mt-5 text-center bg-primary hover:bg-gray-800 max-w-max text-white px-10 py-2 rounded cursor-pointer"
         >
           আরও দেখুন
         </Link>

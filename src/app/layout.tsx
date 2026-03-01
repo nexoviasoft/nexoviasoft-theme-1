@@ -13,8 +13,31 @@ import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Xinzo - E-commerce website",
-  description: "Xinzo - E-commerce website",
+  title: {
+    default: "Fiberace - T-Shirt Brand",
+    template: "%s | Fiberace",
+  },
+  description: "FreeStyle - Premium T-shirt brand. Shop quality menswear and stylish apparel.",
+  keywords: ["t-shirt", "menswear", "apparel", "FreeStyle", "Fiberace", "fashion", "clothing"],
+  authors: [{ name: "Fiberace" }],
+  creator: "Fiberace",
+  openGraph: {
+    title: "Fiberace - T-Shirt Brand",
+    description: "Fiberace - Premium T-shirt brand. Shop quality menswear and stylish apparel.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Fiberace - T-Shirt Brand",
+    description: "Fiberace - Premium T-shirt brand. Shop quality menswear and stylish apparel.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -32,7 +55,7 @@ export default function RootLayout({
           />
         </head>
         <body
-          className={`${hindSiliguriFonts.variable} font-hindSiliguri antialiased`}
+          className={`${hindSiliguriFonts.variable} font-hindSiliguri antialiased bg-white text-black`}
         >
           <AuthProvider>
             <Toaster />

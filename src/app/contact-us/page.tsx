@@ -234,7 +234,7 @@ const ContactUs = () => {
                   className="w-full px-6 py-4 rounded-xl border-2 transition-all duration-300 bg-white"
                   style={{
                     borderColor:
-                      focusedField === "name" ? "#D31A7A" : "#e5e7eb",
+                      focusedField === "name" ? "#000000" : "#e5e7eb",
                     boxShadow:
                       focusedField === "name"
                         ? "0 0 0 3px rgba(211, 26, 122, 0.1)"
@@ -264,7 +264,7 @@ const ContactUs = () => {
                   className="w-full px-6 py-4 rounded-xl border-2 transition-all duration-300 bg-white"
                   style={{
                     borderColor:
-                      focusedField === "email" ? "#D31A7A" : "#e5e7eb",
+                      focusedField === "email" ? "#000000" : "#e5e7eb",
                     boxShadow:
                       focusedField === "email"
                         ? "0 0 0 3px rgba(211, 26, 122, 0.1)"
@@ -294,7 +294,7 @@ const ContactUs = () => {
                   className="w-full px-6 py-4 rounded-xl border-2 transition-all duration-300 bg-white"
                   style={{
                     borderColor:
-                      focusedField === "subject" ? "#D31A7A" : "#e5e7eb",
+                      focusedField === "subject" ? "#000000" : "#e5e7eb",
                     boxShadow:
                       focusedField === "subject"
                         ? "0 0 0 3px rgba(211, 26, 122, 0.1)"
@@ -320,7 +320,7 @@ const ContactUs = () => {
                   className="w-full px-6 py-4 rounded-xl border-2 transition-all duration-300 bg-white"
                   style={{
                     borderColor:
-                      focusedField === "reason" ? "#D31A7A" : "#e5e7eb",
+                      focusedField === "reason" ? "#000000" : "#e5e7eb",
                     boxShadow:
                       focusedField === "reason"
                         ? "0 0 0 3px rgba(211, 26, 122, 0.1)"
@@ -358,7 +358,7 @@ const ContactUs = () => {
                   className="w-full px-6 py-4 rounded-xl border-2 transition-all duration-300 bg-white resize-none"
                   style={{
                     borderColor:
-                      focusedField === "message" ? "#D31A7A" : "#e5e7eb",
+                      focusedField === "message" ? "#000000" : "#e5e7eb",
                     boxShadow:
                       focusedField === "message"
                         ? "0 0 0 3px rgba(211, 26, 122, 0.1)"
@@ -407,7 +407,7 @@ const ContactUs = () => {
 
               {formStatus.type === "error" && (
                 <div className="p-4 bg-red-50 border-2 border-red-500 rounded-xl">
-                  <p className="font-semibold text-red-900">
+                  <p className="font-semibold text-gray-800">
                     কোনো ত্রুটি ঘটেছে। অনুগ্রহ করে আবার চেষ্টা করুন।
                   </p>
                 </div>

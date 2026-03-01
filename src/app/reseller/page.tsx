@@ -216,7 +216,7 @@ export default function ResellerRegisterForm() {
               {message && (
                 <p
                   className={`text-sm mt-3 ${
-                    message.toLowerCase().includes('created') ? 'text-emerald-600' : 'text-red-600'
+                    message.toLowerCase().includes('created') ? 'text-gray-700' : 'text-gray-600'
                   }`}
                 >
                   {message}
