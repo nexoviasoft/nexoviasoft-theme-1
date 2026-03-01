@@ -3,8 +3,8 @@
  */
 
 export const API_CONFIG = {
-  baseURL: "https://e-api-omega.vercel.app",
-  companyId: "COMP-000001",
+  baseURL: "https://api.fiberace.shop",
+  companyId: "COMP-000006",
 };
 
 /**
