@@ -1,4 +1,4 @@
-\"use client\";
+"use client";
 
 import { useState } from "react";
 import { FiMail } from "react-icons/fi";
@@ -16,12 +16,12 @@ const ForgotPasswordPage = () => {
       toast.error("অনুগ্রহ করে আপনার ইমেইল লিখুন");
       return;
     }
-    const validEmail = /\\S+@\\S+\\.\\S+/.test(email);
+    const validEmail = /\S+@\S+\.\S+/.test(email);
     if (!validEmail) {
       toast.error("অনুগ্রহ করে সঠিক ইমেইল লিখুন");
       return;
     }
-
+// console.log(email.trim());
     try {
       setSubmitting(true);
       const res = await requestPasswordReset(email.trim());

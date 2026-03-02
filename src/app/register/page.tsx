@@ -205,14 +205,7 @@ export default function RegisterPage() {
               <span className="text-xs text-gray-500">অথবা</span>
               <div className="flex-1 h-px bg-gray-200" />
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <button className="border rounded-lg py-2 text-sm hover:bg-gray-50">
-                Google
-              </button>
-              <button className="border rounded-lg py-2 text-sm hover:bg-gray-50">
-                Facebook
-              </button>
-            </div>
+        
             <div className="flex items-center justify-center gap-2 mt-4">
               <p>ইতিমধ্যেই অ্যাকাউন্ট আছে?</p>
               <Link href="/login" className="text-primary font-semibold">
