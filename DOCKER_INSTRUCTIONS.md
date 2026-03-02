@@ -12,7 +12,7 @@ This guide explains how to run the project using Docker. This ensures that the a
 1.  **Open Terminal** (or Command Prompt/PowerShell) and navigate to the project directory:
 
     ```bash
-    cd path/to/squadcart-themes
+    cd path/to/innowavecart-themes
     ```
 
 2.  **Run the Application**:

@@ -411,42 +411,79 @@ const CheckoutContent = () => {
   }, [searchParams, userSession?.companyId, items, queryProduct?.product?.id]);
 
   const handleOrder = async () => {
-    if (!userSession?.accessToken || !userSession?.userId) {
-      toast.error("Please login to place order");
-      router.push("/login");
+    const companyId =
+      searchParams.get("companyId") ||
+      userSession?.companyId ||
+      API_CONFIG.companyId;
+
+    if (!companyId) {
+      toast.error("Store information missing");
       return;
     }
+
     if (!items.length) {
       toast.error("Cart is empty");
       return;
     }
+
     if (!name.trim() || !phone.trim() || !address.trim()) {
       toast.error("Name, phone, and address are required");
       return;
     }
+
+    if (!email.trim()) {
+      toast.error("Email is required");
+      return;
+    }
+
     try {
       setOrderLoading(true);
+
+      const payload: {
+        customerId?: number;
+        customerName?: string;
+        customerPhone?: string;
+        customerEmail?: string;
+        customerAddress?: string;
+        shippingAddress?: string;
+        deliveryType?: "INSIDEDHAKA" | "OUTSIDEDHAKA";
+        paymentMethod?: "DIRECT" | "COD";
+        items: { productId: number; quantity: number }[];
+      } = {
+        customerName: name,
+        customerPhone: phone,
+        customerEmail: email,
+        customerAddress: address,
+        shippingAddress: address,
+        deliveryType:
+          deliveryType === "inside" ? "INSIDEDHAKA" : "OUTSIDEDHAKA",
+        paymentMethod: paymentMethod === "cod" ? "COD" : "DIRECT",
+        items: items.map((i) => ({
+          productId: i.product.id,
+          quantity: i.quantity,
+        })),
+      };
+
+      // If user is logged in, also attach customerId so backend links to their account
+      if (userSession?.userId) {
+        payload.customerId = userSession.userId;
+        payload.customerEmail = email || userSession.user?.email || undefined;
+      }
+
       await createOrder(
-        {
-          customerId: userSession.userId,
-          customerName: name,
-          customerPhone: phone,
-          customerAddress: address,
-          shippingAddress: address,
-          deliveryType:
-            deliveryType === "inside" ? "INSIDEDHAKA" : "OUTSIDEDHAKA",
-          paymentMethod: paymentMethod === "cod" ? "COD" : "DIRECT",
-          items: items.map((i) => ({
-            productId: i.product.id,
-            quantity: i.quantity,
-          })),
-        },
-        userSession.accessToken,
-        userSession.companyId,
+        payload,
+        userSession?.accessToken,
+        companyId,
       );
+
       toast.success("Order placed successfully");
-      await refetch();
-      router.push("/my-account/orders");
+
+      if (userSession?.accessToken && userSession?.userId) {
+        await refetch();
+        router.push("/my-account/orders");
+      } else {
+        router.push("/");
+      }
     } catch (error) {
       console.error("Order failed", error);
       toast.error("Order failed");

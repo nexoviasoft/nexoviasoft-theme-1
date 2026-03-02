@@ -712,13 +712,14 @@ export async function createOrder(
         customerId?: number;
         customerName?: string;
         customerPhone?: string;
+        customerEmail?: string;
         customerAddress?: string;
         shippingAddress?: string;
         paymentMethod?: "DIRECT" | "COD";
         deliveryType?: "INSIDEDHAKA" | "OUTSIDEDHAKA";
         items: { productId: number; quantity: number }[];
     },
-    token: string,
+    token?: string,
     companyId?: string,
 ): Promise<unknown> {
     const companyIdParam = companyId || API_CONFIG.companyId;
@@ -731,6 +732,39 @@ export async function createOrder(
     return (responseData && typeof responseData === 'object' && 'data' in responseData)
         ? (responseData as ApiResponse<unknown>).data
         : responseData;
+}
+
+/**
+ * Auth: forgot password (send reset link to email)
+ */
+export async function requestPasswordReset(email: string): Promise<{ success: boolean; message: string }> {
+    try {
+        const response = await axios.post<ApiResponse<{ success: boolean; message: string }> | { success: boolean; message: string }>(
+            getApiUrl("/auth/forget-password"),
+            { email },
+        );
+
+        const data = response.data as any;
+        if (data && typeof data === "object" && "data" in data) {
+            return (data as ApiResponse<{ success: boolean; message: string }>).data;
+        }
+
+        // Backend `forgotPassword` returns { success, message }
+        if (data && typeof data === "object" && "success" in data) {
+            return data as { success: boolean; message: string };
+        }
+
+        return {
+            success: true,
+            message: "If the email exists, a password reset link has been sent.",
+        };
+    } catch (error: unknown) {
+        console.error("Failed to request password reset:", error);
+        return {
+            success: false,
+            message: "Failed to send password reset link. Please try again.",
+        };
+    }
 }
 
 /**

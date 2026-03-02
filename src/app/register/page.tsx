@@ -32,7 +32,6 @@ const Input = styled.input`
 `;
 export default function RegisterPage() {
   const [full_name, setFullName] = useState("");
-  const [phone_number, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -40,22 +39,14 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [accept, setAccept] = useState(false);
   const router = useRouter();
   const { register } = useAuth();
   const canSubmit = useMemo(() => {
     const validEmail = /\S+@\S+\.\S+/.test(email);
     const strongPass = password.length >= 6;
     const match = password && password === confirm;
-    return (
-      !!full_name.trim() &&
-      validEmail &&
-      strongPass &&
-      match &&
-      accept &&
-      !loading
-    );
-  }, [full_name, email, password, confirm, accept, loading]);
+    return !!full_name.trim() && validEmail && strongPass && match && !loading;
+  }, [full_name, email, password, confirm, loading]);
   const passScore = useMemo(() => {
     let s = 0;
     if (password.length >= 6) s++;
@@ -94,17 +85,10 @@ export default function RegisterPage() {
       setLoading(false);
       return;
     }
-    if (!accept) {
-      setError("শর্তাবলী সম্মতিতে টিক দিন");
-      setLoading(false);
-      return;
-    }
-
     const res = await register({
       name: full_name,
       email,
       password,
-      phone: phone_number,
     });
 
     if (res.success) {
@@ -145,17 +129,6 @@ export default function RegisterPage() {
                   type="text"
                   placeholder="পূর্ণ নাম"
                   onChange={(e) => setFullName(e.target.value)}
-                  style={{ paddingLeft: "34px" }}
-                />
-              </div>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                  <FiPhone />
-                </span>
-                <Input
-                  type="text"
-                  placeholder="মোবাইল নাম্বার"
-                  onChange={(e) => setPhoneNumber(e.target.value)}
                   style={{ paddingLeft: "34px" }}
                 />
               </div>
@@ -218,21 +191,6 @@ export default function RegisterPage() {
                 >
                   {showConfirm ? <FiEyeOff /> : <FiEye />}
                 </button>
-              </div>
-              <Input type="text" placeholder="রেফারাল কোড (ঐচ্ছিক)" />
-              <div className="flex items-center justify-between">
-                <label className="inline-flex items-center gap-2 text-sm text-gray-700">
-                  <input
-                    type="checkbox"
-                    className="accent-primary"
-                    checked={accept}
-                    onChange={(e) => setAccept(e.target.checked)}
-                  />
-                  আমি শর্তাবলী ও প্রাইভেসি পলিসি মেনে নিচ্ছি
-                </label>
-                <Link href="/terms" className="text-primary text-sm">
-                  শর্তাবলী
-                </Link>
               </div>
               <button
                 className="bg-primary p-2.5 rounded text-white w-full hover:bg-primary/90 disabled:opacity-50 font-semibold"

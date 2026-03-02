@@ -15,11 +15,11 @@ const nextConfig = {
       { protocol: "https", hostname: "e-cdn.vercel.app", pathname: "/uploads/**" },
       { protocol: "http", hostname: "e-cdn.vercel.app", pathname: "/uploads/**" },
       // Allow CDN used by backend for product images (both http and https just in case)
-      { protocol: "https", hostname: "squadlog-cdn.up.railway.app", pathname: "/uploads/**" },
-      { protocol: "http", hostname: "squadlog-cdn.up.railway.app", pathname: "/uploads/**" },
+      { protocol: "https", hostname: "innowavelog-cdn.up.railway.app", pathname: "/uploads/**" },
+      { protocol: "http", hostname: "innowavelog-cdn.up.railway.app", pathname: "/uploads/**" },
       // Backend uploads / external CDN (Top Products, Media, etc.)
-      { protocol: "https", hostname: "squadcart-backend.up.railway.app", pathname: "/uploads/**" },
-      { protocol: "http", hostname: "squadcart-backend.up.railway.app", pathname: "/uploads/**" },
+      { protocol: "https", hostname: "innowavecart-backend.up.railway.app", pathname: "/uploads/**" },
+      { protocol: "http", hostname: "innowavecart-backend.up.railway.app", pathname: "/uploads/**" },
       { protocol: "http", hostname: "localhost", port: "8000", pathname: "/uploads/**" },
     ],
   },

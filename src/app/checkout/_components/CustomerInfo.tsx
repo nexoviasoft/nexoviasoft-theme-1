@@ -61,7 +61,6 @@ const CustomerInfo = ({
                 placeholder="ইমেইল (optional)"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                readOnly={!!email}
               />
               <input
                 className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#000000] placeholder:text-gray-500"
