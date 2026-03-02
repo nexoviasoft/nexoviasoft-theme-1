@@ -1,5 +1,6 @@
 "use client";
 import { useCart } from "../../context/CartContext";
+import { useAuth } from "../../context/AuthContext";
 import formatteeNumber from "../../utils/formatteNumber";
 import Image from "next/image";
 import Link from "next/link";
@@ -45,6 +46,7 @@ interface ProductProps {
 
 const ProductCard = ({ product }: { product: ProductProps }) => {
   const { addCartItem } = useCart();
+  const { userSession } = useAuth();
   const router = useRouter();
 
   const getNumericProductId = () => {
@@ -121,6 +123,12 @@ const ProductCard = ({ product }: { product: ProductProps }) => {
   ) => {
     event.stopPropagation();
     event.preventDefault();
+
+    if (!userSession?.accessToken || !userSession?.userId) {
+      toast("Please login to add items to cart", { icon: "🔒" });
+      router.push("/login");
+      return;
+    }
 
     const productId = getNumericProductId();
     if (!productId) {
