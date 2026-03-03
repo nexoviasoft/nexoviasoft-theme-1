@@ -770,6 +770,70 @@ export async function requestPasswordReset(email: string): Promise<{ success: bo
 }
 
 /**
+ * Auth: reset password using token (supports both customer + systemuser links)
+ *
+ * Links we handle:
+ * - Customer: /reset-password?id=USER_ID&token=TOKEN&type=customer
+ * - System user: /reset-password?id=USER_ID&token=TOKEN
+ */
+export async function resetPasswordWithToken(params: {
+    userId: number | string;
+    token: string;
+    password: string;
+    confirmPassword: string;
+    type?: "customer" | "system";
+}): Promise<{ success: boolean; message: string }> {
+    try {
+        const userId = Number(params.userId);
+        if (!userId || Number.isNaN(userId)) {
+            return { success: false, message: "Invalid user id" };
+        }
+        if (!params.token) {
+            return { success: false, message: "Invalid reset token" };
+        }
+
+        // Customer flow (storefront users)
+        if (params.type === "customer") {
+            const companyId = API_CONFIG.companyId;
+            const url = getApiUrl(
+                `/users/reset-password/${userId}/${encodeURIComponent(params.token)}${
+                    companyId ? `?companyId=${companyId}` : ""
+                }`,
+            );
+            const response = await axios.post<
+                ApiResponse<{ success: boolean; message: string }> | { success: boolean; message: string }
+            >(url, {
+                password: params.password,
+                confirmPassword: params.confirmPassword,
+            });
+
+            const data = response.data as any;
+            if (data && typeof data === "object" && "data" in data) {
+                return (data as ApiResponse<{ success: boolean; message: string }>).data;
+            }
+            if (data && typeof data === "object" && "success" in data) {
+                return data as { success: boolean; message: string };
+            }
+            return { success: true, message: "Password reset successful." };
+        }
+
+        // System user flow (existing backend auth controller)
+        const url = getApiUrl(`/auth/forget-password/${userId}/${encodeURIComponent(params.token)}`);
+        const response = await axios.post<{ success: boolean; message: string }>(url, {
+            password: params.password,
+            confirmPassword: params.confirmPassword,
+        });
+        return response.data;
+    } catch (error: unknown) {
+        console.error("Failed to reset password:", error);
+        const axiosError = error as { response?: { data?: { message?: string } }; message?: string };
+        const message =
+            axiosError.response?.data?.message || axiosError.message || "Failed to reset password. Please try again.";
+        return { success: false, message };
+    }
+}
+
+/**
  * Get all banners (public endpoint). Uses fetch so it is safe in Server Components; never throws.
  */
 export async function getBanners(companyId?: string): Promise<Banner[]> {
