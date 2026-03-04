@@ -13,6 +13,7 @@ import { useAuth } from "../context/AuthContext";
 import { Button, Modal } from "antd";
 import { API_CONFIG } from "../lib/api-config";
 import { getSystemUserByCompanyId } from "../lib/api-services";
+import { FiLogIn, FiUserPlus } from "react-icons/fi";
 
 const Header = () => {
   const { userSession, logout, loading: authLoading } = useAuth();
@@ -150,22 +151,13 @@ const Header = () => {
               >
                 অর্ডার ট্র্যাকিং
               </Link>
-
-              {/* <Link
-                href="/reseller"
-                className=" text-lg font-medium px-3 py-2 hover:text-primary transition-all ease-linear duration-200"
-              >
-                রিসেলার
-              </Link>  */}
             </ul>
           </div>
           <div className=" flex gap-4 items-center  ">
-            {/* <div className=" md:block  hidden text-2xl cursor-pointer">
-              <TbCategoryPlus />
-            </div> */}
-            <div className="md:block hidden">
+            <div className="">
               <CartDrawer />
             </div>
+
             <div className="md:block hidden">
               {authLoading ? (
                 <div className="h-9 w-20 rounded-full border border-gray-200 bg-gray-50" />
@@ -190,9 +182,17 @@ const Header = () => {
                 </div>
               )}
             </div>
+
             <div
               onClick={() => setToggle(!toggle)}
-              className=" py-2 pl-2 min-[950px]:hidden flex text-2xl cursor-pointer"
+              className="
+    py-2 pl-2 
+    lg:hidden
+    md:block
+    hidden       
+    text-2xl 
+    cursor-pointer
+  "
             >
               {toggle ? <FaXmark /> : <FaBars />}
             </div>
@@ -202,16 +202,17 @@ const Header = () => {
       {/* small device menu bar  */}
 
       <div
-        className={`bg-white shadow-md absolute backdrop-blur-xl min-[950px]:hidden block transition-all ease-linear duration-200 border-r border-gray-200 ${cn(
-          toggle ? "left-0" : "-left-80",
-          toggle && "right-0",
-        )}`}
+        className={`bg-white shadow-md absolute backdrop-blur-xl 
+          min-[950px]:hidden block  transition-all ease-linear duration-200 border-r border-gray-200 ${cn(
+            toggle ? "left-0" : "-left-80",
+            toggle && "right-0",
+          )}`}
       >
         <ul className=" flex flex-col bg gap-2">
           <Link
             onClick={() => setToggle(!toggle)}
             href="/"
-            className=" text-lg font-medium px-5 py-2 hover:text-primary transition-all ease-linear duration-200  hover:bg-primary/5"
+            className=" text-lg font-medium px-5 py-2 hover:text-primary tran95ion-all ease-linear duration-200  hover:bg-primary/5"
           >
             হোম
           </Link>
@@ -245,30 +246,50 @@ const Header = () => {
             অর্ডার ট্র্যাকিং
           </Link>
 
-          {/* <Link
-            onClick={() => setToggle(!toggle)}
-            href="/reseller"
-            className=" text-lg font-medium px-5 py-2 hover:text-primary transition-all ease-linear duration-200 hover:bg-primary/5"
-          >
-            রিসেলার
-          </Link> */}
           {!authLoading && !isAuthenticated && (
-            <>
+            <div className="mt-auto  border-t border-gray-100/70 pt-7 pb-10 px-5 sm:px-6 space-y-4">
               <Link
-                onClick={() => setToggle(!toggle)}
+                onClick={() => setToggle(false)}
                 href="/login"
-                className=" text-lg font-medium px-5 py-2 hover:text-primary transition-all ease-linear duration-200 hover:bg-primary/5"
+                className={`
+        flex items-center justify-center gap-3.5
+        w-full py-2.5 px-5
+        bg-white text-gray-800 font-medium text-base
+        rounded-2xl border border-gray-200/80
+        shadow-[0_4px_15px_rgba(0,0,0,0.08)]
+        hover:shadow-[0_8px_25px_rgba(0,0,0,0.12)]
+        hover:border-gray-300 hover:text-primary
+        active:scale-[0.98]
+        transition-all duration-300
+      `}
               >
-                লগইন
+                <FiLogIn className="text-2xl text-gray-700" />
+                <span>লগইন করুন</span>
               </Link>
+
               <Link
-                onClick={() => setToggle(!toggle)}
+                onClick={() => setToggle(false)}
                 href="/register"
-                className=" text-lg font-medium px-5 py-2 hover:text-primary transition-all ease-linear duration-200 hover:bg-primary/5"
+                className={`
+        flex items-center justify-center gap-3.5
+        w-full py-2.5 px-5
+        bg-primary text-white font-medium text-base
+        rounded-2xl
+        shadow-[0_6px_20px_rgba(var(--primary-rgb),0.25)]
+        hover:shadow-[0_10px_30px_rgba(var(--primary-rgb),0.35)]
+        hover:bg-primary/95
+        active:scale-[0.98]
+        transition-all duration-300
+      `}
               >
-                রেজিস্টার
+                <FiUserPlus className="text-2xl" />
+                <span>রেজিস্টার করুন</span>
               </Link>
-            </>
+
+              <p className="text-center text-xs text-gray-500 mt-2">
+                অ্যাকাউন্ট না থাকলে রেজিস্টার করুন • দ্রুত ও সহজ
+              </p>
+            </div>
           )}
           {isAuthenticated && (
             <div className="px-5 py-2">
