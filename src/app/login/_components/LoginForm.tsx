@@ -61,7 +61,7 @@ export default function LoginForm() {
     <Suspense fallback={<p>Loading...</p>}>
       <div className="w-full">
         <div className="max-w-7xl mx-auto px-5 py-10">
-          <div className="max-w-md mx-auto rounded-2xl bg-white shadow-xl border border-gray-100 overflow-hidden">
+          <div className=" max-w-[500px]  mx-auto rounded-2xl bg-white shadow-xl border border-gray-100 overflow-hidden">
             <div className="px-6 pt-6 text-center">
               <div className="inline-block mb-3">
                 <span className="text-xs font-bold tracking-widest text-white px-4 py-2 rounded-full bg-primary">
