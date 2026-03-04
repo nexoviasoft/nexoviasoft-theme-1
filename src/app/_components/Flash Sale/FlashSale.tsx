@@ -1,6 +1,7 @@
 import { getFlashSaleProducts, Product } from "../../../lib/api-services";
 import CountDown from "./CountDown";
 import FlashSaleProduct from "./FlashSaleProduct";
+import ScrollAnimation from "../../../components/shared/ScrollAnimation";
 
 const FlashSale = async () => {
   let flashSaleProducts: Product[] = [];
@@ -32,7 +33,9 @@ const FlashSale = async () => {
   // Find the nearest flash sell end time to show in countdown
   const now = Date.now();
   const validEndTimes = flashSaleProducts
-    .map((p) => (p.flashSellEndTime ? new Date(p.flashSellEndTime).getTime() : null))
+    .map((p) =>
+      p.flashSellEndTime ? new Date(p.flashSellEndTime).getTime() : null,
+    )
     .filter((t): t is number => !!t && t > now);
 
   const nearestEndTime = validEndTimes.length
@@ -46,29 +49,31 @@ const FlashSale = async () => {
 
   return (
     <section className=" max-w-7xl mx-auto px-5 md:pt-10 pt-5 ">
-      <div
-        className="rounded-md overflow-hidden bg-center bg-cover bg-no-repeat"
-        style={{
-          backgroundImage: `url(/images/payment-gateway.webp)`,
-        }}
-      >
-        <div className=" bg-black/30 backdrop-blur-md sm:p-8 p-5 flex flex-col gap-3">
-          <div className=" flex justify-between sm:gap-5 gap-2 flex-col sm:flex-row">
-            <div className="text-white">
-              <h2 className=" sm:text-2xl text-xl font-bold">ফ্ল্যাশ সেল</h2>
-              <p className=" sm:text-sm text-xs">
-                {`${maxDiscount}% পর্যন্ত ফ্ল্যাশ সেল ডিল উপভোগ করুন!`}
-              </p>
+      <ScrollAnimation>
+        <div
+          className="rounded-md overflow-hidden bg-center bg-cover bg-no-repeat"
+          style={{
+            backgroundImage: `url(/images/payment-gateway.webp)`,
+          }}
+        >
+          <div className=" bg-black/30 backdrop-blur-md sm:p-8 p-5 flex flex-col gap-3">
+            <div className=" flex justify-between sm:gap-5 gap-2 flex-col sm:flex-row">
+              <div className="text-white">
+                <h2 className=" sm:text-2xl text-xl font-bold">ফ্ল্যাশ সেল</h2>
+                <p className=" sm:text-sm text-xs">
+                  {`${maxDiscount}% পর্যন্ত ফ্ল্যাশ সেল ডিল উপভোগ করুন!`}
+                </p>
+              </div>
+              <div>
+                <CountDown initialSecondsLeft={initialSecondsLeft} />
+              </div>
             </div>
             <div>
-              <CountDown initialSecondsLeft={initialSecondsLeft} />
+              <FlashSaleProduct />
             </div>
           </div>
-          <div>
-            <FlashSaleProduct />
-          </div>
         </div>
-      </div>
+      </ScrollAnimation>
     </section>
   );
 };
