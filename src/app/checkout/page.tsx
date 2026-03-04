@@ -27,6 +27,7 @@ const CheckoutContent = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [district, setDistrict] = useState("");
   const [promoCode, setPromoCode] = useState("");
   const [promo, setPromo] = useState<PromoCode | null>(null);
   const [promoLoading, setPromoLoading] = useState(false);
@@ -65,7 +66,9 @@ const CheckoutContent = () => {
     unitPrice: number;
     totalPrice: number;
   } | null>(null);
-  const [initialPromoFromQuery, setInitialPromoFromQuery] = useState<string | null>(null);
+  const [initialPromoFromQuery, setInitialPromoFromQuery] = useState<
+    string | null
+  >(null);
   const hasAppliedInitialPromo = useRef(false);
 
   const getPromoProductIds = (p: PromoCode): number[] => {
@@ -130,8 +133,7 @@ const CheckoutContent = () => {
 
   // Fetch system user (store) contact / branding for checkout
   useEffect(() => {
-    const companyId =
-      userSession?.companyId || API_CONFIG.companyId;
+    const companyId = userSession?.companyId || API_CONFIG.companyId;
     if (!companyId) return;
     getSystemUserByCompanyId(companyId).then((user) => {
       if (user?.phone) setCompanyPhone(user.phone);
@@ -146,6 +148,7 @@ const CheckoutContent = () => {
       setEmail(userSession.user.email || "");
       setPhone((userSession.user.phone as string | undefined) || "");
       setAddress((userSession.user.address as string | undefined) || "");
+      setDistrict((userSession.user.district as string | undefined) || "");
     }
   }, [userSession]);
 
@@ -439,6 +442,10 @@ const CheckoutContent = () => {
     try {
       setOrderLoading(true);
 
+      const combinedAddress = [district.trim(), address.trim()]
+        .filter(Boolean)
+        .join(", ");
+
       const payload: {
         customerId?: number;
         customerName?: string;
@@ -453,8 +460,8 @@ const CheckoutContent = () => {
         customerName: name,
         customerPhone: phone,
         customerEmail: email,
-        customerAddress: address,
-        shippingAddress: address,
+        customerAddress: combinedAddress,
+        shippingAddress: combinedAddress,
         deliveryType:
           deliveryType === "inside" ? "INSIDEDHAKA" : "OUTSIDEDHAKA",
         paymentMethod: paymentMethod === "cod" ? "COD" : "DIRECT",
@@ -470,11 +477,7 @@ const CheckoutContent = () => {
         payload.customerEmail = email || userSession.user?.email || undefined;
       }
 
-      await createOrder(
-        payload,
-        userSession?.accessToken,
-        companyId,
-      );
+      await createOrder(payload, userSession?.accessToken, companyId);
 
       toast.success("Order placed successfully");
 
@@ -552,6 +555,8 @@ const CheckoutContent = () => {
               setEmail={setEmail}
               phone={phone}
               setPhone={setPhone}
+              district={district}
+              setDistrict={setDistrict}
               address={address}
               setAddress={setAddress}
               paymentMethod={paymentMethod}
