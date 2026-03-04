@@ -122,7 +122,7 @@ const Footer = () => {
   }
 
   return (
-    <footer className=" bg-black">
+    <footer className=" bg-black mt-10">
       <div className=" max-w-7xl mx-auto py-16 px-5 flex min-[910px]:flex-row flex-col gap-5">
         <div className=" flex flex-col gap-3 min-[910px]:flex-[0_0_30%] ">
           {/* <Link href="/">
@@ -235,12 +235,12 @@ const Footer = () => {
               >
                 আমার অর্ডার
               </Link>
-              <Link
+              {/* <Link
                 href="/view-cart"
                 className="  transition-all ease-linear duration-150"
               >
                 ইচ্ছার তালিকা
-              </Link>
+              </Link> */}
               {/* <Link
                 href="/contact-us"
                 className=" hover:text-primary transition-all ease-linear duration-150"
@@ -248,7 +248,7 @@ const Footer = () => {
                 প্রায়শই জিজ্ঞাসিত প্রশ্নাবলী
               </Link> */}
               <Link
-                href="/"
+                href="/contact-us"
                 className="  transition-all ease-linear duration-150"
               >
                 আমাদের সাথে যোগাযোগ করুন
