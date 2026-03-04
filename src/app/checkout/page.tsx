@@ -28,6 +28,7 @@ const CheckoutContent = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [district, setDistrict] = useState("");
+  const [tShirtSize, setTShirtSize] = useState<string>("");
   const [promoCode, setPromoCode] = useState("");
   const [promo, setPromo] = useState<PromoCode | null>(null);
   const [promoLoading, setPromoLoading] = useState(false);
@@ -81,6 +82,7 @@ const CheckoutContent = () => {
   // Fetch product from query params and promo code
   useEffect(() => {
     const rawProductId = searchParams.get("productId");
+    const rawQuantity = searchParams.get("quantity");
     const companyId =
       searchParams.get("companyId") ||
       userSession?.companyId ||
@@ -94,6 +96,13 @@ const CheckoutContent = () => {
     }
 
     if (rawProductId && companyId) {
+      const parsedQuantity = (() => {
+        if (!rawQuantity) return 1;
+        const n = Number(rawQuantity);
+        if (!Number.isFinite(n) || n <= 0) return 1;
+        return Math.floor(n);
+      })();
+
       const fetchQueryProduct = async () => {
         try {
           // Support both numeric IDs and slug/SKU values for productId
@@ -115,9 +124,9 @@ const CheckoutContent = () => {
               thumbnail: product.thumbnail,
               images: product.images,
             },
-            quantity: 1,
+            quantity: parsedQuantity,
             unitPrice: finalPrice,
-            totalPrice: finalPrice,
+            totalPrice: finalPrice * parsedQuantity,
           });
         } catch (error) {
           console.error("Failed to fetch product from query params:", error);
@@ -216,6 +225,7 @@ const CheckoutContent = () => {
         const url = new URL(window.location.href);
         url.searchParams.delete("productId");
         url.searchParams.delete("companyId");
+        url.searchParams.delete("quantity");
         window.history.replaceState({}, "", url.toString());
       }
     }
@@ -429,6 +439,11 @@ const CheckoutContent = () => {
       return;
     }
 
+    if (!tShirtSize) {
+      toast.error("টি-শার্ট সাইজ নির্বাচন করুন");
+      return;
+    }
+
     if (!name.trim() || !phone.trim() || !address.trim()) {
       toast.error("Name, phone, and address are required");
       return;
@@ -455,6 +470,7 @@ const CheckoutContent = () => {
         shippingAddress?: string;
         deliveryType?: "INSIDEDHAKA" | "OUTSIDEDHAKA";
         paymentMethod?: "DIRECT" | "COD";
+        orderInfo?: string;
         items: { productId: number; quantity: number }[];
       } = {
         customerName: name,
@@ -465,6 +481,7 @@ const CheckoutContent = () => {
         deliveryType:
           deliveryType === "inside" ? "INSIDEDHAKA" : "OUTSIDEDHAKA",
         paymentMethod: paymentMethod === "cod" ? "COD" : "DIRECT",
+        orderInfo: `tShirtSize ${tShirtSize}`,
         items: items.map((i) => ({
           productId: i.product.id,
           quantity: i.quantity,
@@ -563,6 +580,8 @@ const CheckoutContent = () => {
               setPaymentMethod={setPaymentMethod}
               deliveryType={deliveryType}
               setDeliveryType={setDeliveryType}
+            tShirtSize={tShirtSize}
+            setTShirtSize={setTShirtSize}
               onSubmit={handleOrder}
               submitting={orderLoading}
             />

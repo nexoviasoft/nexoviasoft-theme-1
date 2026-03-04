@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useMemo, useState } from "react";
 import { FiEye, FiEyeOff, FiLock } from "react-icons/fi";
 import toast from "react-hot-toast";
@@ -10,6 +10,7 @@ import { resetPasswordWithToken } from "../../lib/api-services";
 function ResetPasswordContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const pathname = usePathname();
   const userId = searchParams.get("id") || "";
   const token = searchParams.get("token") || "";
   const type = (searchParams.get("type") as "customer" | "system" | null) || undefined;
@@ -60,7 +61,9 @@ function ResetPasswordContent() {
         toast.success(res.message || "Password reset successful. এখন লগইন করুন।");
         // ছোট্ট ডিলে দিয়ে লগইন পেইজে পাঠানো হবে
         setTimeout(() => {
-          router.push("/login");
+          router.push(
+            `/login?callbackUrl=${encodeURIComponent(pathname || "/my-account/dashboard")}`,
+          );
         }, 800);
       } else {
         toast.error(res.message || "Password reset failed. আবার চেষ্টা করুন।");
@@ -155,7 +158,10 @@ function ResetPasswordContent() {
 
               <div className="flex items-center justify-center gap-2 mt-4 text-sm">
                 <span>লগইন করতে চান?</span>
-                <Link href="/login" className="text-primary font-semibold">
+                <Link
+                  href={`/login?callbackUrl=${encodeURIComponent(pathname || "/")}`}
+                  className="text-primary font-semibold"
+                >
                   লগইন
                 </Link>
               </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import {
@@ -40,6 +40,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
   const { register } = useAuth();
   const canSubmit = useMemo(() => {
     const validEmail = /\S+@\S+\.\S+/.test(email);
@@ -211,7 +212,10 @@ export default function RegisterPage() {
         
             <div className="flex items-center justify-center gap-2 mt-4">
               <p>ইতিমধ্যেই অ্যাকাউন্ট আছে?</p>
-              <Link href="/login" className="text-primary font-semibold">
+              <Link
+                href={`/login?callbackUrl=${encodeURIComponent(pathname || "/")}`}
+                className="text-primary font-semibold"
+              >
                 লগইন করুন
               </Link>
             </div>

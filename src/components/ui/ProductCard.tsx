@@ -4,7 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import formatteeNumber from "../../utils/formatteNumber";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import toast from "react-hot-toast";
 import { IoCartOutline } from "react-icons/io5";
@@ -48,6 +48,7 @@ const ProductCard = ({ product }: { product: ProductProps }) => {
   const { addCartItem } = useCart();
   const { userSession } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   const getNumericProductId = () => {
     if (typeof product?.id === "number") return product.id;
@@ -126,7 +127,9 @@ const ProductCard = ({ product }: { product: ProductProps }) => {
 
     if (!userSession?.accessToken || !userSession?.userId) {
       toast("Please login to add items to cart", { icon: "🔒" });
-      router.push("/login");
+      router.push(
+        `/login?callbackUrl=${encodeURIComponent(pathname || "/")}`,
+      );
       return;
     }
 

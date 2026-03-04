@@ -1,21 +1,26 @@
 "use client";
-import { useState } from "react";
 import Quantity from "../../../../components/shared/Quantity";
 import AddToCartButton from "./AddToCartButton";
 
 interface ProductCartProps {
   price: number;
   productId: number;
+  quantity: number;
+  onChangeQuantity: (q: number) => void;
 }
 
-const ProductCart = ({ price, productId }: ProductCartProps) => {
-  const [quantity, setQuantity] = useState(1);
+const ProductCart = ({
+  price,
+  productId,
+  quantity,
+  onChangeQuantity,
+}: ProductCartProps) => {
   const handleIncrement = async () => {
-    setQuantity(quantity + 1);
+    onChangeQuantity(quantity + 1);
   };
   const handleDecrement = async () => {
     if (quantity > 1) {
-      setQuantity(quantity - 1);
+      onChangeQuantity(quantity - 1);
     }
   };
   return (

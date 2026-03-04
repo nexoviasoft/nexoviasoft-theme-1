@@ -221,7 +221,10 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
             </div>
 
             {/* description / additional info / reviews / return policies */}
-            <div className="rounded-2xl border border-gray-200 bg-white/90 sm:p-5 p-3 mt-2 overflow-hidden">
+            <div
+              id="return-policy"
+              className="rounded-2xl border border-gray-200 bg-white/90 sm:p-5 p-3 mt-2 overflow-hidden"
+            >
               <Tab product={product} returnPolicyContent={returnPolicyContent} />
             </div>
 

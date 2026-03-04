@@ -3,12 +3,14 @@
 import { useState } from "react";
 import { FiMail } from "react-icons/fi";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { requestPasswordReset } from "../../lib/api-services";
 import toast from "react-hot-toast";
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const pathname = usePathname();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,7 +88,10 @@ const ForgotPasswordPage = () => {
 
               <div className="flex items-center justify-center gap-2 mt-4 text-sm">
                 <span>মনে পড়ে গেছে?</span>
-                <Link href="/login" className="text-primary font-semibold">
+                <Link
+                  href={`/login?callbackUrl=${encodeURIComponent(pathname || "/")}`}
+                  className="text-primary font-semibold"
+                >
                   লগইন পেইজে ফিরে যান
                 </Link>
               </div>

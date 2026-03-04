@@ -3,7 +3,7 @@ import formatteeNumber from "../../../../utils/formatteNumber";
 import { calculateAverageRating } from "../../../../utils/getAverageRating";
 import { Rate } from "antd";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { FaRegClock, FaTruckFast } from "react-icons/fa6";
 import { GoArrowUpRight, GoShareAndroid } from "react-icons/go";
@@ -16,7 +16,8 @@ import { TbCurrencyTaka, TbTruckReturn } from "react-icons/tb";
 import ProductCart from "./ProductCart";
 import Variant from "./Variant";
 import { Review } from "../../../../types/review";
-import { PromoCode } from "../../../../lib/api-services";
+import { PromoCode, getSystemUserByCompanyId } from "../../../../lib/api-services";
+import { API_CONFIG } from "../../../../lib/api-config";
 
 interface CategoryProps {
   name: string;
@@ -77,6 +78,8 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
     setPrice(variantPrice);
   };
 
+  const [quantity, setQuantity] = useState(1);
+
   const originalPrice = Number(price || 0);
   const discountedPrice = Number(product?.discountPrice || 0);
 
@@ -93,6 +96,56 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
 
   const hasDiscount = discountedPrice > 0 && discountedPrice < originalPrice;
   const applicablePromos = promos ?? [];
+
+  const [shareUrl, setShareUrl] = useState<string>("");
+  const [isShareOpen, setIsShareOpen] = useState(false);
+  const [ownerPhone, setOwnerPhone] = useState<string | null>(null);
+
+  const companyId = useMemo(
+    () => product?.companyId || API_CONFIG.companyId,
+    [product?.companyId],
+  );
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setShareUrl(window.location.href);
+    }
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    const loadOwner = async () => {
+      try {
+        if (!companyId) return;
+        const user = await getSystemUserByCompanyId(companyId);
+        if (mounted) {
+          setOwnerPhone(user?.phone ?? null);
+        }
+      } catch (error) {
+        console.error("Failed to load system user for product details:", error);
+      }
+    };
+    loadOwner();
+    return () => {
+      mounted = false;
+    };
+  }, [companyId]);
+
+  const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+    shareUrl,
+  )}`;
+
+  const whatsappShareUrl = `https://wa.me/?text=${encodeURIComponent(
+    `${product?.title} - ${shareUrl}`,
+  )}`;
+
+  const whatsappQuestionUrl = ownerPhone
+    ? `https://wa.me/${encodeURIComponent(
+        ownerPhone.replace(/[^0-9]/g, ""),
+      )}?text=${encodeURIComponent(
+        `প্রিয় স্যার, এই পণ্যটি সম্পর্কে কিছু জানতে চাই: ${product?.title} - ${shareUrl}`,
+      )}`
+    : null;
 
   // ============================================
   // 📋 CONSOLE LOGS - SECTION WISE DATA
@@ -262,7 +315,9 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
                   String(product?.documentId || product?.id),
                 )}&companyId=${encodeURIComponent(
                   product?.companyId || "",
-                )}&promoCode=${encodeURIComponent(promo.code)}`}
+                )}&promoCode=${encodeURIComponent(
+                  promo.code,
+                )}&quantity=${encodeURIComponent(String(quantity))}`}
                 className="text-xs px-3 py-1 rounded-full border bg-gray-100 text-gray-700 border-gray-300 hover:bg-primary hover:text-white transition-colors"
               >
                 <span className="font-semibold">{promo.code}</span>
@@ -284,13 +339,17 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
           <ProductCart
             price={getFinalPrice()}
             productId={Number(product?.documentId || product?.id)}
+            quantity={quantity}
+            onChangeQuantity={setQuantity}
           />
         </div>
         <Link
           className="flex-1 flex items-center justify-center gap-1 px-4 py-2 sm:text-base text-sm hover:bg-black bg-primary text-white rounded-3xl transition-all ease-linear duration-200"
           href={`/checkout?productId=${encodeURIComponent(
             String(product?.documentId || product?.id),
-          )}&companyId=${encodeURIComponent(product?.companyId || "")}`}
+          )}&companyId=${encodeURIComponent(
+            product?.companyId || "",
+          )}&quantity=${encodeURIComponent(String(quantity))}`}
         >
           <span>এখনই কিনুন</span>
           <GoArrowUpRight className="sm:text-2xl text-xl" />
@@ -299,25 +358,65 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
       {/* cart & buy now button end */}
 
       <div className="flex gap-4 flex-wrap items-center text-sm sm:text-base">
-        <Link
-          href={"/product/111"}
-          className=" flex items-center gap-1 hover:text-primary transition-all"
+        <button
+          type="button"
+          className=" flex items-center gap-1 hover:text-primary transition-all disabled:opacity-60"
+          disabled={!whatsappQuestionUrl}
+          onClick={() => {
+            if (!whatsappQuestionUrl) return;
+            window.open(whatsappQuestionUrl, "_blank", "noopener,noreferrer");
+          }}
         >
           <FaRegQuestionCircle /> <span>প্রশ্ন করুন</span>
-        </Link>
+        </button>
         <Link
-          href={"/product/111"}
+          href="/refund-and-return-policy"
           className=" flex items-center gap-1 hover:text-primary transition-all"
         >
           <FaTruckFast /> <span>ডেলিভারি ও রিটার্ন</span>
         </Link>
-        <Link
-          href={"/product/111"}
-          className=" flex items-center gap-1 hover:text-primary transition-all"
-        >
-          <GoShareAndroid />
-          <span> শেয়ার করুন</span>
-        </Link>
+        <div className="relative">
+          <button
+            type="button"
+            className="flex items-center gap-1 hover:text-primary transition-all"
+            onClick={() => setIsShareOpen((prev) => !prev)}
+          >
+            <GoShareAndroid />
+            <span> শেয়ার করুন</span>
+          </button>
+          {isShareOpen && (
+            <div className="absolute z-20 mt-2 w-44 rounded-lg border border-gray-200 bg-white shadow-lg p-2 flex flex-col gap-1">
+              <button
+                type="button"
+                className="w-full text-left text-sm px-2 py-1 rounded hover:bg-gray-100"
+                onClick={() => {
+                  window.open(
+                    facebookShareUrl,
+                    "_blank",
+                    "noopener,noreferrer",
+                  );
+                  setIsShareOpen(false);
+                }}
+              >
+                Facebook এ শেয়ার করুন
+              </button>
+              <button
+                type="button"
+                className="w-full text-left text-sm px-2 py-1 rounded hover:bg-gray-100"
+                onClick={() => {
+                  window.open(
+                    whatsappShareUrl,
+                    "_blank",
+                    "noopener,noreferrer",
+                  );
+                  setIsShareOpen(false);
+                }}
+              >
+                WhatsApp এ শেয়ার করুন
+              </button>
+            </div>
+          )}
+        </div>
       </div>
       <div className="grid min-[820px]:grid-cols-2 md:grid-cols-1 min-[500px]:grid-cols-2 grid-cols-1 grid-rows-2 min-[500px]:grid-rows-1 md:grid-rows-2 min-[820px]:grid-rows-1 gap-3 text-sm sm:text-base">
         <div className="flex flex-col items-center justify-center text-center border border-gray-200 bg-gray-50 px-5 py-3 rounded-xl w-full">

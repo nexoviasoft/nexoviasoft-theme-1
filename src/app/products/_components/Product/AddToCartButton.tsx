@@ -3,7 +3,7 @@ import { useAuth } from "../../../../context/AuthContext";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface AddToCartButtonProps {
   totalQuantity: number;
@@ -19,6 +19,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   const { addCartItem } = useCart();
   const { userSession } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const [loading, setLoading] = useState(false);
 
   const handleAdd = async () => {
@@ -29,7 +30,9 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
 
     if (!userSession?.accessToken) {
       toast("Please login to add items to cart", { icon: "🔒" });
-      router.push("/login");
+      router.push(
+        `/login?callbackUrl=${encodeURIComponent(pathname || "/")}`,
+      );
       return;
     }
 

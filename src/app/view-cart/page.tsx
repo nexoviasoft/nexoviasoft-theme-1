@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { FiEye, FiEyeOff, FiLock, FiMail, FiUser } from "react-icons/fi";
@@ -31,6 +31,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
   const { register } = useAuth();
   const canSubmit = useMemo(() => {
     const validEmail = /\S+@\S+\.\S+/.test(email);
@@ -79,7 +80,11 @@ export default function RegisterPage() {
 
     if (res.success) {
       toast.success("রেজিস্ট্রেশন সফল হয়েছে। লগইন করুন।");
-      router.push("/login?callbackUrl=/my-account/dashboard");
+      router.push(
+        `/login?callbackUrl=${encodeURIComponent(
+          "/my-account/dashboard" || pathname || "/",
+        )}`,
+      );
     } else {
       setError(res.error || "রেজিস্ট্রেশন ব্যর্থ হয়েছে");
     }
@@ -175,7 +180,10 @@ export default function RegisterPage() {
            
             <div className="flex items-center justify-center gap-2 mt-4">
               <p>ইতিমধ্যেই অ্যাকাউন্ট আছে?</p>
-              <Link href="/login" className="text-primary font-semibold">
+              <Link
+                href={`/login?callbackUrl=${encodeURIComponent(pathname || "/")}`}
+                className="text-primary font-semibold"
+              >
                 লগইন করুন
               </Link>
             </div>

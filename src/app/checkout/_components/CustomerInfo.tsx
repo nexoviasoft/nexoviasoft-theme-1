@@ -17,6 +17,8 @@ interface CustomerInfoProps {
   setDeliveryType?: (v: "inside" | "outside") => void;
   paymentMethod?: "cod" | "prepaid";
   setPaymentMethod?: (v: "cod" | "prepaid") => void;
+  tShirtSize?: string;
+  setTShirtSize?: (v: string) => void;
   onSubmit: () => void;
   submitting?: boolean;
 }
@@ -36,6 +38,8 @@ const CustomerInfo = ({
   setDeliveryType,
   paymentMethod,
   setPaymentMethod,
+  tShirtSize,
+  setTShirtSize,
   onSubmit,
   submitting,
 }: CustomerInfoProps) => {
@@ -97,6 +101,22 @@ const CustomerInfo = ({
                 onChange={(e) => setPhone(e.target.value)}
                 required
               />
+            </div>
+            <div className="grid grid-cols-1">
+              <select
+                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#000000] placeholder:text-gray-500 bg-white"
+                value={tShirtSize || ""}
+                onChange={(e) => setTShirtSize?.(e.target.value)}
+                required
+              >
+                <option value="" disabled>
+                  টি-শার্ট সাইজ সিলেক্ট করুন 
+                </option>
+                <option value="L">L</option>
+                <option value="M">M</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>
+              </select>
             </div>
           </div>
         </div>
