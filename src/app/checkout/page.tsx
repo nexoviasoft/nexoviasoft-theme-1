@@ -79,6 +79,10 @@ const CheckoutContent = () => {
       .filter((n) => Number.isFinite(n));
   };
 
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
   // Fetch product from query params and promo code
   useEffect(() => {
     const rawProductId = searchParams.get("productId");
