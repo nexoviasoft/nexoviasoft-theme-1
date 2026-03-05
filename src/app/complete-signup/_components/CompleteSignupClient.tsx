@@ -83,6 +83,19 @@ const CompleteSignupClient = () => {
           </p>
           <h1 className="text-lg font-bold text-gray-900 leading-tight">Create your password</h1>
         </div>
+        <div className="mb-4 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-800">
+          <p>
+            {orderIdFromQuery ? (
+              <span>
+                Your order #{orderIdFromQuery} has been created successfully. Please create a password to go to your dashboard. Thank you — happy shopping!
+              </span>
+            ) : (
+              <span>
+                Your order has been created successfully. Please create a password to go to your dashboard. Thank you — happy shopping!
+              </span>
+            )}
+          </p>
+        </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <label className="text-sm text-gray-700">Email</label>
