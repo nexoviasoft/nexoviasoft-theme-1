@@ -61,7 +61,11 @@ const CompleteSignupClient = () => {
         return;
       }
       toast.success("Account created. Redirecting to dashboard...");
-      router.push("/my-account/orders");
+      if (typeof window !== "undefined") {
+        window.location.assign("/my-account/orders");
+      } else {
+        router.push("/my-account/orders");
+      }
     } catch (err) {
       console.error(err);
       toast.error("Failed to complete signup");
