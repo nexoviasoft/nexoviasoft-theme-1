@@ -201,7 +201,7 @@ export default function Dashboard() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="space-y-2">
             <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-white/80">
-              My account
+              আমার অ্যাকাউন্ট
             </p>
             <h2 className="text-xl md:text-2xl font-semibold">
               স্বাগতম, {profile.name || "customer"}
@@ -218,7 +218,7 @@ export default function Dashboard() {
               </div>
               <div className="flex flex-col">
                 <span className="text-xs uppercase tracking-wide text-white/80">
-                  Logged in as
+                  লগইন করেছেন
                 </span>
                 <span className="text-sm sm:text-base font-medium truncate max-w-[180px] sm:max-w-[220px]">
                   {profile.email}
@@ -227,19 +227,19 @@ export default function Dashboard() {
             </div>
             <div className="grid grid-cols-2 gap-2 sm:gap-3 w-full sm:w-auto">
               <div className="rounded-xl bg-white/10 px-3 py-2 flex flex-col gap-1">
-              <span className="text-[11px] uppercase tracking-wide text-white/80">
-                  Profile setup
+                <span className="text-[11px] uppercase tracking-wide text-white/80">
+                  প্রোফাইল সেটআপ
                 </span>
                 <span className="text-xs sm:text-sm font-medium">
-                  {completionScore}/3 complete
+                  {completionScore}/3 সম্পন্ন
                 </span>
               </div>
               <div className="rounded-xl bg-white/10 px-3 py-2 flex flex-col gap-1">
-              <span className="text-[11px] uppercase tracking-wide text-white/80">
-                  Account status
+                <span className="text-[11px] uppercase tracking-wide text-white/80">
+                  অ্যাকাউন্ট স্ট্যাটাস
                 </span>
                 <span className="text-xs sm:text-sm font-medium">
-                  Active member
+                  সক্রিয় সদস্য
                 </span>
               </div>
             </div>
@@ -251,7 +251,7 @@ export default function Dashboard() {
         <div className="rounded-2xl border border-gray-100 bg-white/90 shadow-sm px-4 py-4 flex items-start justify-between gap-3">
           <div>
             <p className="text-[11px] uppercase tracking-wide text-gray-500">
-              Total orders
+              মোট অর্ডার
             </p>
             <p className="text-xl font-semibold text-gray-900">
               {orderStats.total}
@@ -260,7 +260,7 @@ export default function Dashboard() {
               href="/my-account/orders"
               className="mt-2 inline-flex text-xs font-medium text-black hover:text-gray-700"
             >
-              View orders
+              অর্ডার দেখুন
             </Link>
           </div>
           <span className="h-10 w-10 rounded-2xl bg-gray-100 text-gray-700 flex items-center justify-center">
@@ -270,13 +270,13 @@ export default function Dashboard() {
         <div className="rounded-2xl border border-gray-100 bg-white/90 shadow-sm px-4 py-4 flex items-start justify-between gap-3">
           <div>
             <p className="text-[11px] uppercase tracking-wide text-gray-500">
-              Delivered
+              ডেলিভারড
             </p>
             <p className="text-xl font-semibold text-gray-900">
               {orderStats.delivered}
             </p>
             <p className="mt-2 text-[11px] text-gray-500">
-              Successful deliveries
+              সফল ডেলিভারি
             </p>
           </div>
           <span className="h-10 w-10 rounded-2xl bg-gray-100 text-gray-700 flex items-center justify-center">
@@ -286,13 +286,13 @@ export default function Dashboard() {
         <div className="rounded-2xl border border-gray-100 bg-white/90 shadow-sm px-4 py-4 flex items-start justify-between gap-3">
           <div>
             <p className="text-[11px] uppercase tracking-wide text-gray-500">
-              In progress
+              চলমান
             </p>
             <p className="text-xl font-semibold text-gray-900">
               {orderStats.inProgress}
             </p>
             <p className="mt-2 text-[11px] text-gray-500">
-              Pending / shipped
+              পেন্ডিং / শিপড
             </p>
           </div>
           <span className="h-10 w-10 rounded-2xl bg-gray-100 text-gray-600 flex items-center justify-center">
@@ -302,12 +302,12 @@ export default function Dashboard() {
         <div className="rounded-2xl border border-gray-100 bg-white/90 shadow-sm px-4 py-4 flex items-start justify-between gap-3">
           <div>
             <p className="text-[11px] uppercase tracking-wide text-gray-500">
-              Cancelled
+              বাতিল
             </p>
             <p className="text-xl font-semibold text-gray-900">
               {orderStats.cancelled}
             </p>
-            <p className="mt-2 text-[11px] text-gray-500">Cancelled orders</p>
+            <p className="mt-2 text-[11px] text-gray-500">বাতিল অর্ডার</p>
           </div>
           <span className="h-10 w-10 rounded-2xl bg-gray-200 text-gray-700 flex items-center justify-center">
             <FiXCircle size={18} />
@@ -325,10 +325,10 @@ export default function Dashboard() {
                 </span>
                 <div>
                   <h2 className="text-base md:text-lg font-semibold text-gray-900">
-                    Account information
+                    অ্যাকাউন্ট তথ্য
                   </h2>
                   <p className="text-xs text-gray-500">
-                    Update your profile details for faster checkout.
+                    দ্রুত চেকআউটের জন্য আপনার প্রোফাইল তথ্য আপডেট করুন।
                   </p>
                 </div>
               </div>
@@ -341,7 +341,7 @@ export default function Dashboard() {
                   className="inline-flex items-center gap-1 rounded-full border border-gray-300 bg-gray-100 px-3 py-1 text-xs md:text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300"
                 >
                   <FaEdit className="text-[11px]" />
-                  Edit profile
+                  প্রোফাইল সম্পাদনা
                 </button>
               )}
             </div>
@@ -362,7 +362,7 @@ export default function Dashboard() {
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
                     <label className="block text-xs font-medium text-gray-600">
-                      Full name
+                      পূর্ণ নাম
                     </label>
                     <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50/60 px-3 py-2 focus-within:ring-2 focus-within:ring-gray-300">
                       <FiUser className="text-gray-400" size={16} />
@@ -372,7 +372,7 @@ export default function Dashboard() {
                         onChange={(e) =>
                           setEditData({ ...editData, name: e.target.value })
                         }
-                        placeholder="Your full name"
+                        placeholder="আপনার পূর্ণ নাম"
                         className="w-full bg-transparent text-sm outline-none"
                         autoComplete="name"
                         disabled={saving}
@@ -381,7 +381,7 @@ export default function Dashboard() {
                   </div>
                   <div className="space-y-1.5">
                     <label className="block text-xs font-medium text-gray-600">
-                      Phone number
+                      ফোন নম্বর
                     </label>
                     <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50/60 px-3 py-2 focus-within:ring-2 focus-within:ring-gray-300">
                       <FiPhone className="text-gray-400" size={16} />
@@ -401,7 +401,7 @@ export default function Dashboard() {
                 </div>
                 <div className="space-y-1.5">
                   <label className="block text-xs font-medium text-gray-600">
-                    Full address
+                    পূর্ণ ঠিকানা
                   </label>
                   <div className="flex items-start gap-2 rounded-lg border border-gray-200 bg-gray-50/60 px-3 py-2 focus-within:ring-2 focus-within:ring-gray-300">
                     <FiMapPin className="mt-0.5 text-gray-400" size={16} />
@@ -411,7 +411,7 @@ export default function Dashboard() {
                       onChange={(e) =>
                         setEditData({ ...editData, address: e.target.value })
                       }
-                      placeholder="House / road / area"
+                      placeholder="বাড়ি / রাস্তা / এলাকা"
                       className="w-full bg-transparent text-sm outline-none resize-none"
                       autoComplete="street-address"
                       disabled={saving}
@@ -424,7 +424,7 @@ export default function Dashboard() {
                     disabled={saving}
                     className="inline-flex flex-1 sm:flex-none items-center justify-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    {saving ? "Saving..." : "Save changes"}
+                    {saving ? "সেভ হচ্ছে..." : "পরিবর্তন সেভ করুন"}
                   </button>
                   <button
                     type="button"
@@ -440,7 +440,7 @@ export default function Dashboard() {
                     }}
                     className="inline-flex flex-1 sm:flex-none items-center justify-center gap-2 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    Cancel
+                    বাতিল
                   </button>
                 </div>
               </form>
@@ -452,10 +452,10 @@ export default function Dashboard() {
                   </span>
                   <div className="flex-1">
                     <p className="text-xs uppercase tracking-wide text-gray-500">
-                      Full name
+                      পূর্ণ নাম
                     </p>
                     <p className="text-sm font-medium text-gray-900">
-                      {profile.name || "Not provided"}
+                      {profile.name || "প্রদান করা হয়নি"}
                     </p>
                   </div>
                 </div>
@@ -465,10 +465,10 @@ export default function Dashboard() {
                   </span>
                   <div className="flex-1">
                     <p className="text-xs uppercase tracking-wide text-gray-500">
-                      Phone number
+                      ফোন নম্বর
                     </p>
                     <p className="text-sm font-medium text-gray-900">
-                      {profile.phone || "Not provided"}
+                      {profile.phone || "প্রদান করা হয়নি"}
                     </p>
                   </div>
                 </div>
@@ -478,10 +478,10 @@ export default function Dashboard() {
                   </span>
                   <div className="flex-1">
                     <p className="text-xs uppercase tracking-wide text-gray-500">
-                      Full address
+                      পূর্ণ ঠিকানা
                     </p>
                     <p className="text-sm font-medium text-gray-900">
-                      {profile.address || "Not provided"}
+                      {profile.address || "প্রদান করা হয়নি"}
                     </p>
                   </div>
                 </div>
@@ -492,7 +492,7 @@ export default function Dashboard() {
                     </span>
                     <div className="flex-1">
                       <p className="text-xs uppercase tracking-wide text-gray-500">
-                        District
+                        জেলা
                       </p>
                       <p className="text-sm font-medium text-gray-900">
                         {profile.district}

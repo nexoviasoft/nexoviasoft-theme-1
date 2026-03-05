@@ -12,25 +12,25 @@ import { RiHome5Line } from "react-icons/ri";
 export const menuItems = [
   {
     id: 1,
-    name: "Dashboard",
+    name: "ড্যাশবোর্ড",
     icon: <RiHome5Line size={20} />,
     link: "dashboard",
   },
   {
     id: 2,
-    name: "My Orders",
+    name: "আমার অর্ডার",
     icon: <MdOutlineFeed size={20} />,
     link: "orders",
   },
   {
     id: 3,
-    name: "Saved Address",
+    name: "সংরক্ষিত ঠিকানা",
     icon: <MdOutlineLocationOn size={20} />,
     link: "address",
   },
   {
     id: 4,
-    name: "Reviews",
+    name: "রিভিউ",
     icon: <MdOutlineReviews size={20} />,
     link: "reviews",
   },

@@ -94,7 +94,7 @@ export default function Reviews() {
   const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.productId || !formData.comment) {
-      alert("Please select a product and write a comment");
+      alert("অনুগ্রহ করে একটি পণ্য নির্বাচন করুন এবং রিভিউ লিখুন");
       return;
     }
 
@@ -112,7 +112,7 @@ export default function Reviews() {
           headers: getApiHeaders(userSession?.accessToken),
         },
       );
-      alert("Review submitted successfully!");
+      alert("রিভিউ সফলভাবে জমা হয়েছে!");
       setFormData({
         productId: 0,
         rating: 5,
@@ -129,7 +129,7 @@ export default function Reviews() {
       };
       alert(
         axiosError.response?.data?.message ||
-          "Failed to submit review. Please try again.",
+          "রিভিউ জমা দেওয়া যায়নি। আবার চেষ্টা করুন।",
       );
     } finally {
       setSubmitting(false);
@@ -166,9 +166,9 @@ export default function Reviews() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="space-y-1.5">
             <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-gray-100/90">
-              My account
+              আমার অ্যাকাউন্ট
             </p>
-            <h2 className="text-xl md:text-2xl font-semibold">Reviews</h2>
+            <h2 className="text-xl md:text-2xl font-semibold">রিভিউ</h2>
             <p className="text-xs sm:text-sm text-gray-50/95 max-w-md">
               আপনার কেনা পণ্যের অভিজ্ঞতা শেয়ার করুন এবং পুরনো রিভিউগুলো এক
               জায়গায় দেখুন।
@@ -186,12 +186,12 @@ export default function Reviews() {
           <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gray-50 text-gray-600">
             <FiMessageCircle size={18} />
           </span>
-          <span>Write a review</span>
+          <span>রিভিউ লিখুন</span>
         </h3>
-        <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Filter by Category/Sector
+              ক্যাটাগরি/সেক্টর অনুযায়ী ফিল্টার
             </label>
             <select
               value={selectedCategory}
@@ -202,7 +202,7 @@ export default function Reviews() {
               }}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
             >
-              <option value="">Select a category</option>
+              <option value="">একটি ক্যাটাগরি নির্বাচন করুন</option>
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.name}>
                   {cat.name}
@@ -211,17 +211,17 @@ export default function Reviews() {
             </select>
           </div>
 
-          {selectedCategory && products.length > 0 && (
+          {selectedCategory && products.length > 0 ? (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Select Product
+                পণ্য নির্বাচন করুন
               </label>
               <select
                 value={selectedProduct || ""}
                 onChange={(e) => handleProductSelect(Number(e.target.value))}
                 className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               >
-                <option value="">Select a product</option>
+                <option value="">একটি পণ্য নির্বাচন করুন</option>
                 {products.map((product) => (
                   <option key={product.id} value={product.id}>
                     {product.name}
@@ -229,17 +229,27 @@ export default function Reviews() {
                 ))}
               </select>
             </div>
+          ) : (
+            <div className="opacity-60">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                পণ্য নির্বাচন করুন
+              </label>
+              <select
+                disabled
+                className="w-full p-3 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed"
+              >
+                <option value="">একটি পণ্য নির্বাচন করুন</option>
+              </select>
+            </div>
           )}
 
-          {selectedCategory && products.length === 0 && (
-            <p className="text-gray-600">No products found in this category.</p>
-          )}
+          
 
           {showForm && selectedProduct && (
             <form onSubmit={handleSubmitReview} className="mt-4 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Rating
+                  রেটিং
                 </label>
                 <Rate
                   value={formData.rating}
@@ -250,7 +260,7 @@ export default function Reviews() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Review Title (Optional)
+                  রিভিউ শিরোনাম (ঐচ্ছিক)
                 </label>
                 <input
                   type="text"
@@ -258,20 +268,20 @@ export default function Reviews() {
                   onChange={(e) =>
                     setFormData({ ...formData, title: e.target.value })
                   }
-                  placeholder="Enter review title"
+                  placeholder="রিভিউ শিরোনাম লিখুন"
                   className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Review Comment *
+                  রিভিউ লিখুন *
                 </label>
                 <textarea
                   value={formData.comment}
                   onChange={(e) =>
                     setFormData({ ...formData, comment: e.target.value })
                   }
-                  placeholder="Write your review..."
+                  placeholder="আপনার রিভিউ লিখুন..."
                   rows={4}
                   required
                   className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary resize-none"
@@ -282,7 +292,7 @@ export default function Reviews() {
                 disabled={submitting}
                 className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-2 text-sm font-semibold text-white hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {submitting ? "Submitting..." : "Submit Review"}
+                {submitting ? "সাবমিট হচ্ছে..." : "রিভিউ সাবমিট করুন"}
               </button>
             </form>
           )}
@@ -294,11 +304,11 @@ export default function Reviews() {
           <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gray-50 text-gray-600">
             <FiStar size={18} />
           </span>
-          <span>My reviews</span>
+          <span>আমার রিভিউ</span>
         </h3>
         {reviews.length === 0 ? (
           <p className="text-gray-600 text-sm">
-            You haven&apos;t written any reviews yet.
+            আপনি এখনও কোনো রিভিউ লিখেননি।
           </p>
         ) : (
           <div className="space-y-4">
