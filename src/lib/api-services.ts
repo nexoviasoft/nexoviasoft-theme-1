@@ -715,7 +715,6 @@ export async function createOrder(
         customerEmail?: string;
         customerAddress?: string;
         shippingAddress?: string;
-        orderInfo?: string;
         paymentMethod?: "DIRECT" | "COD";
         deliveryType?: "INSIDEDHAKA" | "OUTSIDEDHAKA";
         items: { productId: number; quantity: number }[];

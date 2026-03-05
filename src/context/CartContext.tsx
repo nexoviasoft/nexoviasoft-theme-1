@@ -80,8 +80,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       );
 
       const items: CartProduct[] = response.data.data || [];
-      const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
-      const totalPrice = items.reduce((sum, item) => sum + item.totalPrice, 0);
+      const totalItems = items.reduce((sum, item) => sum + Number(item.quantity), 0);
+      const totalPrice = items.reduce((sum, item) => sum + Number(item.totalPrice), 0);
 
       setCart({
         items,

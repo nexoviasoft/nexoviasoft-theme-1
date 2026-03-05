@@ -513,57 +513,32 @@ const CheckoutContent = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-primary/5 to-white">
-      <section className="max-w-7xl mx-auto px-5 py-8 md:py-10">
-        <div className="flex flex-col gap-3 border-b border-primary/10 pb-5">
+    <div className="min-h-screen bg-gray-50/50">
+      <section className="max-w-7xl mx-auto px-3 sm:px-5 py-6">
+        <div className="flex flex-col gap-3 border-b border-gray-200 pb-4 mb-5">
           <div className="flex items-center gap-3">
             {companyLogo && (
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 ring-1 ring-primary/20 overflow-hidden">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white border border-gray-100 overflow-hidden shadow-sm">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={companyLogo}
                   alt="Store logo"
-                  className="h-8 w-8 object-contain"
+                  className="h-7 w-7 object-contain"
                 />
               </div>
             )}
-            <div className="flex flex-col gap-1">
-              <p className="text-[11px] font-semibold tracking-[0.18em] text-primary uppercase">
+            <div className="flex flex-col">
+              <p className="text-[10px] font-bold tracking-widest text-primary uppercase leading-tight">
                 Checkout
               </p>
-              <h1 className="text-xl md:text-2xl font-semibold text-gray-900">
+              <h1 className="text-lg font-bold text-gray-900 leading-tight">
                 অর্ডার সম্পূর্ণ করুন
               </h1>
             </div>
           </div>
-          <p className="text-sm text-gray-600">
-            আপনার ডেলিভারি তথ্য দিন এবং পেমেন্ট পদ্ধতি নির্বাচন করুন।
-          </p>
-          <div className="mt-1 flex items-center gap-2 text-xs text-gray-500">
-            <div className="flex items-center gap-2">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full border border-gray-300 text-[11px]">
-                1
-              </span>
-              <span>কার্ট</span>
-            </div>
-            <span className="h-px w-6 bg-gray-300" />
-            <div className="flex items-center gap-2">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-[11px] text-white">
-                2
-              </span>
-              <span className="font-medium text-gray-900">চেকআউট</span>
-            </div>
-            <span className="h-px w-6 bg-gray-200" />
-            <div className="flex items-center gap-2">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full border border-gray-200 text-[11px]">
-                3
-              </span>
-              <span>অর্ডার সম্পন্ন</span>
-            </div>
-          </div>
         </div>
 
-        <div className="mt-6 grid gap-5 min-[820px]:grid-cols-5 min-[950px]:grid-cols-3">
+        <div className="grid gap-4 min-[820px]:grid-cols-5 min-[950px]:grid-cols-3">
           <div className="min-[820px]:col-span-3 min-[950px]:col-span-2">
             <CustomerInfo
               name={name}

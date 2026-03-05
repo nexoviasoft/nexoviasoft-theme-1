@@ -133,7 +133,7 @@ function OrderTrackingContent() {
       setOrder(null);
 
       const res = await axios.get(
-        getApiUrl(`/orders/track/${encodeURIComponent(trimmed)}`)
+        getApiUrl(`/orders/track/${encodeURIComponent(trimmed)}`),
       );
 
       const apiData = res.data?.data;
@@ -151,7 +151,10 @@ function OrderTrackingContent() {
           shippingProvider: apiData.shippingProvider,
           createdAt: apiData.createdAt,
           message: apiData.message,
-          statusHistory: (apiData.statusHistory ?? []).sort((a: StatusHistoryEntry, b: StatusHistoryEntry) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()),
+          statusHistory: (apiData.statusHistory ?? []).sort(
+            (a: StatusHistoryEntry, b: StatusHistoryEntry) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+          ),
         });
       } else {
         setError("অর্ডার খুঁজে পাওয়া যায়নি। ট্র্যাকিং আইডি আবার চেক করুন।");
@@ -277,7 +280,9 @@ function OrderTrackingContent() {
                         className={`flex items-center gap-2 px-4 py-2 rounded-full border ${statusConfig.color}`}
                       >
                         <statusConfig.icon className="w-4 h-4" />
-                        <span className="text-sm font-bold">{statusConfig.label}</span>
+                        <span className="text-sm font-bold">
+                          {statusConfig.label}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -287,7 +292,7 @@ function OrderTrackingContent() {
                   <div className="bg-gray-50/30 rounded-xl p-5 border border-gray-100/50 hover:border-gray-200/50 transition-colors">
                     <h3 className="text-sm font-bold text-gray-900 flex items-center gap-2.5 mb-4">
                       <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center shadow-sm border border-gray-100">
-                         <FiUser className="w-3.5 h-3.5 text-black" />
+                        <FiUser className="w-3.5 h-3.5 text-black" />
                       </div>
                       কাস্টমার তথ্য
                     </h3>
@@ -384,7 +389,10 @@ function OrderTrackingContent() {
                         const isLatest = index === 0;
                         const config = getStatusConfig(entry.newStatus);
                         return (
-                          <div key={entry.id} className="relative flex gap-5 group">
+                          <div
+                            key={entry.id}
+                            className="relative flex gap-5 group"
+                          >
                             <div
                               className={`absolute left-0 flex h-8 w-8 items-center justify-center rounded-full border-[3px] border-white shadow-sm transition-all duration-300 z-10 ${
                                 isLatest

@@ -1,6 +1,6 @@
 "use client";
 
-import { IoCartOutline } from "react-icons/io5";
+import { IoCartOutline, IoChevronDown } from "react-icons/io5";
 
 interface CustomerInfoProps {
   name: string;
@@ -46,28 +46,28 @@ const CustomerInfo = ({
   return (
     <section>
       <form
-        className="flex flex-col gap-5 md:gap-6"
+        className="flex flex-col gap-4"
         onSubmit={(e) => {
           e.preventDefault();
           onSubmit();
         }}
       >
         {/* customer info start */}
-        <div className="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white/90 shadow-sm p-5 md:p-6">
-          <h1 className="text-lg md:text-xl font-semibold text-gray-900">
+        <div className="flex flex-col gap-3 rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+          <h1 className="text-base font-bold text-gray-900 border-b border-gray-100 pb-2">
             কাস্টমার তথ্য
           </h1>
-          <div className="flex flex-col gap-5">
-            <div className="grid min-[550px]:grid-cols-2 grid-cols-1 gap-5">
+          <div className="flex flex-col gap-3">
+            <div className="grid min-[550px]:grid-cols-2 grid-cols-1 gap-3">
               <input
-                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#000000] placeholder:text-gray-500"
+                className="border border-gray-200 outline-none rounded-lg py-2.5 px-3 text-sm focus:border-black placeholder:text-gray-400 bg-gray-50/30 focus:bg-white transition-all"
                 type="email"
                 placeholder="ইমেইল (optional)"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <input
-                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#000000] placeholder:text-gray-500"
+                className="border border-gray-200 outline-none rounded-lg py-2.5 px-3 text-sm focus:border-black placeholder:text-gray-400 bg-gray-50/30 focus:bg-white transition-all"
                 type="text"
                 placeholder="সম্পূর্ণ নাম *"
                 value={name}
@@ -75,16 +75,16 @@ const CustomerInfo = ({
                 required
               />
             </div>
-            <div className="grid min-[550px]:grid-cols-2 grid-cols-1 gap-5">
+            <div className="grid min-[550px]:grid-cols-2 grid-cols-1 gap-3">
               <input
-                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#000000] placeholder:text-gray-500"
+                className="border border-gray-200 outline-none rounded-lg py-2.5 px-3 text-sm focus:border-black placeholder:text-gray-400 bg-gray-50/30 focus:bg-white transition-all"
                 type="text"
                 placeholder="এলাকা / সিটি"
                 value={district || ""}
                 onChange={(e) => setDistrict?.(e.target.value)}
               />
               <input
-                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#000000] placeholder:text-gray-500"
+                className="border border-gray-200 outline-none rounded-lg py-2.5 px-3 text-sm focus:border-black placeholder:text-gray-400 bg-gray-50/30 focus:bg-white transition-all"
                 type="text"
                 placeholder="সম্পূর্ণ ঠিকানা *"
                 value={address}
@@ -94,7 +94,7 @@ const CustomerInfo = ({
             </div>
             <div className="grid grid-cols-1">
               <input
-                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#000000] placeholder:text-gray-500"
+                className="border border-gray-200 outline-none rounded-lg py-2.5 px-3 text-sm focus:border-black placeholder:text-gray-400 bg-gray-50/30 focus:bg-white transition-all"
                 type="text"
                 placeholder="ফোন নম্বর *"
                 value={phone}
@@ -102,9 +102,9 @@ const CustomerInfo = ({
                 required
               />
             </div>
-            <div className="grid grid-cols-1">
+            <div className="grid grid-cols-1 relative">
               <select
-                className="border-[1.5px] border-gray-300 outline-none rounded-[5px] py-[10px] px-2 text-sm focus:border-[#000000] placeholder:text-gray-500 bg-white"
+                className="border border-gray-200 outline-none rounded-lg py-2.5 px-3 text-sm focus:border-black placeholder:text-gray-400 bg-gray-50/30 focus:bg-white transition-all appearance-none cursor-pointer w-full"
                 value={tShirtSize || ""}
                 onChange={(e) => setTShirtSize?.(e.target.value)}
                 required
@@ -117,68 +117,72 @@ const CustomerInfo = ({
                 <option value="XL">XL</option>
                 <option value="XXL">XXL</option>
               </select>
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+                <IoChevronDown size={16} />
+              </div>
             </div>
           </div>
         </div>
         {/* customer info end  */}
 
-        {/* delivery type */}
-        <div className="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white/90 shadow-sm p-5 md:p-6">
-          <h2 className="text-lg md:text-xl font-semibold text-gray-900">
-            ডেলিভারি টাইপ
-          </h2>
-          <div className="flex gap-3 items-center">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="deliveryType"
-                value="inside"
-                checked={deliveryType === "inside"}
-                onChange={() => setDeliveryType?.("inside")}
-                className="accent-primary"
-              />
-              <span>ঢাকার ভিতরে (60৳)</span>
-            </label>
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="deliveryType"
-                value="outside"
-                checked={deliveryType === "outside"}
-                onChange={() => setDeliveryType?.("outside")}
-                className="accent-primary"
-              />
-              <span>ঢাকার বাইরে (120৳)</span>
-            </label>
+        {/* delivery type & payment method */}
+        <div className="grid md:grid-cols-2 gap-4">
+          <div className="flex flex-col gap-3 rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+            <h2 className="text-base font-bold text-gray-900 border-b border-gray-100 pb-2">
+              ডেলিভারি টাইপ
+            </h2>
+            <div className="flex flex-col gap-2">
+              <label className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${deliveryType === "inside" ? "border-primary bg-primary/5" : "border-gray-100 hover:border-gray-200"}`}>
+                <input
+                  type="radio"
+                  name="deliveryType"
+                  value="inside"
+                  checked={deliveryType === "inside"}
+                  onChange={() => setDeliveryType?.("inside")}
+                  className="accent-primary w-4 h-4"
+                />
+                <span className="text-sm font-medium">ঢাকার ভিতরে (60৳)</span>
+              </label>
+              <label className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${deliveryType === "outside" ? "border-primary bg-primary/5" : "border-gray-100 hover:border-gray-200"}`}>
+                <input
+                  type="radio"
+                  name="deliveryType"
+                  value="outside"
+                  checked={deliveryType === "outside"}
+                  onChange={() => setDeliveryType?.("outside")}
+                  className="accent-primary w-4 h-4"
+                />
+                <span className="text-sm font-medium">ঢাকার বাইরে (120৳)</span>
+              </label>
+            </div>
           </div>
-        </div>
 
-        {/* payment method */}
-        <div className="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white/90 shadow-sm p-5 md:p-6">
-          <h2 className="text-lg md:text-xl font-semibold text-gray-900">
-            পেমেন্ট পদ্ধতি
-          </h2>
-          <div className="flex gap-3 items-center">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="paymentMethod"
-                value="cod"
-                checked={paymentMethod === "cod"}
-                onChange={() => setPaymentMethod?.("cod")}
-                className="accent-primary"
-              />
-              <span>ক্যাশ অন ডেলিভারি</span>
-            </label>
+          <div className="flex flex-col gap-3 rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+            <h2 className="text-base font-bold text-gray-900 border-b border-gray-100 pb-2">
+              পেমেন্ট পদ্ধতি
+            </h2>
+            <div className="flex flex-col gap-2">
+              <label className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${paymentMethod === "cod" ? "border-primary bg-primary/5" : "border-gray-100 hover:border-gray-200"}`}>
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="cod"
+                  checked={paymentMethod === "cod"}
+                  onChange={() => setPaymentMethod?.("cod")}
+                  className="accent-primary w-4 h-4"
+                />
+                <span className="text-sm font-medium">ক্যাশ অন ডেলিভারি</span>
+              </label>
+            </div>
           </div>
         </div>
 
         <button
           type="submit"
           disabled={submitting}
-          className="bg-primary hover:bg-primary/90 transition-colors text-white text-base md:text-lg py-3.5 font-medium rounded-full flex items-center justify-center gap-2 disabled:opacity-70"
+          className="bg-black hover:bg-gray-900 transition-all text-white text-sm font-bold rounded-lg py-3.5 flex items-center justify-center gap-2 disabled:opacity-70 shadow-md shadow-black/10 hover:shadow-lg hover:-translate-y-0.5 mt-2"
         >
-          <IoCartOutline size={24} />
+          <IoCartOutline size={18} />
           {submitting ? "অর্ডার হচ্ছে..." : "অর্ডার কনফার্ম করুন"}
         </button>
       </form>

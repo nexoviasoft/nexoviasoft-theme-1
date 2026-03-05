@@ -45,16 +45,10 @@ const CheckoutCart = ({
   applyPromoFromButton,
 }: CheckoutCartProps) => {
   return (
-    <section className="rounded-2xl border border-gray-200 bg-white/90 p-5 md:p-6 shadow-sm flex flex-col gap-6">
-      <h1 className="text-lg md:text-xl font-semibold text-gray-900">
+    <section className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm flex flex-col gap-4 sticky top-4">
+      <h1 className="text-base font-bold text-gray-900 border-b border-gray-100 pb-2">
         আপনার কার্ট
       </h1>
-      {/* products */}
-      {/* <div className=" flex flex-col gap-4">
-        {items.map((item) => (
-          <CartProduct key={item.id} item={item} />
-        ))}
-      </div> */}
       {/* coupon code  */}
       <CouponCode
         promoCode={promoCode}
@@ -67,45 +61,45 @@ const CheckoutCart = ({
         onSelectPromo={(code) => applyPromoFromButton?.(code)}
       />
       {/* total */}
-      <div className="border-t-[1.5px]">
+      <div className="border-t border-gray-100 pt-3">
         {/* item summary */}
-        <div className="flex flex-col gap-2 py-3">
+        <div className="flex flex-col gap-2 pb-3">
           {items.map((item) => (
             <div
               key={item.id}
-              className="flex justify-between text-sm text-gray-700"
+              className="flex justify-between text-xs text-gray-600"
             >
-              <span className="line-clamp-1">
-                {item.product.name} × {item.quantity}
+              <span className="line-clamp-1 max-w-[70%]">
+                {item.product.name} <span className="text-gray-400">× {item.quantity}</span>
               </span>
-              <span>{formatteeNumber(item.unitPrice * item.quantity)}৳</span>
+              <span className="font-medium text-gray-900">{formatteeNumber(item.unitPrice * item.quantity)}৳</span>
             </div>
           ))}
         </div>
-        <div className=" flex flex-col gap-1 py-3">
-          <div className=" flex justify-between items-center">
+        <div className="flex flex-col gap-2 py-3 border-t border-gray-100 border-dashed">
+          <div className="flex justify-between items-center text-sm text-gray-600">
             <p>Subtotal</p>
-            <p>{formatteeNumber(subtotal)}৳</p>
+            <p className="font-medium text-gray-900">{formatteeNumber(subtotal)}৳</p>
           </div>
           {promo && (
-            <div className=" flex justify-between items-center text-green-600">
+            <div className="flex justify-between items-center text-sm text-green-600">
               <p>Promo ({promo.code})</p>
               <p>-{formatteeNumber(discount)}৳</p>
             </div>
           )}
-          <div className=" flex justify-between items-center">
+          <div className="flex justify-between items-center text-sm text-gray-600">
             <p>Shipping</p>
-            <p>{formatteeNumber(shipping)}৳</p>
+            <p className="font-medium text-gray-900">{formatteeNumber(shipping)}৳</p>
           </div>
         </div>
-        <div className=" flex justify-between items-center border-t-[1.5px] pt-2 font-bold">
-          <p>Total</p>
-          <p>{formatteeNumber(grandTotal)}৳</p>
+        <div className="flex justify-between items-center border-t border-gray-100 pt-3">
+          <p className="text-base font-bold text-gray-900">Total</p>
+          <p className="text-lg font-black text-gray-900">{formatteeNumber(grandTotal)}৳</p>
         </div>
       </div>
 
-      <p className=" font-medium text-center">
-        যেকোনো সমস্যায় নির্দ্বিধায় যোগাযোগ করুন- {contactPhone?.trim() || "01774617452"}
+      <p className="text-xs text-center text-gray-400 mt-2 bg-gray-50 py-2 rounded-lg border border-gray-100">
+        যেকোনো সমস্যায় নির্দ্বিধায় যোগাযোগ করুন- <span className="text-gray-600 font-medium">{contactPhone?.trim() || "01774617452"}</span>
       </p>
     </section>
   );

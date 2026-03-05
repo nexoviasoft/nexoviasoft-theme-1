@@ -15,37 +15,38 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
   const [currentImage, setCurrentImage] = useState(0);
 
   return (
-    <section className="flex lg:flex-row md:flex-col sm:flex-row flex-col gap-3">
-      <div className="flex lg:flex-col md:flex-row sm:flex-col flex-row gap-1 md:order-last lg:order-none order-last sm:order-none">
+    <div className="flex flex-col gap-4 w-full">
+      <div className="relative w-full aspect-square md:aspect-[4/3] overflow-hidden rounded-xl bg-gray-50 border border-gray-100">
+        <Image
+          src={images[currentImage]?.url}
+          alt="Product Image"
+          fill
+          className="object-contain p-2"
+          priority
+        />
+      </div>
+      <div className="grid grid-cols-5 gap-2">
         {images?.map((item, index) => (
-          <div
-            onClick={() => setCurrentImage(index)}
+          <button
             key={index}
+            onClick={() => setCurrentImage(index)}
             className={cn(
-              "cursor-pointer rounded-md overflow-hidden border-[2.5px] border-transparent ",
-              currentImage === index && "border-primary "
+              "relative aspect-square overflow-hidden rounded-lg border bg-gray-50 transition-all",
+              currentImage === index
+                ? "border-black ring-1 ring-black"
+                : "border-gray-200 hover:border-gray-400"
             )}
           >
             <Image
               src={item?.url}
-              alt="product"
-              className=" object-contain aspect-[4/3] "
-              width={100}
-              height={100}
+              alt={`Thumbnail ${index + 1}`}
+              fill
+              className="object-contain p-1"
             />
-          </div>
+          </button>
         ))}
       </div>
-      <div className="w-full">
-        <Image
-          src={images[currentImage]?.url}
-          alt="product"
-          className="object-contain object-center md:aspect-[12/8] aspect-[15/8] w-full rounded-md"
-          width={500}
-          height={500}
-        />
-      </div>
-    </section>
+    </div>
   );
 };
 

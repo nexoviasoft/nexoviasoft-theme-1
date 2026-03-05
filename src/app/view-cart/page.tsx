@@ -1,192 +1,133 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
-import toast from "react-hot-toast";
-import { FiEye, FiEyeOff, FiLock, FiMail, FiUser } from "react-icons/fi";
-import styled from "styled-components";
-import { useAuth } from "../../context/AuthContext";
+import { useCart } from "@/context/CartContext";
+import CartProduct from "@/app/checkout/_components/CartProduct";
+import { FiShoppingBag, FiArrowRight } from "react-icons/fi";
+import ScrollAnimation from "@/components/shared/ScrollAnimation";
+import { Suspense } from "react";
+import formatteeNumber from "@/utils/formatteNumber";
 
-const Input = styled.input`
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 100%;
-  background-color: transparent;
-  outline: none;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-  &:focus {
-    border-color: #000000;
-    box-shadow: 0 0 0 3px rgba(211, 26, 122, 0.1);
+function ViewCartContent() {
+  const { cart, loading } = useCart();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50/50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm font-medium text-gray-500">লোড হচ্ছে...</p>
+        </div>
+      </div>
+    );
   }
-`;
-export default function RegisterPage() {
-  const [full_name, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
-  const pathname = usePathname();
-  const { register } = useAuth();
-  const canSubmit = useMemo(() => {
-    const validEmail = /\S+@\S+\.\S+/.test(email);
-    const strongPass = password.length >= 6;
-    return !!full_name.trim() && validEmail && strongPass && !loading;
-  }, [full_name, email, password, loading]);
-  const passScore = useMemo(() => {
-    let s = 0;
-    if (password.length >= 6) s++;
-    if (/[A-Z]/.test(password)) s++;
-    if (/\d/.test(password)) s++;
-    if (/[^A-Za-z0-9]/.test(password)) s++;
-    return s;
-  }, [password]);
-  const scoreLabel =
-    ["দুর্বল", "সহনীয়", "ভাল", "মজবুত", "খুব মজবুত"][passScore] || "দুর্বল";
 
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  const items = cart?.items || [];
+  const subtotal = cart?.totalPrice || 0;
 
-    if (!full_name.trim() || !email.trim() || !password.trim()) {
-      setError("নাম, ইমেইল এবং পাসওয়ার্ড প্রয়োজন");
-      setLoading(false);
-      return;
-    }
-
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setError("অনুগ্রহ করে সঠিক ইমেইল লিখুন");
-      setLoading(false);
-      return;
-    }
-
-    if (password.length < 6) {
-      setError("পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে");
-      setLoading(false);
-      return;
-    }
-
-    const res = await register({
-      name: full_name,
-      email,
-      password,
-    });
-
-    if (res.success) {
-      toast.success("রেজিস্ট্রেশন সফল হয়েছে। লগইন করুন।");
-      const callbackUrl = "/my-account/dashboard";
-      router.push(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
-    } else {
-      setError(res.error || "রেজিস্ট্রেশন ব্যর্থ হয়েছে");
-    }
-    setLoading(false);
-  };
-  return (
-    <div className="min-h-screen relative bg-gradient-to-br from-white to-primary/5">
-      <div className="max-w-7xl mx-auto px-5  min-h-screen flex items-center justify-center">
-        <div className="mx-auto w-full sm:w-[560px] md:w-[640px] my-10  rounded-2xl bg-white shadow-xl border border-gray-100 overflow-hidden">
-          <div className="px-6 pt-6 text-center">
-            <div className="inline-block mb-3">
-              <span className="text-xs font-bold tracking-widest text-white px-4 py-2 rounded-full bg-primary">
-                নতুন অ্যাকাউন্ট
-              </span>
+  if (items.length === 0) {
+    return (
+      <div className="min-h-[70vh] bg-gray-50/50 flex items-center justify-center px-4">
+        <ScrollAnimation>
+          <div className="text-center space-y-6 max-w-md">
+            <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm border border-gray-100">
+              <FiShoppingBag className="w-10 h-10 text-gray-300" />
             </div>
-            <h2 className="text-3xl font-black text-primary">রেজিস্টার</h2>
+            <div className="space-y-2">
+              <h1 className="text-2xl font-bold text-gray-900">আপনার কার্ট খালি</h1>
+              <p className="text-gray-500">
+                আপনার কার্টে এখনো কোনো পণ্য যোগ করা হয়নি। কেনাকাটা শুরু করতে নিচে ক্লিক করুন।
+              </p>
+            </div>
+            <Link
+              href="/products"
+              className="inline-flex items-center justify-center px-8 py-3 bg-black text-white text-sm font-bold rounded-xl hover:bg-gray-900 transition-all shadow-lg shadow-black/10 hover:shadow-xl hover:-translate-y-0.5"
+            >
+              কেনাকাটা করুন
+            </Link>
           </div>
-          <div className="p-8 border-t border-gray-100">
-            <p className="text-sm text-gray-600 text-center mb-4">
-              দ্রুত ডেলিভারি, নিরাপদ পেমেন্ট, সন্তুষ্টি গ্যারান্টি
-            </p>
-            {error && (
-              <div className="mb-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded px-3 py-2">
-                {error}
-              </div>
-            )}
-            <form onSubmit={handleRegister} className="flex flex-col gap-6">
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                  <FiUser />
-                </span>
-                <Input
-                  type="text"
-                  placeholder="পূর্ণ নাম"
-                  onChange={(e) => setFullName(e.target.value)}
-                  style={{ paddingLeft: "34px" }}
-                />
-              </div>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                  <FiMail />
-                </span>
-                <Input
-                  type="email"
-                  placeholder="ইমেইল"
-                  onChange={(e) => setEmail(e.target.value)}
-                  style={{ paddingLeft: "34px" }}
-                />
-              </div>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                  <FiLock />
-                </span>
-                <Input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="পাসওয়ার্ড"
-                  onChange={(e) => setPassword(e.target.value)}
-                  style={{ paddingLeft: "34px", paddingRight: "40px" }}
-                />
-                <button
-                  type="button"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-                  onClick={() => setShowPassword((s) => !s)}
-                  aria-label="Toggle password visibility"
-                >
-                  {showPassword ? <FiEyeOff /> : <FiEye />}
-                </button>
-                <div className="mt-2">
-                  <div className="h-2 bg-gray-200 rounded">
-                    <div
-                      className="h-2 rounded bg-primary transition-all"
-                      style={{ width: `${(passScore / 4) * 100}%` }}
-                    />
-                  </div>
-                  <p className="text-xs text-gray-600 mt-1">
-                    পাসওয়ার্ড শক্তি: {scoreLabel}
-                  </p>
+        </ScrollAnimation>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50/50 py-8 px-3 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <ScrollAnimation>
+          <h1 className="text-2xl font-bold text-gray-900 mb-6">শপিং কার্ট ({items.length})</h1>
+        </ScrollAnimation>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Cart Items List */}
+          <div className="lg:col-span-2 space-y-3">
+            <ScrollAnimation delay={0.1}>
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <div className="divide-y divide-gray-100">
+                  {items.map((item) => (
+                    <div key={item.id} className="p-3 sm:p-4 hover:bg-gray-50/50 transition-colors">
+                      <CartProduct item={item} />
+                    </div>
+                  ))}
                 </div>
               </div>
-              <button
-                className="bg-primary p-2.5 rounded text-white w-full hover:bg-primary/90 disabled:opacity-50 font-semibold"
-                type="submit"
-                disabled={!canSubmit}
-              >
-                {loading ? "রেজিস্টার হচ্ছে..." : "রেজিস্টার"}
-              </button>
-            </form>
-            <div className="flex items-center gap-3 my-4">
-              <div className="flex-1 h-px bg-gray-200" />
-              <span className="text-xs text-gray-500">অথবা</span>
-              <div className="flex-1 h-px bg-gray-200" />
-            </div>
-           
-            <div className="flex items-center justify-center gap-2 mt-4">
-              <p>ইতিমধ্যেই অ্যাকাউন্ট আছে?</p>
-              <Link
-                href={`/login?callbackUrl=${encodeURIComponent(pathname || "/")}`}
-                className="text-primary font-semibold"
-              >
-                লগইন করুন
-              </Link>
-            </div>
+            </ScrollAnimation>
+          </div>
+
+          {/* Order Summary */}
+          <div className="lg:col-span-1">
+            <ScrollAnimation delay={0.2}>
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 sticky top-24">
+                <h2 className="text-lg font-bold text-gray-900 mb-4">অর্ডার সামারি</h2>
+                
+                <div className="space-y-3 mb-5">
+                  <div className="flex justify-between items-center text-gray-600 text-sm">
+                    <span>সাবটোটাল</span>
+                    <span className="font-bold text-gray-900">{formatteeNumber(subtotal)} ৳</span>
+                  </div>
+                  <div className="flex justify-between items-center text-gray-600 text-sm">
+                    <span>ডেলিভারি চার্জ</span>
+                    <span className="text-xs text-gray-500">(চেকআউটে যুক্ত হবে)</span>
+                  </div>
+                  <div className="pt-3 border-t border-gray-100 flex justify-between items-center">
+                    <span className="text-base font-bold text-gray-900">সর্বমোট</span>
+                    <span className="text-lg font-black text-gray-900">{formatteeNumber(subtotal)} ৳</span>
+                  </div>
+                </div>
+
+                <Link
+                  href="/checkout"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-black text-white text-sm font-bold rounded-lg hover:bg-gray-900 transition-all shadow-md shadow-black/10 hover:shadow-lg hover:-translate-y-0.5"
+                >
+                  চেকআউট করুন
+                  <FiArrowRight className="w-4 h-4" />
+                </Link>
+                
+                <p className="text-[10px] text-center text-gray-400 mt-3">
+                  ট্যাক্স এবং শিপিং খরচ চেকআউট পেজে গণনা করা হবে
+                </p>
+              </div>
+            </ScrollAnimation>
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ViewCartPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gray-50/50 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin" />
+            <p className="text-sm font-medium text-gray-500">লোড হচ্ছে...</p>
+          </div>
+        </div>
+      }
+    >
+      <ViewCartContent />
+    </Suspense>
   );
 }

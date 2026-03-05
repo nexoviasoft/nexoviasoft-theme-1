@@ -90,22 +90,22 @@ const CartProduct = ({ item }: { item: ItemProps }) => {
     }
   };
   return (
-    <div className=" flex justify-between gap-4">
-      <div className="flex gap-3">
+    <div className=" flex justify-between gap-3">
+      <div className="flex gap-2.5">
         <Badge count={quantity} size="small">
-          <div className="rounded overflow-hidden ">
+          <div className="rounded overflow-hidden border border-gray-100">
             <Image
               src={imageUrl}
               alt={imageAlt}
-              width={100}
-              height={100}
-              className=" aspect-[6/5]"
+              width={70}
+              height={70}
+              className=" aspect-[6/5] object-cover"
             />
           </div>
         </Badge>
-        <div className=" flex flex-col justify-between ">
-          <p className=" text-sm line-clamp-1">{item.product.name}</p>
-          <div>
+        <div className=" flex flex-col justify-between py-0.5">
+          <p className=" text-sm font-medium text-gray-800 line-clamp-2 leading-tight max-w-[140px] sm:max-w-xs">{item.product.name}</p>
+          <div className="scale-90 origin-left">
             <Quantity
               quantity={quantity}
               handleDecrement={handleDecrement}
@@ -115,13 +115,13 @@ const CartProduct = ({ item }: { item: ItemProps }) => {
           </div>
         </div>
       </div>
-      <div className=" flex flex-col justify-between items-end ">
-        <p className=" text-sm">{formatteeNumber(item.unitPrice * quantity)}৳</p>
+      <div className=" flex flex-col justify-between items-end py-0.5">
+        <p className=" text-sm font-bold text-gray-900">{formatteeNumber(item.unitPrice * quantity)}৳</p>
         <button
           onClick={handleDelete}
-          className=" hover:text-primary transition-all"
+          className=" text-gray-400 hover:text-red-500 transition-all p-1"
         >
-          <FaXmark />
+          <FaXmark size={14} />
         </button>
       </div>
     </div>
