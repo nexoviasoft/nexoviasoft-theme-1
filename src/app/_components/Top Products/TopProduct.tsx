@@ -23,7 +23,7 @@ const TopProduct = async () => {
   return (
     <section className="  max-w-7xl mx-auto px-5 md:pt-10 pt-5 overflow-hidden">
       <div className=" grid gap-3 md:grid-cols-4 grid-cols-2 w-full ">
-        <div className="rounded-md overflow-hidden">
+        <div className=" overflow-hidden">
           <Image
             src={left}
             alt="img"
@@ -33,10 +33,10 @@ const TopProduct = async () => {
           />
         </div>
         {/* slider  */}
-        <div className=" col-span-2  md:order-none order-first rounded-md overflow-hidden h-full">
+        <div className=" col-span-2  md:order-none order-first  overflow-hidden h-full">
           <TopProductCarousel items={items} />
         </div>
-        <div className="  rounded-md overflow-hidden">
+        <div className=" overflow-hidden">
           <Image
             src={right}
             alt="img"

@@ -4,7 +4,7 @@ const theme: ThemeConfig = {
   token: {
     colorPrimary: "#000000",
     borderRadius: 3,
-    fontFamily: "var(--font-hindSiliguri)",
+    fontFamily: "var(--font-baiJamjuree), var(--font-hindSiliguri)",
   },
   components: {
     Collapse: {

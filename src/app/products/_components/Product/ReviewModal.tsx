@@ -17,6 +17,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ productId, companyId, onSubmi
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { userSession } = useAuth();
   const [rating, setRating] = useState(0);
+  const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -42,7 +43,12 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ productId, companyId, onSubmi
     try {
       setSubmitting(true);
       const created = await createReview(
-        { productId, rating, comment: review },
+        {
+          productId,
+          rating,
+          title: title,
+          comment: review,
+        },
         userSession.accessToken,
         companyId || userSession.companyId || API_CONFIG.companyId
       );
@@ -50,6 +56,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ productId, companyId, onSubmi
       toast.success("রিভিউ সফলভাবে সাবমিট হয়েছে!");
       setIsModalOpen(false);
       setRating(0);
+      setTitle("");
       setReview("");
     } catch (error) {
       console.error("Failed to submit review", error);
@@ -91,6 +98,17 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ productId, companyId, onSubmi
               allowHalf={false}
               value={rating}
               onChange={setRating}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <h2 className="font-bold">রিভিউের শিরোনাম</h2>
+            <input
+              className="border-[1.5px] outline-none border-gray-400 rounded w-full p-2"
+              name="title"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="এখানে আপনার রিভিউ শিরোনাম লিখুন..."
             />
           </div>
           <div>

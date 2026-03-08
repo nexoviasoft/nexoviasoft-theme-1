@@ -17,7 +17,7 @@ button[type="submit"],
   background-color: #000000;
   color: #ffffff;
   padding: 12px 16px;
-  border-radius: 8px;
+  border-radius: 0;
   text-align: center;
   font-weight: 500;
   transition: 300ms;
@@ -39,7 +39,7 @@ button[type="submit"]:hover,
   background-color: #333333;
   color: #ffffff;
   padding: 12px 16px;
-  border-radius: 8px;
+  border-radius: 0;
   text-align: center;
   font-weight: 500;
   transition: 300ms;
@@ -53,6 +53,14 @@ button[type="submit"]:hover,
 .btn-cancel:hover,
 .cancel-btn:hover {
   background-color: #000000;
+}
+
+/* MAKE ALL BUTTONS SQUARE */
+button,
+button[type="button"],
+[role="button"],
+.ant-btn {
+  border-radius: 0 !important;
 }
 
 /* GLOBAL SCROLLBAR STYLES */

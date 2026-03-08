@@ -93,7 +93,7 @@ const CartProduct = ({ item }: { item: ItemProps }) => {
     <div className=" flex justify-between gap-3">
       <div className="flex gap-2.5">
         <Badge count={quantity} size="small">
-          <div className="rounded overflow-hidden border border-gray-100">
+          <div className=" overflow-hidden border border-gray-100">
             <Image
               src={imageUrl}
               alt={imageAlt}

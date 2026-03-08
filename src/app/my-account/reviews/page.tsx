@@ -107,6 +107,7 @@ export default function Reviews() {
           rating: formData.rating,
           title: formData.title || undefined,
           comment: formData.comment,
+          userName: userSession?.name || userSession?.user?.name || "Customer",
         },
         {
           headers: getApiHeaders(userSession?.accessToken),

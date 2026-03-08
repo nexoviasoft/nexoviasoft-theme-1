@@ -180,10 +180,10 @@ const ProductCard = ({ product }: { product: ProductProps }) => {
   return (
     <Link
       href={getProductSlug() ? `/products/${getProductSlug()}` : "#"}
-      className="group/product relative flex h-full flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
+      className="group/product relative flex h-full flex-col overflow-hidden border border-gray-100 bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
     >
       {/* Image */}
-      <div className="relative overflow-hidden rounded-t-2xl bg-gray-50">
+      <div className="relative overflow-hidden bg-gray-50">
         {imgSrc ? (
           <Image
             src={imgSrc}

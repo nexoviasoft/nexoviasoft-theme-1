@@ -11,6 +11,7 @@ module.exports = {
     extend: {
       fontFamily: {
         hindSiliguri: ["var(--font-hindSiliguri)"],
+        baiJamjuree: ["var(--font-baiJamjuree)", "var(--font-hindSiliguri)"],
       },
       colors: {
         // Black and white theme

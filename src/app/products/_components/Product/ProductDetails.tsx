@@ -344,7 +344,7 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
           />
         </div>
         <Link
-          className="flex-1 flex items-center justify-center gap-1 px-4 py-2 sm:text-base text-sm hover:bg-black bg-primary text-white rounded-3xl transition-all ease-linear duration-200"
+          className="flex-1 flex items-center justify-center gap-1 px-4 py-2 sm:text-base text-sm hover:bg-black bg-primary text-white transition-all ease-linear duration-200"
           href={`/checkout?productId=${encodeURIComponent(
             String(product?.documentId || product?.id),
           )}&companyId=${encodeURIComponent(

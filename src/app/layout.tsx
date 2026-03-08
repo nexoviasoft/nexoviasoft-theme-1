@@ -5,7 +5,7 @@ import FlashSaleBanner from "@/components/FlashSaleBanner";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
 import { theme } from "@/theme/antd";
-import { hindSiliguriFonts } from "@/app/fonts";
+import { hindSiliguriFonts, baiJamjuree } from "@/app/fonts";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { ConfigProvider } from "antd";
 import type { Metadata } from "next";
@@ -54,9 +54,7 @@ export default function RootLayout({
             href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
           />
         </head>
-        <body
-          className={`${hindSiliguriFonts.variable} font-hindSiliguri antialiased bg-white text-black`}
-        >
+        <body className={`${hindSiliguriFonts.variable} ${baiJamjuree.variable} font-baiJamjuree antialiased bg-white text-black`}>
           <AuthProvider>
             <Toaster />
             <CartProvider>

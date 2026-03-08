@@ -1,4 +1,5 @@
 import localFont from "next/font/local";
+import { Bai_Jamjuree } from "next/font/google";
 
 // Font paths relative to this file (src/app/) so next/font resolves them reliably
 export const hindSiliguriFonts = localFont({
@@ -30,4 +31,11 @@ export const hindSiliguriFonts = localFont({
     },
   ],
   variable: "--font-hindSiliguri",
+});
+
+export const baiJamjuree = Bai_Jamjuree({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-baiJamjuree",
 });

@@ -47,7 +47,7 @@ const CouponCode = ({
                 key={promo.id}
                 type="button"
                 onClick={() => onSelectPromo?.(promo.code)}
-                className={`text-xs px-3 py-1 rounded-full border transition-colors ${
+                className={`text-xs px-3 py-1  border transition-colors ${
                   isActive
                     ? "bg-primary text-white border-primary"
                     : "bg-gray-100 text-gray-700 border-gray-300 hover:bg-primary/10"
@@ -71,7 +71,7 @@ const CouponCode = ({
             type="button"
             onClick={() => onSelectPromo?.(fallbackCode)}
             disabled={loading}
-            className="text-xs px-3 py-1 rounded-full border transition-colors bg-gray-100 text-gray-700 border-gray-300 hover:bg-primary/10 disabled:opacity-70"
+            className="text-xs px-3 py-1  border transition-colors bg-gray-100 text-gray-700 border-gray-300 hover:bg-primary/10 disabled:opacity-70"
           >
             <span className="font-semibold">{fallbackCode}</span>
             <span className="ml-1 text-[11px] text-gray-600">

@@ -14,6 +14,8 @@ const formatDate = (value?: string) => {
 };
 
 const ReviewsCarousel = ({ reviews }: { reviews: Review[] }) => {
+
+  console.log("reviews", reviews);
   return (
     <div className="py-3">
       <EmblaCarousel arrowButtons autoplay>
@@ -25,7 +27,7 @@ const ReviewsCarousel = ({ reviews }: { reviews: Review[] }) => {
             <div className="rounded-xl border border-black/20 bg-white p-4 shadow">
               <div className="mb-2">
                 <h3 className="text-md font-semibold text-gray-900">
-                  {review.userName || "Customer"}
+                  {review?.userName|| "Customer"}
                 </h3>
                 <p className="text-xs text-gray-500">
                   {formatDate(review.createdAt)}

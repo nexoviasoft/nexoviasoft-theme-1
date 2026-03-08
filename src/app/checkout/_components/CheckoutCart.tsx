@@ -45,7 +45,7 @@ const CheckoutCart = ({
   applyPromoFromButton,
 }: CheckoutCartProps) => {
   return (
-    <section className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm flex flex-col gap-4 sticky top-4">
+    <section className=" border border-gray-100 bg-white p-4 shadow-sm flex flex-col gap-4 sticky top-4">
       <h1 className="text-base font-bold text-gray-900 border-b border-gray-100 pb-2">
         আপনার কার্ট
       </h1>
@@ -98,7 +98,7 @@ const CheckoutCart = ({
         </div>
       </div>
 
-      <p className="text-xs text-center text-gray-400 mt-2 bg-gray-50 py-2 rounded-lg border border-gray-100">
+      <p className="text-xs text-center text-gray-400 mt-2 bg-gray-50 py-2  border border-gray-100">
         যেকোনো সমস্যায় নির্দ্বিধায় যোগাযোগ করুন- <span className="text-gray-600 font-medium">{contactPhone?.trim() || "01774617452"}</span>
       </p>
     </section>
