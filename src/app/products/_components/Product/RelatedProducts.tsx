@@ -25,6 +25,8 @@ interface ProductProps {
   variant: VariantProps[];
   description?: string;
   shortDescription?: string;
+  price?: number;
+  discountPrice?: number;
 }
 
 // Helper function to map REST API product to component format
@@ -55,6 +57,8 @@ function mapProductToCardFormat(apiProduct: Product): ProductProps {
     variant,
     description: apiProduct.description,
     shortDescription: apiProduct.description,
+    price: Number(apiProduct.price),
+    discountPrice: apiProduct.discountPrice ? Number(apiProduct.discountPrice) : 0,
   };
 }
 

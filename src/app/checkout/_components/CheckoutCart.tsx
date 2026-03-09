@@ -45,7 +45,7 @@ const CheckoutCart = ({
   applyPromoFromButton,
 }: CheckoutCartProps) => {
   return (
-    <section className=" border border-gray-100 bg-white p-4 shadow-sm flex flex-col gap-4 sticky top-4">
+    <section className=" border border-gray-100 bg-white p-4 shadow-sm flex flex-col gap-4 sticky top-4 rounded-lg">
       <h1 className="text-base font-bold text-gray-900 border-b border-gray-100 pb-2">
         আপনার কার্ট
       </h1>
@@ -67,7 +67,7 @@ const CheckoutCart = ({
           {items.map((item) => (
             <div
               key={item.id}
-              className="flex justify-between text-xs text-gray-600"
+              className="flex justify-between text-xs text-black font-medium"
             >
               <span className="line-clamp-1 max-w-[70%]">
                 {item.product.name} <span className="text-gray-400">× {item.quantity}</span>
@@ -77,17 +77,17 @@ const CheckoutCart = ({
           ))}
         </div>
         <div className="flex flex-col gap-2 py-3 border-t border-gray-100 border-dashed">
-          <div className="flex justify-between items-center text-sm text-gray-600">
+          <div className="flex justify-between items-center text-sm text-black font-medium">
             <p>Subtotal</p>
             <p className="font-medium text-gray-900">{formatteeNumber(subtotal)}৳</p>
           </div>
           {promo && (
-            <div className="flex justify-between items-center text-sm text-green-600">
+            <div className="flex justify-between items-center text-sm text-green-600 font-medium">
               <p>Promo ({promo.code})</p>
               <p>-{formatteeNumber(discount)}৳</p>
             </div>
           )}
-          <div className="flex justify-between items-center text-sm text-gray-600">
+          <div className="flex justify-between items-center text-sm text-black font-medium">
             <p>Shipping</p>
             <p className="font-medium text-gray-900">{formatteeNumber(shipping)}৳</p>
           </div>
@@ -98,7 +98,7 @@ const CheckoutCart = ({
         </div>
       </div>
 
-      <p className="text-xs text-center text-gray-400 mt-2 bg-gray-50 py-2  border border-gray-100">
+      <p className="text-xs text-center text-gray-400 mt-2 bg-gray-50 py-2  border border-gray-100 rounded-lg">
         যেকোনো সমস্যায় নির্দ্বিধায় যোগাযোগ করুন- <span className="text-gray-600 font-medium">{contactPhone?.trim() || "01774617452"}</span>
       </p>
     </section>

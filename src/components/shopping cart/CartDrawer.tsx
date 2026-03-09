@@ -64,7 +64,7 @@ const CartDrawer: React.FC = () => {
                 items.length > 0 ? router.push("/checkout") : toast("Your cart is empty!")
               }
               className={cn(
-                "flex-1 bg-primary text-white border-primary border text-center py-2 rounded-3xl cursor-pointer hover:text-black hover:bg-transparent transition-all duration-200 ease-linear"
+                "flex-1 bg-primary text-white border-primary border text-center py-2 !rounded-3xl cursor-pointer hover:text-black hover:bg-transparent transition-all duration-200 ease-linear"
               )}
             >
               Checkout

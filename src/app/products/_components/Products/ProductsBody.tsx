@@ -7,6 +7,23 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../../../../context/AuthContext";
 import { API_CONFIG } from "../../../../lib/api-config";
+import { motion } from "framer-motion";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeInOut" } },
+};
 
 interface ImageProps {
   name: string;
@@ -34,6 +51,8 @@ interface ProductProps {
   createdAt?: string | Date;
   description?: string;
   shortDescription?: string;
+  price?: number;
+  discountPrice?: number;
 }
 
 // Helper function to map REST API product to component format
@@ -78,6 +97,8 @@ function mapProductToCardFormat(apiProduct: Product): ProductProps {
     createdAt: apiProduct.createdAt,
     description: apiProduct.description,
     shortDescription: apiProduct.description,
+    price: Number(apiProduct.price),
+    discountPrice: apiProduct.discountPrice ? Number(apiProduct.discountPrice) : 0,
   };
 }
 
@@ -271,17 +292,23 @@ const ProductsBody = () => {
 
   return (
     <section className="w-full flex flex-col gap-8">
-      <div className="grid w-full grid-cols-[repeat(auto-fit,_minmax(160px,_1fr))] sm:grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-4 sm:gap-5 lg:gap-6">
-        {products.map((product, index) => (
-          <div
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        className="grid w-full grid-cols-[repeat(auto-fit,_minmax(160px,_1fr))] sm:grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-4 sm:gap-5 lg:gap-6"
+      >
+        {products.map((product) => (
+          <motion.div
             key={product.SKU || product.documentId}
-            className="h-full animate__animated animate__fadeInUp"
-            style={{ animationDelay: `${index * 0.05}s` }}
+            variants={itemVariants}
+            className="h-full"
           >
             <ProductCard product={product} />
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       <div className="w-full flex justify-center">
         <PaginationProducts total={products.length} />

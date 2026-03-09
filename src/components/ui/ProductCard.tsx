@@ -140,11 +140,17 @@ const ProductCard = ({ product }: { product: ProductProps }) => {
       product?.price || product?.variant?.[0]?.price || 0,
     );
 
-    // If discountPrice exists and is valid, use it; otherwise use original price
+    // If discountPrice exists and is valid, use it
+    if (discountedPrice > 0 && discountedPrice < originalPrice) {
+      return discountedPrice;
+    }
 
-    return discountedPrice > 0 && discountedPrice < originalPrice
-      ? discountedPrice
-      : originalPrice;
+    // If off percentage exists but no discountPrice, calculate it
+    if (product?.off && product.off > 0 && originalPrice > 0) {
+      return Math.round(originalPrice - (originalPrice * product.off) / 100);
+    }
+
+    return originalPrice;
   };
 
   // Get the original price for strikethrough
@@ -156,9 +162,13 @@ const ProductCard = ({ product }: { product: ProductProps }) => {
 
     const discountedPrice = Number(product?.discountPrice || 0);
 
-    // Only show strikethrough if there's a valid discount
-
+    // Show strikethrough if there's a valid discountPrice
     if (discountedPrice > 0 && discountedPrice < originalPrice) {
+      return originalPrice;
+    }
+
+    // Show strikethrough if there's an off percentage
+    if (product?.off && product.off > 0 && originalPrice > 0) {
       return originalPrice;
     }
 

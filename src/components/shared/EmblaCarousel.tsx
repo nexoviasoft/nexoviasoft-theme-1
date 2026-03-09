@@ -12,12 +12,16 @@ import {
 } from "./EmblaCarouselArrowButtons";
 import { DotButton, useDotButton } from "./EmblaCarouselDotButtons";
 
+import { motion } from "framer-motion";
+import { containerVariants } from "../../lib/animations";
+
 type PropType = {
   children?: React.ReactNode;
   autoplay?: boolean;
   dragFree?: boolean;
   arrowButtons?: boolean;
   dotButtons?: boolean;
+  animate?: boolean;
 };
 
 const EmblaCarousel: React.FC<PropType> = ({
@@ -26,6 +30,7 @@ const EmblaCarousel: React.FC<PropType> = ({
   dragFree = false,
   arrowButtons = false,
   dotButtons = false,
+  animate = true, // Default to true to enable consistent animation
 }) => {
   const plugins = autoplay ? [Autoplay()] : [];
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -57,16 +62,20 @@ const EmblaCarousel: React.FC<PropType> = ({
   return (
     <section className="w-full m-auto relative group">
       <div className="overflow-hidden" ref={emblaRef}>
-        <div
+        <motion.div
           className="flex gap-4 touch-pan-y touch-pinch-zoom"
           style={{
             WebkitBackfaceVisibility: "hidden",
             backfaceVisibility: "hidden",
             MozBackfaceVisibility: "hidden",
           }}
+          variants={animate ? containerVariants : undefined}
+          initial={animate ? "hidden" : undefined}
+          whileInView={animate ? "visible" : undefined}
+          viewport={animate ? { once: true, margin: "-50px" } : undefined}
         >
           {children}
-        </div>
+        </motion.div>
       </div>
 
       {arrowButtons && (

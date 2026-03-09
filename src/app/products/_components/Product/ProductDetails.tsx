@@ -16,7 +16,10 @@ import { TbCurrencyTaka, TbTruckReturn } from "react-icons/tb";
 import ProductCart from "./ProductCart";
 import Variant from "./Variant";
 import { Review } from "../../../../types/review";
-import { PromoCode, getSystemUserByCompanyId } from "../../../../lib/api-services";
+import {
+  PromoCode,
+  getSystemUserByCompanyId,
+} from "../../../../lib/api-services";
 import { API_CONFIG } from "../../../../lib/api-config";
 
 interface CategoryProps {
@@ -91,10 +94,15 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
     ) {
       return discountedPrice;
     }
+    if (product?.off && product.off > 0 && originalPrice > 0) {
+      return Math.round(originalPrice - (originalPrice * product.off) / 100);
+    }
     return originalPrice;
   };
 
-  const hasDiscount = discountedPrice > 0 && discountedPrice < originalPrice;
+  const hasDiscount =
+    (discountedPrice > 0 && discountedPrice < originalPrice) ||
+    (Number(product?.off || 0) > 0 && originalPrice > 0);
   const applicablePromos = promos ?? [];
 
   const [shareUrl, setShareUrl] = useState<string>("");
@@ -122,7 +130,7 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
           setOwnerPhone(user?.phone ?? null);
         }
       } catch (error) {
-        console.error("Failed to load system user for product details:", error);
+        // console.error("Failed to load system user for product details:", error);
       }
     };
     loadOwner();
@@ -147,6 +155,7 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
       )}`
     : null;
 
+  /*
   // ============================================
   // 📋 CONSOLE LOGS - SECTION WISE DATA
   // ============================================
@@ -228,6 +237,7 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
   console.groupEnd();
 
   console.groupEnd(); // End of Product Details Page Data
+  */
 
   return (
     <section className="flex flex-col gap-4 md:gap-5">

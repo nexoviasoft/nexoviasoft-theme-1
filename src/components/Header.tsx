@@ -160,7 +160,7 @@ const Header = () => {
 
             <div className="md:block hidden">
               {authLoading ? (
-                <div className="h-9 w-20 rounded-full border border-gray-200 bg-gray-50" />
+                <div className="h-9 w-20  rounded-[40px] border border-gray-200 bg-gray-50" />
               ) : isAuthenticated ? (
                 <ProfileDropDown />
               ) : (

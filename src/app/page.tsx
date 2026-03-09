@@ -30,9 +30,7 @@ export default function Home() {
 
         <FlashSale />
 
-        <ScrollAnimation delay={0.5}>
-          <ForYou />
-        </ScrollAnimation>
+        <ForYou />
 
         {/* <FeatureSection /> */}
       </main>
