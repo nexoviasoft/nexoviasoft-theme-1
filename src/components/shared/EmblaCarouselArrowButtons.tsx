@@ -16,7 +16,7 @@ type UsePrevNextButtonsType = {
 
 export const usePrevNextButtons = (
   emblaApi: EmblaCarouselType | undefined,
-  onButtonClick?: (emblaApi: EmblaCarouselType) => void
+  onButtonClick?: (emblaApi: EmblaCarouselType) => void,
 ): UsePrevNextButtonsType => {
   const [prevBtnDisabled, setPrevBtnDisabled] = useState(true);
   const [nextBtnDisabled, setNextBtnDisabled] = useState(true);
@@ -60,7 +60,7 @@ export const PrevButton: React.FC<PropType> = (props) => {
 
   return (
     <button
-      className="disabled:opacity-0 appearance-none bg-primary/80 hover:bg-primary text-white transition-all duration-300 ease-linear touch-manipulation  no-underline cursor-pointer p-0 m-0  w-8 h-8 z-10 rounded-full text-bule-600 hidden group-hover:flex items-center justify-center shadow-xl  "
+      className="disabled:opacity-0 appearance-none btn-circle bg-primary/80 hover:bg-primary text-white transition-all duration-300 ease-linear touch-manipulation no-underline cursor-pointer p-0 m-0 w-8 h-8 z-10 rounded-full overflow-hidden hidden group-hover:flex items-center justify-center shadow-xl focus:outline-none focus-visible:outline-none"
       style={{
         WebkitTapHighlightColor: "rgba(49, 49, 49, 0.5)",
         WebkitAppearance: "none",
@@ -84,7 +84,7 @@ export const NextButton: React.FC<PropType> = (props) => {
 
   return (
     <button
-      className=" disabled:opacity-0 text-white appearance-none bg-primary/90 hover:bg-primary transition-all duration-300 ease-linear touch-manipulation  no-underline cursor-pointer p-0 m-0  w-8 h-8 z-10 rounded-full text-bule-600 hidden group-hover:flex items-center justify-center shadow-xl "
+      className="disabled:opacity-0 text-white  btn-circle appearance-none bg-primary/90 hover:bg-primary transition-all duration-300 ease-linear touch-manipulation no-underline cursor-pointer p-0 m-0 w-8 h-8 z-10 rounded-full overflow-hidden hidden group-hover:flex items-center justify-center shadow-xl focus:outline-none focus-visible:outline-none"
       style={{
         WebkitTapHighlightColor: "rgba(49, 49, 49, 0.5)",
         WebkitAppearance: "none",

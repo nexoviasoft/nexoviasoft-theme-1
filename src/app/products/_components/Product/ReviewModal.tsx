@@ -70,7 +70,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ productId, companyId, onSubmi
     <>
       <button
         onClick={showModal}
-        className="max-w-max border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-300 px-6 py-2 rounded-full text-sm font-semibold tracking-wide mt-2"
+        className="btn-circle max-w-max border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-300 px-6 py-2 text-sm font-semibold tracking-wide mt-2"
       >
         রিভিউ লিখুন
       </button>
@@ -78,6 +78,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ productId, companyId, onSubmi
         title="পণ্যের রিভিউ লিখুন"
         open={isModalOpen}
         onCancel={() => setIsModalOpen(false)}
+        className="rounded-modal"
         footer={[
           <Button
             key="submit"
@@ -85,6 +86,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ productId, companyId, onSubmi
             onClick={handleSubmit}
             disabled={!rating || !review.trim()}
             loading={submitting}
+            className="btn-circle"
           >
             সাবমিট
           </Button>,

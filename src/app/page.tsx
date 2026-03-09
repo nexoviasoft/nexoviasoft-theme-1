@@ -13,34 +13,27 @@ export default function Home() {
   return (
     <Suspense
       fallback={
-        <ThemeLoader fullPage message="হোম পেইজ লোড হচ্ছে, একটু অপেক্ষা করুন..." />
+        <ThemeLoader
+          fullPage
+          message="হোম পেইজ লোড হচ্ছে, একটু অপেক্ষা করুন..."
+        />
       }
     >
-      <main className="space-y-8 overflow-hidden">
-        <ScrollAnimation>
-          <HeroCarousel />
-        </ScrollAnimation>
-        
-        <ScrollAnimation delay={0.1}>
-          <Category />
-        </ScrollAnimation>
-        
-        <ScrollAnimation delay={0.2}>
-          <TrendingProducts />
-        </ScrollAnimation>
-        
-        <ScrollAnimation delay={0.3}>
-          <TopProduct />
-        </ScrollAnimation>
-        
-        <ScrollAnimation delay={0.4}>
-          <FlashSale />
-        </ScrollAnimation>
-        
+      <main className="space-y-8  overflow-hidden">
+        <HeroCarousel />
+
+        <Category />
+
+        <TrendingProducts />
+
+        <TopProduct />
+
+        <FlashSale />
+
         <ScrollAnimation delay={0.5}>
           <ForYou />
         </ScrollAnimation>
-        
+
         {/* <FeatureSection /> */}
       </main>
     </Suspense>

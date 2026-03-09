@@ -33,16 +33,16 @@ const Category = async () => {
                 [flex:0_0_22%]
                 min-[680px]:[flex:0_0_18%]
                 min-[820px]:[flex:0_0_15%]
-                lg:[flex:0_0_13%] min-[1170px]:[flex:0_0_10%]  sm:w-28 w-16 flex flex-col justify-between gap-1 relative cursor-pointer select-none bg-[#F3F3F3] sm:p-2 p-1 group/category "
+                lg:[flex:0_0_13%] min-[1170px]:[flex:0_0_10%] rounded-lg  sm:w-28 w-16 flex flex-col justify-between gap-1 relative cursor-pointer select-none bg-[#F3F3F3] sm:p-2 p-1 group/category "
               >
                 {(category.photo || category.image?.url) && (
-                  <div className="bg-gray-200 overflow-hidden aspect-square relative">
+                  <div className="bg-gray-200 overflow-hidden aspect-square relative rounded-lg">
                     <Image
                       src={category.photo || category.image!.url}
                       alt={category.image?.alt || category.name}
                       fill
                       sizes="(max-width: 640px) 4rem, 7rem"
-                      className="object-cover transition-all duration-300 ease-linear group-hover/category:scale-[1.05]"
+                      className="object-cover transition-transform duration-300 ease-linear group-hover/category:scale-[1.05]"
                     />
                   </div>
                 )}

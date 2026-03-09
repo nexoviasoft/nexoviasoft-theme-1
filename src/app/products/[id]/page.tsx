@@ -224,12 +224,12 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
             {/* main product section */}
             <div className="grid gap-5 md:gap-6 lg:grid-cols-[minmax(0,1.05fr),minmax(0,1fr)]">
               {/* image gallery */}
-              <div className=" border border-gray-200 bg-white/90 p-3 md:p-4 flex items-center justify-center">
+              <div className="rounded-2xl border border-gray-200 bg-white/90 p-3 md:p-4 flex items-center justify-center overflow-hidden">
                 <ImageGallery images={product?.images} />
               </div>
 
               {/* product details */}
-              <div className=" border border-gray-200 bg-white/90 p-4 md:p-5 lg:p-6">
+              <div className="rounded-2xl border border-gray-200 bg-white/90 p-4 md:p-5 lg:p-6 overflow-hidden">
                 <ProductDetails product={product} promos={promos} />
               </div>
             </div>
@@ -237,7 +237,7 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
             {/* description / additional info / reviews / return policies */}
             <div
               id="return-policy"
-              className=" border border-gray-200 bg-white/90 sm:p-5 p-3 mt-2 overflow-hidden"
+              className="rounded-2xl border border-gray-200 bg-white/90 sm:p-5 p-3 mt-2 overflow-hidden"
             >
               <Tab
                 product={product}

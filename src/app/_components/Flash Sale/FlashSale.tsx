@@ -1,7 +1,6 @@
 import { getFlashSaleProducts, Product } from "../../../lib/api-services";
 import CountDown from "./CountDown";
 import FlashSaleProduct from "./FlashSaleProduct";
-import ScrollAnimation from "../../../components/shared/ScrollAnimation";
 
 const FlashSale = async () => {
   let flashSaleProducts: Product[] = [];
@@ -49,7 +48,6 @@ const FlashSale = async () => {
 
   return (
     <section className=" max-w-7xl mx-auto px-5 md:pt-10 pt-5 ">
-      <ScrollAnimation>
         <div className=" overflow-hidden bg-gradient-to-r from-[#F3F4F6] to-[#E5E7EB] border border-white/50 shadow-lg relative">
           {/* Background pattern or decoration */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/40 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
@@ -78,7 +76,6 @@ const FlashSale = async () => {
             </div>
           </div>
         </div>
-      </ScrollAnimation>
     </section>
   );
 };

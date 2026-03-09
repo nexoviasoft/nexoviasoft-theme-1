@@ -14,10 +14,10 @@ import { DotButton, useDotButton } from "./EmblaCarouselDotButtons";
 
 type PropType = {
   children?: React.ReactNode;
-  autoplay?: boolean; // Autoplay functionality
-  dragFree?: boolean; // Drag-free functionality
-  arrowButtons?: boolean; // Show arrow buttons
-  dotButtons?: boolean; // Show dot buttons
+  autoplay?: boolean;
+  dragFree?: boolean;
+  arrowButtons?: boolean;
+  dotButtons?: boolean;
 };
 
 const EmblaCarousel: React.FC<PropType> = ({
@@ -27,11 +27,10 @@ const EmblaCarousel: React.FC<PropType> = ({
   arrowButtons = false,
   dotButtons = false,
 }) => {
-  // Initialize EmblaCarousel with options
   const plugins = autoplay ? [Autoplay()] : [];
   const [emblaRef, emblaApi] = useEmblaCarousel(
-    { dragFree, slidesToScroll: "auto" }, // Automatically adjust slidesToScroll
-    plugins
+    { dragFree, slidesToScroll: "auto" },
+    plugins,
   );
 
   const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {
@@ -70,7 +69,6 @@ const EmblaCarousel: React.FC<PropType> = ({
         </div>
       </div>
 
-      {/* Render arrow buttons if arrowButtons prop is true */}
       {arrowButtons && (
         <>
           <div className="flex items-center justify-center absolute top-0 bottom-0 sm:-left-4 left-2">
@@ -88,20 +86,24 @@ const EmblaCarousel: React.FC<PropType> = ({
         </>
       )}
 
-      {/* Render dot buttons if dotButtons prop is true */}
+      {/* Modified Dot Section to match the image style */}
       {dotButtons && (
-        <div className=" absolute bottom-4 left-1/2 right-1/2">
-          <div className="flex  justify-center items-center gap-2">
+        <div className="absolute bottom-6 left-0 right-0">
+          <div className="flex justify-center items-center gap-2">
             {scrollSnaps.map((_, index) => (
               <DotButton
                 key={index}
                 onClick={() => onDotButtonClick(index)}
-                className={cn(
-                  "touch-manipulation cursor-pointer rounded-full sm:p-[2.5px] p-0.5 flex items-center justify-center",
-                  index === selectedIndex ? "border-2 border-white" : ""
-                )}
+                className="touch-manipulation cursor-pointer flex items-center justify-center focus:outline-none"
               >
-                <div className="sm:w-[10px] w-2 sm:h-[10px] h-2 bg-white rounded-full"></div>
+                <div
+                  className={cn(
+                    "h-1.5 rounded-full transition-all duration-300",
+                    index === selectedIndex
+                      ? "w-8 bg-white opacity-100" // Active bar: longer and bright
+                      : "w-4 bg-white opacity-40", // Inactive bars: shorter and translucent
+                  )}
+                />
               </DotButton>
             ))}
           </div>

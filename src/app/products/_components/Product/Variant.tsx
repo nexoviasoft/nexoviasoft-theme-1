@@ -54,7 +54,7 @@ const Variant = ({
                 key={variant.id}
                 onClick={() => handleClick(variant.id)}
                 className={cn(
-                  "border-[1.5px] border-gray-300 px-3 py-1 rounded-lg hover:border-primary transition-all ease-linear duration-200",
+                  "btn-rounded border-[1.5px] border-gray-300 px-3 py-1 rounded-lg hover:border-primary transition-all ease-linear duration-200",
                   activeId === variant.id ? "border-primary" : "",
                 )}
               >
