@@ -78,7 +78,7 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
   );
 
 
-  console.log("ProductProps", product);
+ 
 
   const handlePrice = (variantPrice: number = 0) => {
     setPrice(variantPrice);
@@ -158,89 +158,9 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
       )}`
     : null;
 
-  /*
-  // ============================================
-  // 📋 CONSOLE LOGS - SECTION WISE DATA
-  // ============================================
 
-  console.group("🛍️ === PRODUCT DETAILS PAGE DATA ===");
-
-  // Section 1: Basic Product Information
-  console.group("📦 BASIC PRODUCT INFO");
-  console.log("Product ID:", product?.id);
-  console.log("Document ID:", product?.documentId);
-  console.log("Company ID:", product?.companyId);
-  console.log("SKU:", product?.SKU);
-  console.log("Title:", product?.title);
-  console.log("Total Sales:", product?.total_sale);
-  console.groupEnd();
-
-  // Section 2: Categories
-  console.group("🏷️ CATEGORIES");
-  console.log("Categories Count:", product?.categories?.length || 0);
-  console.table(product?.categories);
-  console.groupEnd();
-
-  // Section 3: Pricing Information
-  console.group("💰 PRICING DETAILS");
-  console.log("Base Price:", product?.price);
-  console.log("Discount Price:", product?.discountPrice);
-  console.log("Discount Percentage:", product?.off + "%");
-  console.log("Current Selected Price:", price);
-  console.log("Original Price:", originalPrice);
-  console.log("Final Price:", getFinalPrice());
-  console.log("Has Discount:", hasDiscount);
-  console.groupEnd();
-
-  // Section 4: Variants
-  console.group("📏 PRODUCT VARIANTS");
-  console.log("Variants Count:", product?.variant?.length || 0);
-  console.table(product?.variant);
-  product?.variant?.forEach((variant, index) => {
-    console.log(`Variant ${index + 1}:`, {
-      id: variant.id,
-      size: variant.size,
-      price: variant.price,
-      stock: variant.available_quantity,
-      status: variant.stock_status,
-    });
-  });
-  console.groupEnd();
-
-  // Section 5: Images
-  console.group("🖼️ PRODUCT IMAGES");
-  console.log("Images Count:", product?.images?.length || 0);
-  console.table(product?.images);
-  product?.images?.forEach((image, index) => {
-    console.log(`Image ${index + 1}:`, image.url);
-  });
-  console.groupEnd();
-
-  // Section 6: Reviews & Ratings
-  console.group("⭐ REVIEWS & RATINGS");
-  console.log("Total Reviews:", product?.reviews?.length || 0);
-  console.log("Average Rating:", calculateAverageRating(product?.reviews));
-  console.table(product?.reviews);
-  console.groupEnd();
-
-  // Section 7: Description & Features
-  console.group("📝 DESCRIPTION");
-  console.log("Summary:", product?.description?.summary);
-  console.log("List Items:", product?.description?.list_items);
-  product?.description?.list_items?.forEach((item, index) => {
-    console.group(`Feature ${index + 1}: ${item.title}`);
-    console.table(item.list);
-    console.groupEnd();
-  });
-  console.groupEnd();
-
-  // Section 8: Complete Product Object
-  console.group("🔍 COMPLETE PRODUCT OBJECT");
   console.log("Full Product Data:", product);
-  console.groupEnd();
 
-  console.groupEnd(); // End of Product Details Page Data
-  */
 
   return (
     <section className="flex flex-col gap-4 md:gap-5">
