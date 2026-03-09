@@ -47,6 +47,9 @@ interface VariantProps {
   size: string;
   stock_status: string;
 }
+
+
+
 interface ProductProps {
   id?: number;
   SKU: string;
@@ -147,7 +150,11 @@ function mapProductToComponentFormat(
     variant,
     companyId,
   };
+
+
 }
+
+console.log("ProductProps", );
 
 const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
   // In Next 16 app router, `params` is a Promise and must be awaited

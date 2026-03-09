@@ -77,6 +77,9 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
     Number(product?.price ?? product?.variant[0]?.price ?? 0),
   );
 
+
+  console.log("ProductProps", product);
+
   const handlePrice = (variantPrice: number = 0) => {
     setPrice(variantPrice);
   };
