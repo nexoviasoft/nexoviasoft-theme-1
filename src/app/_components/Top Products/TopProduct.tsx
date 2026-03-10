@@ -12,7 +12,12 @@ const TopProduct = async () => {
   const companyId = API_CONFIG.companyId;
   const section = await getTopProducts(companyId);
   console.log("section", section);
-  if (!section || (!section.leftImage && !section.rightImage && (!section.carouselItems || section.carouselItems.length === 0))) {
+  if (
+    !section ||
+    (!section.leftImage &&
+      !section.rightImage &&
+      (!section.carouselItems || section.carouselItems.length === 0))
+  ) {
     return null;
   }
 
@@ -36,7 +41,7 @@ const TopProduct = async () => {
         <div className=" col-span-2  md:order-none order-first  overflow-hidden h-full">
           <TopProductCarousel items={items} />
         </div>
-        <div className=" overflow-hidden">
+        <div className=" overflow-hidden ">
           <Image
             src={right}
             alt="img"

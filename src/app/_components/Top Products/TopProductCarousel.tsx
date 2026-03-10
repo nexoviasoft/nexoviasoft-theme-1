@@ -23,13 +23,13 @@ const TopProductCarousel = ({
             backgroundImage: `url(${item.image})`,
           }}
         >
-          <div className=" bg-black/30 text-white sm:p-10 p-6 h-full w-full">
-            <h1 className=" lg:text-4xl min-[980px]:text-3xl md:text-2xl min-[550px]:text-3xl text-2xl font-bold">
+          <div className=" bg-black/20 text-white sm:p-10 p-6 h-full w-full">
+            {/* <h1 className=" lg:text-4xl min-[980px]:text-3xl md:text-2xl min-[550px]:text-3xl text-2xl font-bold">
               {item.title}
             </h1>
             <p className="mt-3 min-[980px]:text-base md:text-sm min-[550px]:text-base min-[500px]:text-sm text-xs">
               {item.desc}
-            </p>
+            </p> */}
           </div>
         </div>
       ))}

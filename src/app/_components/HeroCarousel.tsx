@@ -26,13 +26,13 @@ const HeroCarousel: React.FC = async () => {
             key={banner.id}
             className="[flex:0_0_100%] w-full h-full relative"
           >
-            <div className="relative  w-full sm:aspect-[16/5] aspect-[16/7] overflow-hidden">
+            <div className="relative rounded-sm  w-full sm:aspect-[16/5] aspect-[16/7] overflow-hidden">
               <Image
                 src={banner.imageUrl}
                 alt={banner.title || "Banner Image"}
                 width={1280}
                 height={500}
-                className="sm:aspect-[16/5]  aspect-[16/7] "
+                className="sm:aspect-[16/5]   aspect-[16/7] "
               />
               {/* Overlay content */}
               {/* <div className="absolute inset-0 flex flex-col items-start justify-center px-4 sm:px-8 md:px-12 lg:px-16 bg-gradient-to-r from-black/40 to-transparent">
