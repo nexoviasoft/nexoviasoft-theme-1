@@ -48,34 +48,34 @@ const FlashSale = async () => {
 
   return (
     <section className=" max-w-7xl mx-auto px-5 md:pt-10 pt-5 ">
-        <div className=" overflow-hidden bg-gradient-to-r from-[#F3F4F6] to-[#E5E7EB] border border-white/50 shadow-lg relative">
-          {/* Background pattern or decoration */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white/40 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+      <div className=" overflow-hidden bg-gradient-to-r from-[#F3F4F6] to-[#E5E7EB] border border-white/50 shadow-sm rounded-sm relative">
+        {/* Background pattern or decoration */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/40 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
 
-          <div className="relative z-10 sm:p-8 p-5 flex flex-col gap-5">
-            <div className="flex justify-between items-center gap-4 flex-col sm:flex-row border-b border-gray-200/60 pb-4">
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded animate-pulse">
-                    LIVE
-                  </span>
-                  <h2 className="sm:text-3xl text-2xl font-black text-gray-800 tracking-tight">
-                    ফ্ল্যাশ সেল
-                  </h2>
-                </div>
-                <p className="sm:text-sm text-xs text-gray-600 mt-1 font-medium">
-                  {`${maxDiscount}% পর্যন্ত ফ্ল্যাশ সেল ডিল উপভোগ করুন!`}
-                </p>
+        <div className="relative z-10 sm:p-8 p-5 flex flex-col gap-5">
+          <div className="flex justify-between items-center gap-4 flex-col sm:flex-row border-b border-gray-200/60 pb-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded animate-pulse">
+                  LIVE
+                </span>
+                <h2 className="sm:text-3xl text-2xl font-black text-gray-800 tracking-tight">
+                  ফ্ল্যাশ সেল
+                </h2>
               </div>
-              <div>
-                <CountDown initialSecondsLeft={initialSecondsLeft} />
-              </div>
+              <p className="sm:text-sm text-xs text-gray-600 mt-1 font-medium">
+                {`${maxDiscount}% পর্যন্ত ফ্ল্যাশ সেল ডিল উপভোগ করুন!`}
+              </p>
             </div>
             <div>
-              <FlashSaleProduct />
+              <CountDown initialSecondsLeft={initialSecondsLeft} />
             </div>
           </div>
+          <div>
+            <FlashSaleProduct />
+          </div>
         </div>
+      </div>
     </section>
   );
 };
