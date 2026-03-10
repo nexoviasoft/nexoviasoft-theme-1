@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import ProductCard from "../../../components/ui/ProductCard";
+import FlashSaleProductCard from "../../../components/ui/FlashSaleProductCard";
 import client from "../../../lib/apollo-client";
 import { GET_FLASH_SALE_PRODUCTS } from "../../../lib/queries";
 
@@ -47,16 +47,6 @@ const FlashSaleListing = async () => {
 
   const flashSaleProducts = data?.products || [];
 
-  // Calculate average discount
-  const avgDiscount =
-    flashSaleProducts.length > 0
-      ? Math.round(
-          flashSaleProducts.reduce((sum: number, p: ProductProps) => {
-            return sum + p.off;
-          }, 0) / flashSaleProducts.length,
-        )
-      : 0;
-
   return (
     <div className="max-w-7xl mx-auto px-5 py-8">
       {/* Header Section */}
@@ -67,9 +57,7 @@ const FlashSaleListing = async () => {
               <h1 className="text-3xl md:text-4xl font-bold mb-2">
                 ⚡ Flash Sale
               </h1>
-              <p className="text-lg opacity-90">
-                {avgDiscount}% পর্যন্ত ছাড়! সীমিত সময়ের অফার
-              </p>
+              <p className="text-lg opacity-90">সীমিত সময়ের অফার</p>
             </div>
             <div className="mt-4 md:mt-0">
               <div className="bg-white/20 rounded-lg px-4 py-2">
@@ -116,7 +104,7 @@ const FlashSaleListing = async () => {
               key={product.SKU}
               className="flex flex-col justify-between gap-3 cursor-pointer select-none hover:scale-105 transition-transform duration-200"
             >
-              <ProductCard product={product} />
+              <FlashSaleProductCard product={product as any} />
             </div>
           ))}
         </div>

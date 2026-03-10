@@ -72,7 +72,7 @@ interface ProductProps {
   variant?: Variant[]; // Array of price variants
 }
 
-const ProductCard = ({ product }: { product: ProductProps }) => {
+const ProductCard = ({ product, detailHref }: { product: ProductProps; detailHref?: string }) => {
   const { addCartItem } = useCart();
 
   const { userSession } = useAuth();
@@ -230,14 +230,17 @@ const ProductCard = ({ product }: { product: ProductProps }) => {
     event.preventDefault();
 
     const slug = getProductSlug();
+    const href =
+      detailHref ??
+      (slug ? `/products/${slug}` : undefined);
 
-    if (!slug) {
+    if (!href) {
       toast.error("Product ID not available");
 
       return;
     }
 
-    router.push(`/products/${slug}`);
+    router.push(href);
   };
 
   const imgSrc =
@@ -247,9 +250,13 @@ const ProductCard = ({ product }: { product: ProductProps }) => {
   const productDescription =
     product?.shortDescription || product?.description || "";
 
+  const resolvedHref =
+    detailHref ??
+    (getProductSlug() ? `/products/${getProductSlug()}` : "#");
+
   return (
     <Link
-      href={getProductSlug() ? `/products/${getProductSlug()}` : "#"}
+      href={resolvedHref}
       className="group/product rounded-lg relative flex h-full min-h-[280px]  md:min-h-[320px] w-full flex-col overflow-hidden border border-gray-100 bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
     >
       {/* Image */}

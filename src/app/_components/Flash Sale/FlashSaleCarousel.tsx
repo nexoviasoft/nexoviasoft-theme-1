@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { itemVariants } from "../../../lib/animations";
 import EmblaCarousel from "../../../components/shared/EmblaCarousel";
-import ProductCard from "../../../components/ui/ProductCard";
+import FlashSaleProductCard from "../../../components/ui/FlashSaleProductCard";
 import { Product } from "../../../lib/api-services";
 
 interface FlashSaleCarouselProps {
@@ -42,7 +42,7 @@ const FlashSaleCarousel = ({ products }: FlashSaleCarouselProps) => {
             className="[flex:0_0_65%] min-[400px]:[flex:0_0_50%]  min-[500px]:[flex:0_0_45%] sm:[flex:0_0_35%] md:[flex:0_0_30%] min-[880px]:[flex:0_0_27%] lg:[flex:0_0_19%] flex flex-col justify-between gap-3 py-3 cursor-pointer select-none"
             variants={itemVariants}
           >
-            <ProductCard product={mappedProduct} />
+            <FlashSaleProductCard product={mappedProduct} />
           </motion.div>
         );
       })}

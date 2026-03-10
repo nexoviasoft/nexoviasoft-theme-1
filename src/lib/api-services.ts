@@ -16,6 +16,7 @@ export interface Product {
     sku: string;
     price: number;
     discountPrice?: number;
+    stock?: number;
     description?: string;
     images?: { url: string; alt?: string; isPrimary?: boolean }[];
     thumbnail?: string;

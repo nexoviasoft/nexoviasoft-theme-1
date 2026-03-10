@@ -22,7 +22,11 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeInOut" } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6 },
+  },
 };
 
 interface ImageProps {
@@ -69,8 +73,8 @@ function mapProductToCardFormat(apiProduct: Product): ProductProps {
   const variant: VariantProps[] = [{
     price: Number(apiProduct.price),
     size: "Default",
-    available_quantity: 100, // Default value - would need to come from inventory if available
-    stock_status: apiProduct.isActive ? "in_stock" : "out_of_stock",
+    available_quantity: Number(apiProduct.stock ?? 0),
+    stock_status: (apiProduct.stock ?? 0) > 0 ? "in_stock" : "out_of_stock",
   }];
 
   // Map to high-level availability tags used by filters

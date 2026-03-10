@@ -1,5 +1,5 @@
 import {
-  getProductBySlug,
+  getFlashSaleProducts,
   getProductReviews,
   getRefundPolicies,
   getPublicPromocodes,
@@ -8,11 +8,11 @@ import {
 } from "../../../lib/api-services";
 import { API_CONFIG } from "../../../lib/api-config";
 import { Suspense } from "react";
-import BreadCrumb from "../_components/Product/Breadcrumb";
-import ImageGallery from "../_components/Product/ImageGallery";
-import ProductDetails from "../_components/Product/ProductDetails";
-import RelatedProducts from "../_components/Product/RelatedProducts";
-import Tab from "../_components/Product/Tabs";
+import BreadCrumb from "../../products/_components/Product/Breadcrumb";
+import ImageGallery from "../../products/_components/Product/ImageGallery";
+import ProductDetails from "../../products/_components/Product/ProductDetails";
+import RelatedProducts from "../../products/_components/Product/RelatedProducts";
+import Tab from "../../products/_components/Product/Tabs";
 import { notFound } from "next/navigation";
 import { Review } from "../../../types/review";
 import { ReturnPolicy } from "../../../types/return-policy";
@@ -48,8 +48,6 @@ interface VariantProps {
   stock_status: string;
 }
 
-
-
 interface ProductProps {
   id?: number;
   SKU: string;
@@ -67,7 +65,13 @@ interface ProductProps {
   companyId?: string;
 }
 
-// Helper function to map REST API product to component format
+function slugify(input: string): string {
+  return input
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 function mapProductToComponentFormat(
   apiProduct: Product,
   reviews: Review[],
@@ -77,25 +81,33 @@ function mapProductToComponentFormat(
     typeof (apiProduct as any).price === "string"
       ? Number((apiProduct as any).price)
       : Number(apiProduct.price);
+
+  const flashPrice =
+    (apiProduct as any).flashSellPrice != null
+      ? Number((apiProduct as any).flashSellPrice)
+      : undefined;
+
   const numericDiscount =
     (apiProduct as any).discountPrice != null
       ? Number((apiProduct as any).discountPrice)
       : undefined;
-  const effectiveDiscountPrice =
-    numericDiscount != null ? numericDiscount : numericPrice;
 
-  // Calculate discount percentage based on effective discount price
+  const effectiveDiscountPrice =
+    flashPrice != null
+      ? flashPrice
+      : numericDiscount != null
+      ? numericDiscount
+      : numericPrice;
+
   const off =
     effectiveDiscountPrice &&
     numericPrice &&
     effectiveDiscountPrice < numericPrice
       ? Math.round(
-          ((numericPrice - effectiveDiscountPrice) / numericPrice) *
-            100,
+          ((numericPrice - effectiveDiscountPrice) / numericPrice) * 100,
         )
       : 0;
 
-  // Map images
   const images: ImageProps[] =
     apiProduct.images?.map(
       (img: { url: string; alt?: string }, index: number) => ({
@@ -107,7 +119,6 @@ function mapProductToComponentFormat(
       }),
     ) || [];
 
-  // Create a single variant from the product price
   const variant: VariantProps[] = [
     {
       id: apiProduct.id.toString(),
@@ -127,7 +138,6 @@ function mapProductToComponentFormat(
     },
   ];
 
-  // Map category to categories array
   const categories: CategoryProps[] = apiProduct.category
     ? [
         {
@@ -137,7 +147,6 @@ function mapProductToComponentFormat(
       ]
     : [];
 
-  // Map description
   const description: DescriptionProps = {
     id: apiProduct.id.toString(),
     summary: apiProduct.description || "",
@@ -150,49 +159,58 @@ function mapProductToComponentFormat(
     documentId: apiProduct.id.toString(),
     off,
     price: numericPrice,
-    discountPrice: numericDiscount != null
-      ? numericDiscount
-      : undefined,
+    discountPrice:
+      flashPrice != null
+        ? flashPrice
+        : numericDiscount != null
+        ? numericDiscount
+        : undefined,
     title: apiProduct.name,
-    total_sale: 0, // Not available in REST API
+    total_sale: 0,
     categories,
     description,
     images,
     reviews,
     variant,
-    
     companyId,
   };
-
-
 }
 
-console.log("ProductProps");
-
-const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
-  // In Next 16 app router, `params` is a Promise and must be awaited
-  const { id } = await params; // here `id` will be the product slug/SKU
+const FlashSellProductPage = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) => {
+  const { slug } = await params;
 
   let product: ProductProps;
   let returnPolicyContent = "";
   let promos: PromoCode[] = [];
+
   try {
     const companyId = API_CONFIG.companyId;
-    // First fetch product by slug/SKU
-    const apiProduct = await getProductBySlug(id, companyId);
+    const flashProducts = await getFlashSaleProducts(companyId);
 
-    // Then in parallel: reviews (by numeric product ID), refund policies and public promo codes
+    const matched = flashProducts.find(
+      (p) =>
+        p.sku === slug ||
+        String(p.id) === slug ||
+        (p.name ? slugify(p.name) === slug : false),
+    );
+
+    if (!matched) {
+      notFound();
+    }
+
     const [apiReviews, returnPolicies, publicPromos] = await Promise.all([
-      getProductReviews(apiProduct.id, companyId),
+      getProductReviews(matched!.id, companyId),
       getRefundPolicies(companyId),
       getPublicPromocodes(companyId),
     ]);
-    const returnPolicy = (returnPolicies as ReturnPolicy[])[0];
 
-    // Normalize reviews to component format
     const mappedReviews: Review[] = apiReviews.map((review) => ({
       id: review.id,
-      productId: review.productId ?? apiProduct.id,
+      productId: review.productId ?? matched!.id,
       rating: review.rating,
       title: review.title,
       comment: review.comment,
@@ -201,9 +219,8 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
       userName: review.userName ?? "Customer",
     }));
 
-    product = mapProductToComponentFormat(apiProduct, mappedReviews, companyId);
+    product = mapProductToComponentFormat(matched!, mappedReviews, companyId);
 
-    // Filter applicable promo codes for this product
     const now = new Date();
     const activePromos = publicPromos.filter((p) => {
       if (!p.isActive) return false;
@@ -214,14 +231,15 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
 
     promos = activePromos.filter((p) => {
       if (!Array.isArray(p.productIds) || p.productIds.length === 0) {
-        return true; // global promo
+        return true;
       }
-      return p.productIds.includes(apiProduct.id);
+      return p.productIds.includes(matched!.id);
     });
 
+    const returnPolicy = (returnPolicies as ReturnPolicy[])[0];
     returnPolicyContent = returnPolicy?.content || "";
   } catch (error) {
-    console.error("Error fetching product:", error);
+    console.error("Error fetching flash sell product:", error);
     notFound();
   }
 
@@ -236,41 +254,32 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
       <div className="min-h-screen bg-white">
         <section className="max-w-7xl mx-auto px-5 py-8 md:py-10">
           <div className="flex flex-col gap-5">
-            {/* top breadcrumb / header section */}
             <div className="flex flex-col gap-2">
               <BreadCrumb title={product?.title} />
             </div>
 
-            {/* main product section */}
             <div className="grid gap-5 md:gap-6 lg:grid-cols-[minmax(0,1.05fr),minmax(0,1fr)]">
-              {/* image gallery */}
               <div className="rounded-2xl border border-gray-200 bg-white/90 p-3 md:p-4 flex items-center justify-center overflow-hidden">
                 <ImageGallery images={product?.images} />
               </div>
 
-              {/* product details */}
               <div className="rounded-2xl border border-gray-200 bg-white/90 p-4 md:p-5 lg:p-6 overflow-hidden">
                 <ProductDetails product={product} promos={promos} />
               </div>
             </div>
 
-            {/* description / additional info / reviews / return policies */}
             <div
               id="return-policy"
               className="rounded-2xl border border-gray-200 bg-white/90 sm:p-5 p-3 mt-2 overflow-hidden"
             >
-              <Tab
-                product={product}
-                returnPolicyContent={returnPolicyContent}
-              />
+              <Tab product={product} returnPolicyContent={returnPolicyContent} />
             </div>
 
-            {/* related products */}
             <div className="mt-4">
               <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
                 সম্পর্কিত পণ্যসমূহ
               </h2>
-              <RelatedProducts id={id} />
+              <RelatedProducts id={slug} />
             </div>
           </div>
         </section>
@@ -279,4 +288,4 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
   );
 };
 
-export default Product;
+export default FlashSellProductPage;
