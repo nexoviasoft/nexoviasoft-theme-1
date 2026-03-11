@@ -64,6 +64,7 @@ interface ProductProps {
   images: ImageProps[];
   reviews: Review[];
   variant: VariantProps[];
+  sizes?: string[];
   companyId?: string;
 }
 
@@ -127,6 +128,14 @@ function mapProductToComponentFormat(
     },
   ];
 
+  // Extract sizes if present in API product (non-variant sizes)
+  const rawSizes: unknown = (apiProduct as any).sizes;
+  const sizes: string[] = Array.isArray(rawSizes)
+    ? (rawSizes as unknown[])
+        .map((v) => (typeof v === "string" ? v.trim() : String(v)))
+        .filter((s) => !!s)
+    : [];
+
   // Map category to categories array
   const categories: CategoryProps[] = apiProduct.category
     ? [
@@ -160,6 +169,7 @@ function mapProductToComponentFormat(
     images,
     reviews,
     variant,
+    sizes,
     
     companyId,
   };

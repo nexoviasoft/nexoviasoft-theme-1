@@ -2,6 +2,7 @@
 import CouponCode from "./CouponCode";
 import formatteeNumber from "../../../utils/formatteNumber";
 import { PromoCode } from "../../../lib/api-services";
+import CartProduct from "./CartProduct";
 
 interface CheckoutCartProps {
   /** Contact phone from system user (store admin). Shown as "যেকোনো সমস্যায় নির্দ্বিধায় যোগাযোগ করুন- {phone}" */
@@ -13,6 +14,13 @@ interface CheckoutCartProps {
     unitPrice: number;
     totalPrice: number;
   }[];
+  onChangeItemQuantity?: (item: {
+    id: number;
+    quantity: number;
+    unitPrice: number;
+    totalPrice: number;
+    product: { id: number; name: string; thumbnail?: string; images?: { url: string; alt?: string }[] };
+  }, nextQty: number) => void | Promise<void>;
   subtotal: number;
   discount: number;
   total: number;
@@ -43,12 +51,19 @@ const CheckoutCart = ({
   availablePromos,
   availablePromosLoading,
   applyPromoFromButton,
+  onChangeItemQuantity,
 }: CheckoutCartProps) => {
   return (
     <section className=" border border-gray-100 bg-white p-4 shadow-sm flex flex-col gap-4 sticky top-4 rounded-lg">
       <h1 className="text-base font-bold text-gray-900 border-b border-gray-100 pb-2">
         আপনার কার্ট
       </h1>
+      {/* cart items with image & quantity controls */}
+      <div className="flex flex-col gap-3">
+        {items.map((item) => (
+          <CartProduct key={item.id} item={item} onChangeQuantity={onChangeItemQuantity} />
+        ))}
+      </div>
       {/* coupon code  */}
       <CouponCode
         promoCode={promoCode}
@@ -62,20 +77,6 @@ const CheckoutCart = ({
       />
       {/* total */}
       <div className="border-t border-gray-100 pt-3">
-        {/* item summary */}
-        <div className="flex flex-col gap-2 pb-3">
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className="flex justify-between text-xs text-black font-medium"
-            >
-              <span className="line-clamp-1 max-w-[70%]">
-                {item.product.name} <span className="text-gray-400">× {item.quantity}</span>
-              </span>
-              <span className="font-medium text-gray-900">{formatteeNumber(item.unitPrice * item.quantity)}৳</span>
-            </div>
-          ))}
-        </div>
         <div className="flex flex-col gap-2 py-3 border-t border-gray-100 border-dashed">
           <div className="flex justify-between items-center text-sm text-black font-medium">
             <p>Subtotal</p>

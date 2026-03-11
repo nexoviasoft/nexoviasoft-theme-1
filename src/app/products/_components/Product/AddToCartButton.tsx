@@ -1,44 +1,49 @@
 import { useCart } from "../../../../context/CartContext";
-import { useAuth } from "../../../../context/AuthContext";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import type { } from "../../../../context/CartContext";
 
 interface AddToCartButtonProps {
   totalQuantity: number;
   price: number;
   productId: number;
+  product?: {
+    id: number;
+    name: string;
+    thumbnail?: string;
+    images?: { url: string; alt?: string }[];
+    price?: number;
+    discountPrice?: number;
+  };
+  disabled?: boolean;
 }
 
 const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   totalQuantity,
   price,
   productId,
+  product,
+  disabled = false,
 }) => {
   const { addCartItem } = useCart();
-  const { userSession } = useAuth();
   const router = useRouter();
-  const pathname = usePathname();
   const [loading, setLoading] = useState(false);
 
   const handleAdd = async () => {
+    if (disabled) {
+      toast.error("Size এবং Quantity নির্বাচন করুন");
+      return;
+    }
     if (!productId) {
       toast.error("Product not found");
       return;
     }
 
-    if (!userSession?.accessToken) {
-      toast("Please login to add items to cart", { icon: "🔒" });
-      router.push(
-        `/login?callbackUrl=${encodeURIComponent(pathname || "/")}`,
-      );
-      return;
-    }
-
     try {
       setLoading(true);
-      await addCartItem(productId, totalQuantity);
+      await addCartItem(productId, totalQuantity, product, price);
       toast.success("Added to cart");
       router.push("/view-cart");
     } catch (error: unknown) {
@@ -55,7 +60,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   return (
     <button
       onClick={handleAdd}
-      disabled={loading}
+      disabled={loading || disabled}
       className="btn-circle flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 transition-all ease-linear duration-200 px-4 py-1.5 rounded-3xl text-white sm:text-base text-sm disabled:opacity-70"
     >
       <span>{loading ? "Adding..." : "কার্টে যোগ করুন -"}</span>

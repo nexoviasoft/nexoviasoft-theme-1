@@ -460,7 +460,12 @@ export async function getFlashSaleProducts(companyId?: string): Promise<Product[
         );
         return response.data.data;
     } catch (error: unknown) {
-        console.error("Error fetching flash sale products:", error);
+        const axiosErr = error as { response?: { status?: number } };
+        const status = axiosErr?.response?.status;
+        if (status && status >= 500) {
+            return [];
+        }
+        // Non-server errors or unknown: avoid noisy logs, just fallback
         const err = error as {
             code?: string;
             message?: string;
@@ -484,7 +489,6 @@ export async function getFlashSaleProducts(companyId?: string): Promise<Product[
             (err.name === 'AggregateError' && err.errors && Array.isArray(err.errors));
 
         if (isConnectionError) {
-            console.warn("Backend server is not running or not accessible. Please start the backend server.");
             return [];
         }
         // For other errors, still return empty array to prevent app crash

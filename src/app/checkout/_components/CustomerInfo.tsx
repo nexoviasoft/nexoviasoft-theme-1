@@ -1,6 +1,6 @@
 "use client";
 
-import { IoCartOutline, IoChevronDown } from "react-icons/io5";
+import { IoCartOutline } from "react-icons/io5";
 
 interface CustomerInfoProps {
   name: string;
@@ -17,8 +17,6 @@ interface CustomerInfoProps {
   setDeliveryType?: (v: "inside" | "outside") => void;
   paymentMethod?: "cod" | "prepaid";
   setPaymentMethod?: (v: "cod" | "prepaid") => void;
-  tShirtSize?: string;
-  setTShirtSize?: (v: string) => void;
   onSubmit: () => void;
   submitting?: boolean;
 }
@@ -38,8 +36,6 @@ const CustomerInfo = ({
   setDeliveryType,
   paymentMethod,
   setPaymentMethod,
-  tShirtSize,
-  setTShirtSize,
   onSubmit,
   submitting,
 }: CustomerInfoProps) => {
@@ -101,25 +97,6 @@ const CustomerInfo = ({
                 onChange={(e) => setPhone(e.target.value)}
                 required
               />
-            </div>
-            <div className="grid grid-cols-1 relative">
-              <select
-                className="border border-gray-200 outline-none  py-2.5 px-3 text-sm focus:border-black placeholder:text-gray-400 bg-gray-50/30 focus:bg-white transition-all appearance-none cursor-pointer w-full rounded-lg"
-                value={tShirtSize || ""}
-                onChange={(e) => setTShirtSize?.(e.target.value)}
-                required
-              >
-                <option value="" disabled>
-                  টি-শার্ট সাইজ সিলেক্ট করুন 
-                </option>
-                <option value="L">L</option>
-                <option value="M">M</option>
-                <option value="XL">XL</option>
-                <option value="XXL">XXL</option>
-              </select>
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
-                <IoChevronDown size={16} />
-              </div>
             </div>
           </div>
         </div>

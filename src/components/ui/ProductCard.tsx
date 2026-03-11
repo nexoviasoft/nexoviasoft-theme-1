@@ -2,7 +2,6 @@
 
 import { useCart } from "../../context/CartContext";
 
-import { useAuth } from "../../context/AuthContext";
 
 import formatteeNumber from "../../utils/formatteNumber";
 
@@ -10,7 +9,7 @@ import Image from "next/image";
 
 import Link from "next/link";
 
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import React from "react";
 
@@ -75,11 +74,7 @@ interface ProductProps {
 const ProductCard = ({ product, detailHref }: { product: ProductProps; detailHref?: string }) => {
   const { addCartItem } = useCart();
 
-  const { userSession } = useAuth();
-
   const router = useRouter();
-
-  const pathname = usePathname();
 
   const getNumericProductId = () => {
     if (typeof product?.id === "number") return product.id;
@@ -185,14 +180,6 @@ const ProductCard = ({ product, detailHref }: { product: ProductProps; detailHre
 
     event.preventDefault();
 
-    if (!userSession?.accessToken || !userSession?.userId) {
-      toast("Please login to add items to cart", { icon: "🔒" });
-
-      router.push(`/login?callbackUrl=${encodeURIComponent(pathname || "/")}`);
-
-      return;
-    }
-
     const productId = getNumericProductId();
 
     if (!productId) {
@@ -203,7 +190,15 @@ const ProductCard = ({ product, detailHref }: { product: ProductProps; detailHre
 
     if (available_variant && available_variant.length > 0) {
       try {
-        await addCartItem(Number(productId), 1);
+        await addCartItem(Number(productId), 1, {
+          id: Number(productId),
+          name: product?.name || product?.title || "",
+          sku: product?.sku || product?.SKU,
+          price: Number(product?.price || product?.variant?.[0]?.price || 0),
+          discountPrice: Number(product?.discountPrice || 0),
+          thumbnail: product?.thumbnail || product?.images?.[0]?.url,
+          images: (product?.images || []).map((img) => ({ url: img.url, alt: img.name })),
+        }, Number(product?.price || product?.variant?.[0]?.price || 0))
 
         toast.success("Product added to cart!");
       } catch {
@@ -213,7 +208,15 @@ const ProductCard = ({ product, detailHref }: { product: ProductProps; detailHre
       // If no variant but product has price, allow adding
 
       try {
-        await addCartItem(Number(productId), 1);
+        await addCartItem(Number(productId), 1, {
+          id: Number(productId),
+          name: product?.name || product?.title || "",
+          sku: product?.sku || product?.SKU,
+          price: Number(product?.price || 0),
+          discountPrice: Number(product?.discountPrice || 0),
+          thumbnail: product?.thumbnail || product?.images?.[0]?.url,
+          images: (product?.images || []).map((img) => ({ url: img.url, alt: img.name })),
+        }, Number(product?.price || 0))
 
         toast.success("Product added to cart!");
       } catch {

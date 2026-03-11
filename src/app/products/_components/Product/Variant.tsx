@@ -12,26 +12,37 @@ interface VariantProps {
 const Variant = ({
   variant,
   handlePrice,
+  onSelect,
+  showSize = true,
+  onUserSelect,
 }: {
   variant: VariantProps[];
   handlePrice: (price: number | undefined) => void;
+  onSelect?: (selected: { id: string; size: string; price: number }) => void;
+  showSize?: boolean;
+  onUserSelect?: () => void;
 }) => {
   const [activeId, setActiveId] = useState(variant[0]?.id);
 
   const hasMeaningfulSize = variant?.some(
     (v) => v.size && v.size.toLowerCase() !== "default",
   );
-  const shouldShowSizeSection = (variant?.length || 0) > 1 || hasMeaningfulSize;
+  const shouldShowSizeSection =
+    showSize && ((variant?.length || 0) > 1 || hasMeaningfulSize);
 
   // Update price when active variant changes (avoids setState during render)
   useEffect(() => {
     if (!variant || variant.length === 0) return;
     const active = variant.find((v) => v.id === activeId) ?? variant[0];
     handlePrice(active?.price);
+    if (active && onSelect) {
+      onSelect({ id: active.id, size: active.size, price: active.price });
+    }
   }, [activeId, handlePrice, variant]);
   const handleClick = (id: string) => {
     console.log("clicked" + id);
     setActiveId(id);
+    if (onUserSelect) onUserSelect();
   };
   const stockStatus = variant.find((v) => v.id === activeId)?.stock_status;
   const stockQuantity = variant.find((v) => v.id === activeId)

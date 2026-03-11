@@ -1,7 +1,6 @@
 "use client";
 import Quantity from "../../../components/shared/Quantity";
 import { useCart } from "../../../context/CartContext";
-import { useAuth } from "../../../context/AuthContext";
 import formatteeNumber from "../../../utils/formatteNumber";
 import { Badge } from "antd";
 import Image from "next/image";
@@ -18,13 +17,22 @@ interface ItemProps {
     name: string;
     thumbnail?: string;
     images?: { url: string; alt?: string }[];
+    price?: number;
+    discountPrice?: number;
+    isFlashSell?: boolean;
+    flashSellPrice?: number;
   };
 }
 
-const CartProduct = ({ item }: { item: ItemProps }) => {
+const CartProduct = ({
+  item,
+  onChangeQuantity,
+}: {
+  item: ItemProps;
+  onChangeQuantity?: (item: ItemProps, nextQty: number) => void | Promise<void>;
+}) => {
   const quantity = item?.quantity ?? 0;
-  const { updateCartItem, deleteCartItem, addCartItem, refetch } = useCart();
-  const { userSession } = useAuth();
+  const { updateCartItem, deleteCartItem } = useCart();
 
   const imageUrl = item.product.thumbnail || item.product.images?.[0]?.url || "/placeholder.png";
   const imageAlt = item.product.images?.[0]?.alt || item.product.name || "product";
@@ -33,13 +41,8 @@ const CartProduct = ({ item }: { item: ItemProps }) => {
     try {
       // If this is a query product (id: 0), add it to cart first
       if (item.id === 0) {
-        if (!userSession?.accessToken || !userSession?.userId) {
-          toast.error("Please login to update cart");
-          return;
-        }
-        await addCartItem(item.product.id, quantity + 1);
-        await refetch(); // Refetch cart to get the new cart item ID
-        toast.success("Cart updated");
+        await onChangeQuantity?.(item, quantity + 1);
+        toast.success("Quantity updated");
       } else {
         await updateCartItem(item.id, quantity + 1);
       }
@@ -59,13 +62,8 @@ const CartProduct = ({ item }: { item: ItemProps }) => {
     try {
       // If this is a query product (id: 0), add it to cart first
       if (item.id === 0) {
-        if (!userSession?.accessToken || !userSession?.userId) {
-          toast.error("Please login to update cart");
-          return;
-        }
-        await addCartItem(item.product.id, quantity - 1);
-        await refetch(); // Refetch cart to get the new cart item ID
-        toast.success("Cart updated");
+        await onChangeQuantity?.(item, quantity - 1);
+        toast.success("Quantity updated");
       } else {
         await updateCartItem(item.id, quantity - 1);
       }
@@ -116,7 +114,14 @@ const CartProduct = ({ item }: { item: ItemProps }) => {
         </div>
       </div>
       <div className=" flex flex-col justify-between items-end py-0.5">
-        <p className=" text-sm font-bold text-gray-900">{formatteeNumber(item.unitPrice * quantity)}৳</p>
+        <div className="flex flex-col items-end">
+          <p className=" text-sm font-bold text-gray-900">{formatteeNumber(item.unitPrice * quantity)}৳</p>
+          {typeof item.product.price === "number" && item.product.price > item.unitPrice && (
+            <p className=" text-[11px] text-gray-500">
+              <span className="line-through">{formatteeNumber(item.product.price * quantity)}৳</span>
+            </p>
+          )}
+        </div>
         <button
           onClick={handleDelete}
           className=" text-gray-400 hover:text-red-500 transition-all p-1"

@@ -83,6 +83,13 @@ const CheckoutContent = () => {
     refetch();
   }, [refetch]);
 
+  useEffect(() => {
+    const size = searchParams.get("tShirtSize");
+    if (size) {
+      setTShirtSize(size);
+    }
+  }, [searchParams]);
+
   // Fetch product from query params and promo code
   useEffect(() => {
     const rawProductId = searchParams.get("productId");
@@ -116,10 +123,22 @@ const CheckoutContent = () => {
             : await getProductBySlug(rawProductId, companyId);
 
           // Calculate final price (prioritizing flash sale, then discount)
-          const finalPrice =
-            (product as any).flashSellPrice ??
-            product.discountPrice ??
-            product.price;
+          const hasDiscount =
+            typeof product.discountPrice === "number" &&
+            typeof product.price === "number" &&
+            product.discountPrice > 0 &&
+            product.discountPrice < product.price;
+          const rawDiscount = searchParams.get("discountPrice");
+          const discountOverride = rawDiscount ? Number(rawDiscount) : NaN;
+          const finalPrice = Number(
+            Number.isFinite(discountOverride) && discountOverride > 0
+              ? discountOverride
+              : (product.isFlashSell && typeof product.flashSellPrice === "number")
+                ? product.flashSellPrice
+                : hasDiscount
+                  ? product.discountPrice
+                  : product.price ?? 0,
+          );
           setQueryProduct({
             id: 0, // Temporary ID for query product
             product: {
@@ -219,20 +238,8 @@ const CheckoutContent = () => {
 
   // Clear query product if it's already in cart
   useEffect(() => {
-    if (queryProduct && cart?.items) {
-      const existsInCart = cart.items.some(
-        (item) => item.product.id === queryProduct.product.id,
-      );
-      if (existsInCart) {
-        setQueryProduct(null);
-        // Remove query params from URL
-        const url = new URL(window.location.href);
-        url.searchParams.delete("productId");
-        url.searchParams.delete("companyId");
-        url.searchParams.delete("quantity");
-        window.history.replaceState({}, "", url.toString());
-      }
-    }
+    // Keep query params intact; avoid duplication handled in items useMemo
+    // No state or URL changes here
   }, [queryProduct, cart?.items]);
 
   // Combine cart items with query product if present
@@ -278,6 +285,28 @@ const CheckoutContent = () => {
   const shippingCharge = deliveryType === "inside" ? 60 : 120;
   const total = Math.max(subtotal - discount, 0);
   const grandTotal = total + shippingCharge;
+
+  const handleQueryItemQuantityChange = async (
+    item: {
+      id: number;
+      quantity: number;
+      unitPrice: number;
+      totalPrice: number;
+      product: { id: number; name: string; thumbnail?: string; images?: { url: string; alt?: string }[] };
+    },
+    nextQty: number,
+  ) => {
+    if (item.id !== 0) return;
+    const safeQty = Math.max(1, Math.floor(Number(nextQty || 1)));
+    setQueryProduct({
+      ...item,
+      quantity: safeQty,
+      totalPrice: Number(item.unitPrice || 0) * safeQty,
+    });
+    const url = new URL(window.location.href);
+    url.searchParams.set("quantity", String(safeQty));
+    window.history.replaceState({}, "", url.toString());
+  };
 
   // Auto apply promo from query once order subtotal is ready
   useEffect(() => {
@@ -443,10 +472,7 @@ const CheckoutContent = () => {
       return;
     }
 
-    if (!tShirtSize) {
-      toast.error("টি-শার্ট সাইজ নির্বাচন করুন");
-      return;
-    }
+    // tShirtSize optional now; carried from product page if present
 
     if (!name.trim() || !phone.trim() || !address.trim()) {
       toast.error("Name, phone, and address are required");
@@ -485,7 +511,7 @@ const CheckoutContent = () => {
         deliveryType:
           deliveryType === "inside" ? "INSIDEDHAKA" : "OUTSIDEDHAKA",
         paymentMethod: paymentMethod === "cod" ? "COD" : "DIRECT",
-        orderInfo: `tShirtSize ${tShirtSize}`,
+        orderInfo: tShirtSize ? `tShirtSize ${tShirtSize}` : undefined,
         items: items.map((i) => ({
           productId: i.product.id,
           quantity: i.quantity,
@@ -567,8 +593,6 @@ const CheckoutContent = () => {
               setPaymentMethod={setPaymentMethod}
               deliveryType={deliveryType}
               setDeliveryType={setDeliveryType}
-            tShirtSize={tShirtSize}
-            setTShirtSize={setTShirtSize}
               onSubmit={handleOrder}
               submitting={orderLoading}
             />
@@ -590,6 +614,7 @@ const CheckoutContent = () => {
               availablePromos={availablePromos}
               availablePromosLoading={availablePromosLoading}
               applyPromoFromButton={applyPromoFromButton}
+              onChangeItemQuantity={handleQueryItemQuantityChange}
             />
           </div>
         </div>

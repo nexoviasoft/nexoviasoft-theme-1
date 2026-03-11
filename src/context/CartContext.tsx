@@ -1,9 +1,6 @@
 "use client";
 
-import axios from "axios";
 import { createContext, ReactNode, useContext, useEffect, useState, useCallback } from "react";
-import { useAuth } from "./AuthContext";
-import { getApiUrl, getApiHeaders, API_CONFIG } from "../lib/api-config";
 
 // Define TypeScript interfaces
 interface ProductImage {
@@ -15,11 +12,13 @@ interface ProductImage {
 interface Product {
   id: number;
   name: string;
-  sku: string;
-  price: number;
+  sku?: string;
+  price?: number;
   discountPrice?: number;
   images?: ProductImage[];
   thumbnail?: string;
+  isFlashSell?: boolean;
+  flashSellPrice?: number;
 }
 
 interface CartProduct {
@@ -49,7 +48,9 @@ interface CartContextType {
   deleteCartItem: (cartItemId: number) => Promise<void>;
   addCartItem: (
     productId: number,
-    quantity: number
+    quantity: number,
+    product?: Product,
+    unitPrice?: number
   ) => Promise<void>;
   clearCart: () => Promise<void>;
 }
@@ -58,154 +59,125 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 // Context Provider Component
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const { userSession } = useAuth();
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchCart = useCallback(async () => {
-    if (!userSession?.userId || !userSession?.accessToken) {
-      setCart(null);
-      setLoading(false);
-      return;
-    }
+  const STORAGE_KEY = "local_cart";
 
+  const loadFromStorage = (): Cart | null => {
+    if (typeof window === "undefined") return null;
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return { items: [], totalItems: 0, totalPrice: 0 };
+      const items = JSON.parse(raw) as CartProduct[];
+      const totalItems = items.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+      const totalPrice = items.reduce((sum, item) => sum + Number(item.unitPrice || 0) * Number(item.quantity || 0), 0);
+      return { items, totalItems, totalPrice };
+    } catch {
+      return { items: [], totalItems: 0, totalPrice: 0 };
+    }
+  };
+
+  const saveToStorage = (items: CartProduct[]) => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  };
+
+  const fetchCart = useCallback(async () => {
     try {
       setLoading(true);
-      const companyId = userSession?.companyId || API_CONFIG.companyId;
-      const response = await axios.get(
-        getApiUrl(`/cartproducts/user/${userSession.userId}?companyId=${companyId}`),
-        {
-          headers: getApiHeaders(userSession?.accessToken),
-        }
-      );
-
-      const items: CartProduct[] = response.data.data || [];
-      const totalItems = items.reduce((sum, item) => sum + Number(item.quantity), 0);
-      const totalPrice = items.reduce((sum, item) => sum + Number(item.totalPrice), 0);
-
-      setCart({
-        items,
-        totalItems,
-        totalPrice,
-      });
-    } catch (error) {
-      console.error("Error fetching cart:", error);
-      setCart(null);
+      const loaded = loadFromStorage();
+      setCart(loaded);
     } finally {
       setLoading(false);
     }
-  }, [userSession?.userId, userSession?.accessToken, userSession?.companyId]);
+  }, []);
 
   useEffect(() => {
     fetchCart();
-  }, [userSession?.userId, userSession?.accessToken, fetchCart]);
+  }, [fetchCart]);
 
   // Function to update cart item quantity
   const updateCartItem = async (
     cartItemId: number,
     quantity: number
   ): Promise<void> => {
-    try {
-      if (quantity <= 0) {
-        await deleteCartItem(cartItemId);
-        return;
-      }
-      const companyId = userSession?.companyId || API_CONFIG.companyId;
-      await axios.patch(
-        getApiUrl(`/cartproducts/${cartItemId}?companyId=${companyId}`),
-        { quantity },
-        { headers: getApiHeaders(userSession?.accessToken) },
-      );
-
-      await fetchCart();
-    } catch (error) {
-      console.error("Error updating cart item:", error);
-      throw error;
+    const current = loadFromStorage();
+    const items = current?.items || [];
+    if (quantity <= 0) {
+      const next = items.filter((i) => i.id !== cartItemId);
+      saveToStorage(next);
+      setCart(loadFromStorage());
+      return;
     }
+    const next = items.map((i) =>
+      i.id === cartItemId ? { ...i, quantity, totalPrice: Number(i.unitPrice || 0) * Number(quantity || 0) } : i,
+    );
+    saveToStorage(next);
+    setCart(loadFromStorage());
   };
 
   // Function to remove a cart item
   const deleteCartItem = async (cartItemId: number): Promise<void> => {
-    try {
-      const companyId = userSession?.companyId || API_CONFIG.companyId;
-      await axios.delete(
-        getApiUrl(`/cartproducts/${cartItemId}?companyId=${companyId}`),
-        {
-          headers: getApiHeaders(userSession?.accessToken),
-        }
-      );
-
-      await fetchCart();
-    } catch (error) {
-      console.error("Error deleting cart item:", error);
-      throw error;
-    }
+    const current = loadFromStorage();
+    const items = current?.items || [];
+    const next = items.filter((i) => i.id !== cartItemId);
+    saveToStorage(next);
+    setCart(loadFromStorage());
   };
 
   // function to add cart item
   const addCartItem = async (
     productId: number,
-    quantity: number
+    quantity: number,
+    product?: Product,
+    unitPrice?: number
   ): Promise<void> => {
-    if (!userSession?.accessToken || !userSession?.userId) {
-      console.error("User not authenticated");
-      throw new Error("User must be logged in to add items to cart");
-    }
-
-    try {
-      const companyId = userSession?.companyId || API_CONFIG.companyId;
-      await axios.post(
-        getApiUrl(`/cartproducts?companyId=${companyId}`),
-        {
-          userId: Number(userSession.userId),
-          productId: Number(productId),
-          quantity: Number(quantity),
-          companyId,
-        },
-        {
-          headers: getApiHeaders(userSession?.accessToken),
-        }
-      );
-
-      await fetchCart();
-    } catch (error) {
-      const err = error as { response?: { data?: { message?: string; error?: string } | string[] }; message?: string };
-      const responseData = err?.response?.data;
-      const apiMessage =
-        (responseData && typeof responseData === 'object' && !Array.isArray(responseData) && 'message' in responseData) 
-          ? responseData.message 
-          : (responseData && typeof responseData === 'object' && !Array.isArray(responseData) && 'error' in responseData)
-          ? responseData.error
-          : Array.isArray(responseData) 
-          ? responseData.join(", ") 
-          : undefined;
-      const finalMessage = apiMessage || err?.message || "Error adding cart item";
-      console.error("Error adding cart item:", finalMessage, err);
-      throw new Error(finalMessage);
-    }
+    const current = loadFromStorage();
+    const items = current?.items || [];
+    const existing = items.find((i) => i.product?.id === productId || i.id === productId);
+    const hasDiscount =
+      typeof product?.discountPrice === "number" &&
+      typeof product?.price === "number" &&
+      product.discountPrice > 0 &&
+      product.discountPrice < product.price;
+    const effectiveUnitPrice =
+      product?.isFlashSell && typeof product?.flashSellPrice === "number"
+        ? product.flashSellPrice
+        : hasDiscount
+          ? Number(product?.discountPrice)
+          : typeof product?.price === "number"
+            ? product.price
+            : typeof unitPrice === "number"
+              ? unitPrice
+              : existing?.unitPrice ?? 0;
+    const baseProduct =
+      product ||
+      existing?.product || {
+        id: productId,
+        name: "",
+        sku: "",
+        price: Number(effectiveUnitPrice || 0),
+      };
+    const newItem: CartProduct = {
+      id: productId,
+      product: baseProduct,
+      quantity: Number(quantity || 0),
+      unitPrice: Number(effectiveUnitPrice || 0),
+      totalPrice: Number(effectiveUnitPrice || 0) * Number(quantity || 0),
+    };
+    const next = existing
+      ? items.map((i) => (i.id === (existing.id || productId) ? newItem : i))
+      : [...items, newItem];
+    saveToStorage(next);
+    setCart(loadFromStorage());
   };
 
   // function to clear cart
   const clearCart = async (): Promise<void> => {
-    if (!userSession?.accessToken || !userSession?.userId) {
-      console.error("User not authenticated");
-      return;
-    }
-
-    try {
-      const companyId = userSession?.companyId || API_CONFIG.companyId;
-      await axios.delete(
-        getApiUrl(`/cartproducts/user/${userSession.userId}?companyId=${companyId}`),
-        {
-          headers: getApiHeaders(userSession?.accessToken),
-        }
-      );
-
-      await fetchCart();
-    } catch (error) {
-      console.error("Error clearing cart:", error);
-      throw error;
-    }
+    if (typeof window === "undefined") return;
+    localStorage.removeItem(STORAGE_KEY);
+    setCart({ items: [], totalItems: 0, totalPrice: 0 });
   };
 
   return (

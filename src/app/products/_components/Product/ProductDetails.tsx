@@ -3,7 +3,8 @@ import formatteeNumber from "../../../../utils/formatteNumber";
 import { calculateAverageRating } from "../../../../utils/getAverageRating";
 import { Rate } from "antd";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { FaRegClock, FaTruckFast } from "react-icons/fa6";
 import { GoArrowUpRight, GoShareAndroid } from "react-icons/go";
@@ -68,6 +69,7 @@ interface ProductProps {
     images: ImageProps[];
     reviews: Review[];
     variant: VariantProps[];
+    sizes?: string[];
   };
   promos?: PromoCode[];
 }
@@ -77,12 +79,34 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
     Number(product?.price ?? product?.variant[0]?.price ?? 0),
   );
 
+  const [selectedVariant, setSelectedVariant] = useState<{
+    id: string;
+    size: string;
+    price: number;
+  }>({
+    id: product?.variant?.[0]?.id ?? "",
+    size: product?.variant?.[0]?.size ?? "Default",
+    price: Number(product?.variant?.[0]?.price ?? product?.price ?? 0),
+  });
+  const [selectedSize, setSelectedSize] = useState<string>(
+    product?.sizes && product.sizes.length > 0 ? "" : selectedVariant.size || "Default",
+  );
+  const [hasVariantChosen, setHasVariantChosen] = useState(false);
 
  
 
-  const handlePrice = (variantPrice: number = 0) => {
+  const handlePrice = useCallback((variantPrice: number = 0) => {
     setPrice(variantPrice);
-  };
+  }, []);
+  const handleVariantSelect = useCallback(
+    (v: { id: string; size: string; price: number }) => {
+      setSelectedVariant(v);
+      if (!product?.sizes || product.sizes.length === 0) {
+        setSelectedSize(v.size);
+      }
+    },
+    [product?.sizes],
+  );
 
   const [quantity, setQuantity] = useState(1);
 
@@ -204,10 +228,41 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
 
       {/* product  variant start */}
       <div className="pt-1 border-t border-gray-200">
-        <Variant variant={product?.variant} handlePrice={handlePrice} />
+        <Variant
+          variant={product?.variant}
+          handlePrice={handlePrice}
+          onSelect={handleVariantSelect}
+          showSize={!product?.sizes || product.sizes.length === 0}
+          onUserSelect={() => setHasVariantChosen(true)}
+        />
       </div>
       {/* product variant end */}
 
+      {/* explicit size selector (non-variant) start */}
+      {product?.sizes && product.sizes.length > 0 && (
+        <div className="mt-2">
+          <h2 className=" sm:text-lg text-base font-medium">Size</h2>
+          <div className=" flex gap-2 items-center flex-wrap">
+            {product.sizes.map((sz) => (
+              <button
+                key={sz}
+                onClick={() => setSelectedSize(sz)}
+                className={`btn-rounded border-[1.5px] border-gray-300 px-3 py-1 rounded-lg hover:border-primary transition-all ease-linear duration-200 ${
+                  selectedSize === sz ? "border-primary" : ""
+                }`}
+              >
+                {sz}
+              </button>
+            ))}
+          </div>
+          {!selectedSize && (
+            <p className="text-[11px] text-red-600 mt-1">
+              Size নির্বাচন করুন
+            </p>
+          )}
+        </div>
+      )}
+      {/* explicit size selector (non-variant) end */}
       {/* product price info start */}
       <div className="flex items-end gap-3">
         <div className="flex items-center text-primary">
@@ -270,10 +325,28 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
       <div className="flex min-[1035px]:flex-row md:flex-col min-[500px]:flex-row flex-col gap-3">
         <div>
           <ProductCart
-            price={getFinalPrice()}
+            price={originalPrice}
             productId={Number(product?.documentId || product?.id)}
+            product={{
+              id: Number(product?.documentId || product?.id),
+              name: product?.title,
+              thumbnail: product?.images?.[0]?.url,
+              images: (product?.images || []).map((img) => ({ url: img.url, alt: img.name })),
+              price: Number(product?.price || 0),
+              discountPrice: Number(product?.discountPrice || 0),
+            }}
             quantity={quantity}
             onChangeQuantity={setQuantity}
+            disabled={
+              (product?.sizes && product.sizes.length > 0 ? !selectedSize : false) ||
+              (product?.sizes && product.sizes.length === 0
+                ? (product?.variant?.length || 0) > 1 ||
+                  product?.variant?.some((v) => v.size && v.size.toLowerCase() !== "default")
+                  ? !hasVariantChosen
+                  : false
+                : false) ||
+              quantity < 1
+            }
           />
         </div>
         <Link
@@ -282,7 +355,28 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
             String(product?.documentId || product?.id),
           )}&companyId=${encodeURIComponent(
             product?.companyId || "",
-          )}&quantity=${encodeURIComponent(String(quantity))}`}
+          )}&quantity=${encodeURIComponent(
+            String(quantity),
+          )}&tShirtSize=${encodeURIComponent(selectedSize || "Default")}&discountPrice=${encodeURIComponent(
+            String(getFinalPrice()),
+          )}`}
+          onClick={(e) => {
+            const needsVariantChoice =
+              !product?.sizes ||
+              product.sizes.length === 0
+                ? (product?.variant?.length || 0) > 1 ||
+                  product?.variant?.some((v) => v.size && v.size.toLowerCase() !== "default")
+                : false;
+            const sizeRequired = product?.sizes && product.sizes.length > 0;
+            const invalid =
+              (sizeRequired && !selectedSize) ||
+              (needsVariantChoice && !hasVariantChosen) ||
+              quantity < 1;
+            if (invalid) {
+              e.preventDefault();
+              toast.error("Size এবং Quantity নির্বাচন করুন");
+            }
+          }}
         >
           <span>এখনই কিনুন</span>
           <GoArrowUpRight className="sm:text-2xl text-xl" />

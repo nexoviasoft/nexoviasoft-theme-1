@@ -11,12 +11,12 @@ const CountDown = ({ initialSecondsLeft }: CountDownProps) => {
   );
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
+    if (timeLeft <= 0) return;
+    const timer = setTimeout(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
-
-    return () => clearInterval(timer); // Cleanup on unmount
-  }, []);
+    return () => clearTimeout(timer);
+  }, [timeLeft]);
 
   const formatTime = (time: number) => {
     const hours = Math.floor(time / 3600);
