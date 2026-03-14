@@ -289,43 +289,13 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
       </div>
       {/* product price info end */}
 
-      {/* product specific promo codes start */}
-      {applicablePromos.length > 0 && (
-        <div className="mt-2 space-y-1">
-          <p className="text-xs sm:text-sm text-gray-700">
-            এই প্রোডাক্টের জন্য উপলব্ধ কুপন কোড:
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {applicablePromos.map((promo) => (
-              <Link
-                key={promo.id}
-                href={`/checkout?productId=${encodeURIComponent(
-                  String(product?.documentId || product?.id),
-                )}&companyId=${encodeURIComponent(
-                  product?.companyId || "",
-                )}&promoCode=${encodeURIComponent(
-                  promo.code,
-                )}&quantity=${encodeURIComponent(String(quantity))}`}
-                className="text-xs px-3 py-1 rounded-full border bg-gray-100 text-gray-700 border-gray-300 hover:bg-primary hover:text-white transition-colors"
-              >
-                <span className="font-semibold">{promo.code}</span>
-                <span className="ml-1 text-[11px] text-gray-600">
-                  {promo.discountType === "percentage"
-                    ? `${promo.discountValue}% ছাড়`
-                    : `${promo.discountValue}৳ ছাড়`}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-      {/* product specific promo codes end */}
+      
 
       {/* cart & buy now button start */}
       <div className="flex min-[1035px]:flex-row md:flex-col min-[500px]:flex-row flex-col gap-3">
         <div>
           <ProductCart
-            price={originalPrice}
+            price={getFinalPrice()}
             productId={Number(product?.documentId || product?.id)}
             product={{
               id: Number(product?.documentId || product?.id),
@@ -460,7 +430,7 @@ const ProductDetails: React.FC<ProductProps> = ({ product, promos }) => {
             <TbTruckReturn size={23} />
           </div>
           <p>
-            পণ্য কেনার পর <strong>২০ দিনের</strong> মধ্যে রিটার্ন করা যাবে।
+            পণ্য কেনার পর <strong>৭ দিনের</strong> মধ্যে রিটার্ন করা যাবে।
             শুল্ক ও ট্যাক্স ফিরতযোগ্য নয়।
           </p>
         </div>

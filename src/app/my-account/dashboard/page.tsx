@@ -21,6 +21,7 @@ import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { getApiUrl, getApiHeaders } from "../../../lib/api-config";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface UserProfile {
   id: number;
@@ -48,7 +49,8 @@ type MyOrderSummary = {
 };
 
 export default function Dashboard() {
-  const { userSession } = useAuth();
+  const { userSession, loading } = useAuth();
+  const router = useRouter();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [recentOrders, setRecentOrders] = useState<MyOrderSummary[]>([]);
   const [orderStats, setOrderStats] = useState<OrderStats>({
@@ -125,11 +127,16 @@ export default function Dashboard() {
   }, [userSession?.accessToken]);
 
   useEffect(() => {
+    if (!loading && !userSession) {
+      const target = `/login?callbackUrl=${encodeURIComponent("/my-account/dashboard")}`;
+      router.push(target);
+      return;
+    }
     if (userSession?.accessToken) {
       fetchProfile();
       fetchOrdersCount();
     }
-  }, [userSession, fetchProfile, fetchOrdersCount]);
+  }, [loading, userSession, router, fetchProfile, fetchOrdersCount]);
 
   const handleUpdateProfile = async () => {
     try {

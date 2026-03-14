@@ -2,6 +2,7 @@ import BottomNav from "@/components/BottomNav";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import FlashSaleBanner from "@/components/FlashSaleBanner";
+import AntiDevTools from "@/components/security/AntiDevTools";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
 import { theme } from "@/theme/antd";
@@ -55,6 +56,7 @@ export default function RootLayout({
           />
         </head>
         <body className={`${hindSiliguriFonts.variable} ${baiJamjuree.variable} font-baiJamjuree antialiased bg-white text-black`}>
+          <AntiDevTools />
           <AuthProvider>
             <Toaster />
             <CartProvider>
