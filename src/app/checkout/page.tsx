@@ -36,8 +36,8 @@ const CheckoutContent = () => {
   const [availablePromosLoading, setAvailablePromosLoading] = useState(false);
   const [orderLoading, setOrderLoading] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"cod" | "prepaid">("cod");
-  const [deliveryType, setDeliveryType] = useState<"inside" | "outside">(
-    "inside",
+  const [deliveryType, setDeliveryType] = useState<"inside" | "outside" | "">(
+    "",
   );
   const [enrichedItems, setEnrichedItems] = useState<
     Array<{
@@ -282,7 +282,8 @@ const CheckoutContent = () => {
     return Math.min(promo.discountValue, subtotal);
   }, [promo, subtotal]);
 
-  const shippingCharge = deliveryType === "inside" ? 60 : 120;
+  const shippingCharge =
+    deliveryType === "inside" ? 60 : deliveryType === "outside" ? 120 : 0;
   const total = Math.max(subtotal - discount, 0);
   const grandTotal = total + shippingCharge;
 
@@ -481,6 +482,10 @@ const CheckoutContent = () => {
 
     if (!email.trim()) {
       toast.error("Email is required");
+      return;
+    }
+    if (!deliveryType) {
+      toast.error("ডেলিভারি টাইপ নির্বাচন করুন");
       return;
     }
 

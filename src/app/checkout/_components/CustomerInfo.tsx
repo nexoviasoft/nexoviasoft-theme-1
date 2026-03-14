@@ -109,28 +109,20 @@ const CustomerInfo = ({
               ডেলিভারি টাইপ
             </h2>
             <div className="flex flex-col gap-2">
-              <label className={`flex items-center gap-3 p-3 border cursor-pointer transition-all rounded-lg ${deliveryType === "inside" ? "border-primary bg-primary/5" : "border-gray-100 hover:border-gray-200"}`}>
-                <input
-                  type="radio"
-                  name="deliveryType"
-                  value="inside"
-                  checked={deliveryType === "inside"}
-                  onChange={() => setDeliveryType?.("inside")}
-                  className="accent-primary w-4 h-4"
-                />
-                <span className="text-sm font-medium">ঢাকার ভিতরে (60৳)</span>
-              </label>
-              <label className={`flex items-center gap-3 p-3  border cursor-pointer transition-all rounded-lg ${deliveryType === "outside" ? "border-primary bg-primary/5" : "border-gray-100 hover:border-gray-200"}`}>
-                <input
-                  type="radio"
-                  name="deliveryType"
-                  value="outside"
-                  checked={deliveryType === "outside"}
-                  onChange={() => setDeliveryType?.("outside")}
-                  className="accent-primary w-4 h-4"
-                />
-                <span className="text-sm font-medium">ঢাকার বাইরে (120৳)</span>
-              </label>
+              <select
+                className="border border-gray-200 outline-none py-2.5 px-3 text-sm focus:border-black bg-gray-50/30 focus:bg-white transition-all rounded-lg"
+                value={deliveryType || ""}
+                onChange={(e) =>
+                  setDeliveryType?.(e.target.value as "inside" | "outside")
+                }
+                required
+              >
+                <option value="" disabled>
+                  ডেলিভারি টাইপ নির্বাচন করুন *
+                </option>
+                <option value="inside">ঢাকার ভিতরে (60৳)</option>
+                <option value="outside">ঢাকার বাইরে (120৳)</option>
+              </select>
             </div>
           </div>
 
