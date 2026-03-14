@@ -59,7 +59,7 @@ export default function Dashboard() {
     cancelled: 0,
     inProgress: 0,
   });
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -73,8 +73,7 @@ export default function Dashboard() {
     try {
       const response = await axios.get(getApiUrl("/users/me"), {
         headers: getApiHeaders(userSession?.accessToken),
-      });
-      const userData = response.data.data;
+      }); const userData = response.data.data;
       setProfile(userData);
       setEditData({
         name: userData.name || "",
@@ -84,7 +83,7 @@ export default function Dashboard() {
     } catch (error) {
       console.error("Error fetching profile:", error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }, [userSession?.accessToken]);
 
