@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   FiChevronDown,
   FiCreditCard,
@@ -33,6 +33,7 @@ const TermsPage = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [termsContent, setTermsContent] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const contentRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -59,6 +60,36 @@ const TermsPage = () => {
       isMounted = false;
     };
   }, []);
+  
+  useEffect(() => {
+    if (!termsContent || !contentRef.current) return;
+    const root = contentRef.current;
+    const tables = root.querySelectorAll("table");
+    tables.forEach((table) => {
+      table.classList.add("w-full", "border", "border-gray-300");
+      (table as HTMLTableElement).style.borderCollapse = "collapse";
+      const cells = table.querySelectorAll("th, td");
+      cells.forEach((cell) => {
+        (cell as HTMLElement).classList.add("border", "border-gray-300", "p-2");
+      });
+    });
+    const uls = root.querySelectorAll("ul");
+    uls.forEach((ul) => {
+      (ul as HTMLElement).classList.add("list-disc", "list-inside", "ml-4");
+    });
+    const ols = root.querySelectorAll("ol");
+    ols.forEach((ol) => {
+      (ol as HTMLElement).classList.add("list-decimal", "list-inside", "ml-4");
+    });
+    const bolds = root.querySelectorAll("b, strong");
+    bolds.forEach((b) => {
+      (b as HTMLElement).classList.add("font-bold");
+    });
+    const italics = root.querySelectorAll("i, em");
+    italics.forEach((i) => {
+      (i as HTMLElement).classList.add("italic");
+    });
+  }, [termsContent]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white to-primary/5">
@@ -140,6 +171,7 @@ const TermsPage = () => {
           {termsContent ? (
             <article
               className="prose max-w-none prose-sm sm:prose-base text-gray-800"
+              ref={contentRef}
               dangerouslySetInnerHTML={{ __html: termsContent }}
             />
           ) : (
