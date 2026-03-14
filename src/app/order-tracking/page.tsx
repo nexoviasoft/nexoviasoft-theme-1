@@ -46,6 +46,29 @@ interface TrackedOrder {
   statusHistory?: StatusHistoryEntry[];
 }
 
+const getStatusMessage = (status: string) => {
+  switch (status.toLowerCase()) {
+    case "pending":
+      return "আপনার অর্ডার গ্রহণ করা হয়েছে। খুব শীঘ্রই প্রসেস করা হবে।";
+    case "processing":
+      return "অর্ডার প্রসেসিং চলছে। প্যাকেজিং ও প্রস্তুতি সম্পন্ন হচ্ছে।";
+    case "shipped":
+      return "অর্ডার কুরিয়ারে পাঠানো হয়েছে। ট্র্যাকিং আপডেট সময়ে সময়ে দেখুন।";
+    case "delivered":
+      return "আপনার অর্ডার ডেলিভার করা হয়েছে। আমাদের সাথে থাকার জন্য ধন্যবাদ!";
+    case "paid":
+      return "পেমেন্ট নিশ্চিত হয়েছে। শিপমেন্টের জন্য প্রস্তুতি চলছে।";
+    case "cancelled":
+      return "এই অর্ডারটি বাতিল করা হয়েছে। প্রয়োজনে নতুন অর্ডার করুন।";
+    case "returned":
+      return "পণ্য ফেরত প্রক্রিয়ায় আছে। টিম শীঘ্রই যোগাযোগ করবে।";
+    case "refunded":
+      return "রিফান্ড প্রসেস সম্পন্ন/প্রক্রিয়াধীন। ব্যাংকিং সময় অনুযায়ী আপডেট হবে।";
+    default:
+      return "আপনার অর্ডারের অবস্থা আপডেট করা হয়েছে। বিস্তারিত নিচে দেখুন।";
+  }
+};
+
 const getStatusConfig = (status: string) => {
   switch (status.toLowerCase()) {
     case "delivered":
@@ -267,9 +290,9 @@ function OrderTrackingContent() {
                           #{order.id}
                         </span>
                       </div>
-                      <h2 className="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight">
+                      {/* <h2 className="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight">
                         {order.totalAmount.toLocaleString("bn-BD")} ৳
-                      </h2>
+                      </h2> */}
                       <p className="mt-3 text-sm text-gray-600 flex items-center gap-2 font-medium">
                         <FiCalendar className="w-4 h-4" />
                         {formatDate(order.createdAt)}
@@ -286,48 +309,18 @@ function OrderTrackingContent() {
                     </div>
                   </div>
                 </div>
-
-                {/* Two Column Info */}
-                <div className="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-                  {/* Customer Info */}
-                  <div className="bg-gradient-to-br from-gray-50/70 to-white p-6 rounded-xl border border-gray-100 hover:border-gray-300 transition-all duration-300 shadow-sm hover:shadow">
-                    <h3 className="text-base font-extrabold text-gray-900 flex items-center gap-3 mb-5">
-                      <div className="w-10 h-10 rounded-xl bg-black flex items-center justify-center shadow">
-                        <FiUser className="w-5 h-5 text-white" />
-                      </div>
-                      কাস্টমার তথ্য
-                    </h3>
-                    <div className="space-y-5 text-sm">
-                      <div>
-                        <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
-                          নাম
-                        </p>
-                        <p className="font-semibold text-gray-900">
-                          {order.customerName || "N/A"}
-                        </p>
-                      </div>
-                      {order.customerPhone && (
-                        <div>
-                          <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
-                            ফোন
-                          </p>
-                          <p className="font-semibold text-gray-900">
-                            {order.customerPhone}
-                          </p>
-                        </div>
-                      )}
-                      {order.customerAddress && (
-                        <div>
-                          <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
-                            ঠিকানা
-                          </p>
-                          <p className="font-semibold text-gray-900 leading-relaxed">
-                            {order.customerAddress}
-                          </p>
-                        </div>
-                      )}
+                  <div className="mt-5">
+                    <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4">
+                      <p className="text-sm font-semibold text-gray-800">
+                        {getStatusMessage(order.status)}
+                      </p>
                     </div>
                   </div>
+
+                {/* Two Column Info */}
+                <div className="p-6 sm:p-8  gap-6 lg:gap-8">
+                
+                
 
                   {/* Shipping & Payment */}
                   <div className="bg-gradient-to-br from-gray-50/70 to-white p-6 rounded-2xl border border-gray-100 hover:border-gray-300 transition-all duration-300 shadow-sm hover:shadow">

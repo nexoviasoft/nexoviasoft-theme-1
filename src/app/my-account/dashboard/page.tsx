@@ -154,7 +154,7 @@ export default function Dashboard() {
     }
   };
 
-  if (loading) {
+  if (loading || isLoading) {
     return (
       <section className="w-full flex justify-center items-center min-h-[320px]">
         <div className="max-w-md w-full text-center space-y-4">

@@ -8,7 +8,6 @@ import {
   IoCartOutline,
   IoLocationOutline,
   IoLogInOutline,
-  IoHeartOutline,
   IoSettingsOutline,
 } from "react-icons/io5";
 import { MdOutlineManageAccounts } from "react-icons/md";
@@ -101,18 +100,7 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({ onMenuAction }) => {
           ),
         },
         {
-          key: "5",
-          icon: (
-            <span className="flex items-center justify-center w-[18px] text-gray-400">
-              <IoHeartOutline size={16} />
-            </span>
-          ),
-          label: (
-            <span className="text-[13px] font-medium text-gray-700">
-              Wishlist
-            </span>
-          ),
-        },
+        // Wishlist removed
         // {
         //   key: "6",
         //   icon: (
@@ -192,10 +180,6 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({ onMenuAction }) => {
         break;
       case "4":
         router.push("/my-account/address");
-        onMenuAction?.();
-        break;
-      case "5":
-        router.push("/my-account/wishlist");
         onMenuAction?.();
         break;
       case "6":
