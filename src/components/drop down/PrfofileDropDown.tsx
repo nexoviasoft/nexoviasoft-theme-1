@@ -100,21 +100,6 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({ onMenuAction }) => {
           ),
         },
         {
-        // Wishlist removed
-        // {
-        //   key: "6",
-        //   icon: (
-        //     <span className="flex items-center justify-center w-[18px] text-gray-400">
-        //       <IoSettingsOutline size={16} />
-        //     </span>
-        //   ),
-        //   label: (
-        //     <span className="text-[13px] font-medium text-gray-700">
-        //       Settings
-        //     </span>
-        //   ),
-        // },
-        {
           type: "divider",
         },
         {
