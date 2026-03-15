@@ -34,6 +34,8 @@ interface CheckoutCartProps {
   availablePromos?: PromoCode[];
   availablePromosLoading?: boolean;
   applyPromoFromButton?: (code: string) => void | Promise<void>;
+  /** When true, coupon section shows only the instruction text (product checkout) */
+  isProductCheckout?: boolean;
 }
 
 const CheckoutCart = ({
@@ -52,6 +54,7 @@ const CheckoutCart = ({
   availablePromosLoading,
   applyPromoFromButton,
   onChangeItemQuantity,
+  isProductCheckout,
 }: CheckoutCartProps) => {
   return (
     <section className=" border border-gray-100 bg-white p-4 shadow-sm flex flex-col gap-4 sticky top-4 rounded-lg">
@@ -74,6 +77,7 @@ const CheckoutCart = ({
         availablePromos={availablePromos}
         availablePromosLoading={availablePromosLoading}
         onSelectPromo={(code) => applyPromoFromButton?.(code)}
+        isProductCheckout={isProductCheckout}
       />
       {/* total */}
       <div className="border-t border-gray-100 pt-3">

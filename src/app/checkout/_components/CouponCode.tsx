@@ -11,7 +11,11 @@ interface CouponCodeProps {
   availablePromos?: PromoCode[];
   availablePromosLoading?: boolean;
   onSelectPromo?: (code: string) => void | Promise<void>;
+  /** When true (product checkout), show only the instruction text, no coupon chips/buttons */
+  isProductCheckout?: boolean;
 }
+
+const COUPON_INSTRUCTION_TEXT = "নিচের কুপনে ক্লিক করলেই কুপনটি অটো অ্যাপ্লাই হবে।";
 
 const CouponCode = ({
   promoCode,
@@ -22,16 +26,27 @@ const CouponCode = ({
   availablePromos,
   availablePromosLoading,
   onSelectPromo,
+  isProductCheckout,
 }: CouponCodeProps) => {
   const hasAvailablePromos = (availablePromos ?? []).length > 0;
   const fallbackCode = (appliedPromo?.code || promoCode).trim();
   const showFallbackChip = !hasAvailablePromos && !!fallbackCode;
 
+  if (isProductCheckout) {
+    return (
+      <div className="flex flex-col gap-2">
+        <p className="text-xs sm:text-sm text-gray-700">
+          {COUPON_INSTRUCTION_TEXT}
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-2">
       {/* Info text */}
       <p className="text-xs sm:text-sm text-gray-700">
-        নিচের কুপনে ক্লিক করলেই কুপনটি অটো অ্যাপ্লাই হবে।
+        {COUPON_INSTRUCTION_TEXT}
       </p>
 
       {availablePromosLoading && (

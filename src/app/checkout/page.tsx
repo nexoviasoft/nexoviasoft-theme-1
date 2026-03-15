@@ -620,6 +620,7 @@ const CheckoutContent = () => {
               availablePromosLoading={availablePromosLoading}
               applyPromoFromButton={applyPromoFromButton}
               onChangeItemQuantity={handleQueryItemQuantityChange}
+              isProductCheckout={!!searchParams.get("productId")}
             />
           </div>
         </div>
