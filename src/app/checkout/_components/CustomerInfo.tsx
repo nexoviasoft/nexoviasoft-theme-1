@@ -13,8 +13,8 @@ interface CustomerInfoProps {
   setAddress: (v: string) => void;
   district?: string;
   setDistrict?: (v: string) => void;
-  deliveryType?: "inside" | "outside";
-  setDeliveryType?: (v: "inside" | "outside") => void;
+  deliveryType?: "inside" | "outside" | "";
+  setDeliveryType?: (v: "inside" | "outside" | "") => void;
   paymentMethod?: "cod" | "prepaid";
   setPaymentMethod?: (v: "cod" | "prepaid") => void;
   onSubmit: () => void;
