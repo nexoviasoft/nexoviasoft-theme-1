@@ -32,22 +32,28 @@ const CouponCode = ({
   const fallbackCode = (appliedPromo?.code || promoCode).trim();
   const showFallbackChip = !hasAvailablePromos && !!fallbackCode;
 
+  const showInstructionText = hasAvailablePromos && !availablePromosLoading;
+
   if (isProductCheckout) {
     return (
       <div className="flex flex-col gap-2">
-        <p className="text-xs sm:text-sm text-gray-700">
-          {COUPON_INSTRUCTION_TEXT}
-        </p>
+        {showInstructionText && (
+          <p className="text-xs sm:text-sm text-gray-700">
+            {COUPON_INSTRUCTION_TEXT}
+          </p>
+        )}
       </div>
     );
   }
 
   return (
     <div className="flex flex-col gap-2">
-      {/* Info text */}
-      <p className="text-xs sm:text-sm text-gray-700">
-        {COUPON_INSTRUCTION_TEXT}
-      </p>
+      {/* Info text - শুধুমাত্র প্রোডাক্টে প্রমোকোড থাকলে দেখাবে */}
+      {showInstructionText && (
+        <p className="text-xs sm:text-sm text-gray-700">
+          {COUPON_INSTRUCTION_TEXT}
+        </p>
+      )}
 
       {availablePromosLoading && (
         <p className="text-xs text-primary">Available coupons লোড হচ্ছে...</p>
