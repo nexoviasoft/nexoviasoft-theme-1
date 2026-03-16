@@ -91,10 +91,14 @@ const CustomerInfo = ({
             <div className="grid grid-cols-1">
               <input
                 className="border border-gray-200 outline-none  py-2.5 px-3 text-sm focus:border-black placeholder:text-gray-400 bg-gray-50/30 focus:bg-white transition-all rounded-lg"
-                type="text"
+                type="tel"
+                inputMode="numeric"
                 placeholder="ফোন নম্বর *"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={(e) => {
+                  const onlyDigits = e.target.value.replace(/\D/g, "");
+                  setPhone(onlyDigits);
+                }}
                 required
               />
             </div>

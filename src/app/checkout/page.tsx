@@ -480,6 +480,12 @@ const CheckoutContent = () => {
       return;
     }
 
+    const trimmedPhone = phone.trim();
+    if (!/^[0-9]+$/.test(trimmedPhone)) {
+      toast.error("ফোন নম্বর শুধুমাত্র সংখ্যায় লিখুন");
+      return;
+    }
+
     if (!email.trim()) {
       toast.error("Email is required");
       return;
