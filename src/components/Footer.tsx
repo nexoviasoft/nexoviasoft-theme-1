@@ -303,10 +303,21 @@ const Footer = () => {
       </div>
       <div className=" border-t border-gray-700">
         <div className="max-w-7xl mx-auto px-5 sm:py-4 py-3 flex items-center justify-between gap-2 min-[700px]:flex-row flex-col">
-          <div>
+          <div className="flex flex-col gap-1">
             <p className="text-[#ffffffe6] text-[15px]">
               কপিরাইট © {new Date().getFullYear()} {companyName} সর্বস্বত্ব
               সংরক্ষিত
+            </p>
+            <p className="text-[#ffffffe6] text-[14px]">
+              Developed by{" "}
+              <Link
+                href="https://www.nexoviasoft.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white underline"
+              >
+                NexoviaSoft
+              </Link>
             </p>
           </div>
           <div>
