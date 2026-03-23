@@ -215,6 +215,8 @@ const CheckoutContent = () => {
                   name: product.name,
                   thumbnail: product.thumbnail,
                   images: product.images,
+                  price: product.price,
+                  discountPrice: product.discountPrice,
                 },
               };
             } catch (error) {
