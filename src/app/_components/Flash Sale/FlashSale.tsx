@@ -2,7 +2,11 @@ import { getFlashSaleProducts, Product } from "../../../lib/api-services";
 import CountDown from "./CountDown";
 import FlashSaleProduct from "./FlashSaleProduct";
 
-const FlashSale = async () => {
+interface FlashSaleProps {
+  isPage?: boolean;
+}
+
+const FlashSale = async ({ isPage = false }: FlashSaleProps = {}) => {
   let flashSaleProducts: Product[] = [];
 
   try {
@@ -14,6 +18,20 @@ const FlashSale = async () => {
 
   // If there are no flash sale products, don't show the section
   if (flashSaleProducts.length === 0) {
+    if (isPage) {
+      return (
+        <section className="max-w-7xl mx-auto px-5 md:pt-10 pt-5 min-h-[50vh] flex flex-col items-center justify-center">
+          <div className="text-center space-y-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+              এই মুহূর্তে কোনো ফ্ল্যাশ সেল চলছে না
+            </h2>
+            <p className="text-gray-500">
+              পরবর্তী ফ্ল্যাশ সেলের চমকপ্রদ ডিল পেতে আমাদের সাথেই থাকুন!
+            </p>
+          </div>
+        </section>
+      );
+    }
     return null;
   }
 
