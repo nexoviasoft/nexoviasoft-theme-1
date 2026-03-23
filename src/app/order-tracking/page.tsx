@@ -9,7 +9,7 @@ import CopyButton from "@/components/shared/CopyButton";
 import {
   FiCheckCircle,
   FiClock,
-  FiMapPin, 
+  FiMapPin,
   FiPackage,
   FiSearch,
   FiTruck,
@@ -47,26 +47,17 @@ interface TrackedOrder {
 }
 
 const getStatusMessage = (status: string) => {
-  switch (status.toLowerCase()) {
-    case "pending":
-      return "আপনার অর্ডার গ্রহণ করা হয়েছে। খুব শীঘ্রই প্রসেস করা হবে।";
-    case "processing":
-      return "অর্ডার প্রসেসিং চলছে। প্যাকেজিং ও প্রস্তুতি সম্পন্ন হচ্ছে।";
-    case "shipped":
-      return "অর্ডার কুরিয়ারে পাঠানো হয়েছে। ট্র্যাকিং আপডেট সময়ে সময়ে দেখুন।";
-    case "delivered":
-      return "আপনার অর্ডার ডেলিভার করা হয়েছে। আমাদের সাথে থাকার জন্য ধন্যবাদ!";
-    case "paid":
-      return "পেমেন্ট নিশ্চিত হয়েছে। শিপমেন্টের জন্য প্রস্তুতি চলছে।";
-    case "cancelled":
-      return "এই অর্ডারটি বাতিল করা হয়েছে। প্রয়োজনে নতুন অর্ডার করুন।";
-    case "returned":
-      return "পণ্য ফেরত প্রক্রিয়ায় আছে। টিম শীঘ্রই যোগাযোগ করবে।";
-    case "refunded":
-      return "রিফান্ড প্রসেস সম্পন্ন/প্রক্রিয়াধীন। ব্যাংকিং সময় অনুযায়ী আপডেট হবে।";
-    default:
-      return "আপনার অর্ডারের অবস্থা আপডেট করা হয়েছে। বিস্তারিত নিচে দেখুন।";
-  }
+  const s = status.toLowerCase();
+  const map: Record<string, string> = {
+    pending: "আপনার অর্ডার গ্রহণ করা হয়েছে এবং নিশ্চিতকরণের অপেক্ষায় আছে।",
+    processing: "আপনার অর্ডার শিপমেন্টের জন্য প্রস্তুত করা হচ্ছে।",
+    paid: "পেমেন্ট সম্পন্ন। আপনার অর্ডার প্রসেস করা হচ্ছে।",
+    shipped: "আপনার অর্ডার শিপ করা হয়েছে এবং পথে রয়েছে।",
+    delivered: "আপনার অর্ডার সফলভাবে ডেলিভারি হয়েছে।",
+    cancelled: "এই অর্ডারটি বাতিল করা হয়েছে।",
+    refunded: "এই অর্ডারটি রিফান্ড করা হয়েছে।",
+  };
+  return map[s] ?? "আপনার অর্ডারের স্ট্যাটাস আপডেট করা হচ্ছে।";
 };
 
 const getStatusConfig = (status: string) => {
@@ -130,12 +121,10 @@ const getStatusConfig = (status: string) => {
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
-  return date.toLocaleDateString("bn-BD", {
+  return date.toLocaleDateString("en-US", {
     year: "numeric",
-    month: "long",
+    month: "short",
     day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
   });
 };
 
@@ -243,13 +232,13 @@ function OrderTrackingContent() {
                   value={trackingId}
                   onChange={(e) => setTrackingId(e.target.value)}
                   placeholder="ট্র্যাকিং আইডি লিখুন (যেমন: TRK-123456 বা 123123)"
-                  className="block w-full pl-14 pr-5 py-4 bg-gray-50/70 border border-gray-200 rounded-2xl text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-black/10 focus:border-black/30 focus:bg-white transition-all duration-300 text-base font-medium shadow-inner"
+                  className="block w-full pl-14 pr-5 py-4 bg-gray-50/70 border border-gray-200 rounded-2xl text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/10 focus:border-primary/30 focus:bg-white transition-all duration-300 text-base font-medium shadow-inner"
                 />
               </div>
               <button
                 type="submit"
                 disabled={loading || !trackingId.trim()}
-                className="inline-flex items-center justify-center px-8 py-4 rounded-full text-base font-bold text-white bg-gradient-to-r from-black to-gray-900 hover:from-gray-900 hover:to-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-black/20 min-w-[140px] transform hover:scale-[1.02] active:scale-[0.98]"
+                className="inline-flex items-center justify-center px-8 py-4 rounded-full text-base font-bold text-white bg-gradient-to-r from-primary to-primaryDark hover:from-primaryDark hover:to-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-primary/20 min-w-[140px] transform hover:scale-[1.02] active:scale-[0.98]"
               >
                 {loading ? (
                   <span className="flex items-center gap-3">
@@ -286,7 +275,7 @@ function OrderTrackingContent() {
                         <span className="text-xs font-extrabold text-gray-500 uppercase tracking-widest">
                           অর্ডার আইডি
                         </span>
-                        <span className="px-3 py-1 rounded-full bg-black text-white text-sm font-bold tracking-wide shadow">
+                        <span className="px-3 py-1 rounded-full bg-primary text-white text-sm font-bold tracking-wide shadow">
                           #{order.id}
                         </span>
                       </div>
@@ -309,23 +298,23 @@ function OrderTrackingContent() {
                     </div>
                   </div>
                 </div>
-                  <div className="mt-5">
-                    <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4">
-                      <p className="text-sm font-semibold text-gray-800">
-                        {getStatusMessage(order.status)}
-                      </p>
-                    </div>
+                <div className="mt-5">
+                  <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4">
+                    <p className="text-sm font-semibold text-gray-800">
+                      {getStatusMessage(order.status)}
+                    </p>
                   </div>
+                </div>
 
                 {/* Two Column Info */}
                 <div className="p-6 sm:p-8  gap-6 lg:gap-8">
-                
-                
+
+
 
                   {/* Shipping & Payment */}
                   <div className="bg-gradient-to-br from-gray-50/70 to-white p-6 rounded-2xl border border-gray-100 hover:border-gray-300 transition-all duration-300 shadow-sm hover:shadow">
                     <h3 className="text-base font-extrabold text-gray-900 flex items-center gap-3 mb-5">
-                      <div className="w-10 h-10 rounded-xl bg-black flex items-center justify-center shadow">
+                      <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow">
                         <FiPackage className="w-5 h-5 text-white" />
                       </div>
                       শিপিং ও পেমেন্ট
@@ -359,7 +348,7 @@ function OrderTrackingContent() {
                           </span>
                           <CopyButton
                             text={order.shippingTrackingId || trackingId || ""}
-                            className="text-gray-500 hover:text-black p-2.5 rounded-full hover:bg-gray-100 transition"
+                            className="text-gray-500 hover:text-primary p-2.5 rounded-full hover:bg-gray-100 transition"
                           />
                         </div>
                       </div>
@@ -391,34 +380,25 @@ function OrderTrackingContent() {
                             className="relative flex gap-6 group"
                           >
                             <div
-                              className={`absolute left-0 flex h-14 w-14 items-center justify-center rounded-2xl border-4 border-white shadow-lg transition-all duration-300 z-10 ${
-                                isLatest
-                                  ? "bg-black text-white scale-110 ring-4 ring-black/10 shadow-2xl"
+                              className={`absolute left-0 flex h-14 w-14 items-center justify-center rounded-2xl border-4 border-white shadow-lg transition-all duration-300 z-10 ${isLatest
+                                  ? "bg-primary text-white scale-110 ring-4 ring-primary/10 shadow-2xl"
                                   : "bg-gray-100 text-gray-400 group-hover:bg-gray-200 group-hover:text-gray-600"
-                              }`}
+                                }`}
                             >
                               <config.icon className="h-6 w-6" />
                             </div>
 
                             <div className="flex-1 pt-3 pl-20">
-                              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-3">
-                                <p
-                                  className={`text-lg font-extrabold transition-colors ${
-                                    isLatest ? "text-gray-900" : "text-gray-600"
-                                  }`}
-                                >
-                                  {config.label}
-                                </p>
-                                <time className="text-xs font-bold text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full whitespace-nowrap border border-gray-200 shadow-sm">
-                                  {formatDate(entry.createdAt)}
-                                </time>
+                              <div className="mb-1">
+                                <span className={`text-sm sm:text-base font-bold transition-colors ${isLatest ? "text-gray-900" : "text-gray-600"
+                                  }`}>
+                                  {formatDate(entry.createdAt)} — {entry.newStatus.toUpperCase()}
+                                </span>
                               </div>
 
-                              {entry.comment && (
-                                <p className="text-sm font-medium text-gray-600 bg-gray-50 rounded-2xl p-4 border border-gray-100/80 mt-2 leading-relaxed">
-                                  {entry.comment}
-                                </p>
-                              )}
+                              <p className="text-xs sm:text-sm font-medium text-gray-600 bg-gray-50 rounded-xl p-3 border border-gray-100/80 mt-1 leading-relaxed">
+                                {entry.comment || getStatusMessage(entry.newStatus)}
+                              </p>
                             </div>
                           </div>
                         );
@@ -441,7 +421,7 @@ export default function OrderTrackingPage() {
       fallback={
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-black border-t-transparent rounded-full animate-spin" />
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
             <p className="text-lg font-medium text-gray-600">লোড হচ্ছে...</p>
           </div>
         </div>
