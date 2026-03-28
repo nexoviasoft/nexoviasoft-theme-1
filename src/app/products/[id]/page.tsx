@@ -276,12 +276,7 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
             </div>
 
             {/* related products */}
-            <div className="mt-4">
-              <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
-                সম্পর্কিত পণ্যসমূহ
-              </h2>
-              <RelatedProducts id={id} />
-            </div>
+            <RelatedProducts id={id} />
           </div>
         </section>
       </div>

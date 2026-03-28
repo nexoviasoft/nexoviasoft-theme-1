@@ -275,12 +275,7 @@ const FlashSellProductPage = async ({
               <Tab product={product} returnPolicyContent={returnPolicyContent} />
             </div>
 
-            <div className="mt-4">
-              <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
-                সম্পর্কিত পণ্যসমূহ
-              </h2>
-              <RelatedProducts id={slug} />
-            </div>
+            <RelatedProducts id={slug} />
           </div>
         </section>
       </div>

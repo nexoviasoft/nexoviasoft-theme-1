@@ -1,6 +1,11 @@
 import EmblaCarousel from "../../../../components/shared/EmblaCarousel";
 import ProductCard from "../../../../components/ui/ProductCard";
-import { getProductBySlug, getProductsByCategory, Product } from "../../../../lib/api-services";
+import {
+  getProductBySlug,
+  getProductsByCategory,
+  Product,
+} from "../../../../lib/api-services";
+import { FiGrid } from "react-icons/fi";
 
 interface ImageProps {
   name: string;
@@ -31,21 +36,28 @@ interface ProductProps {
 
 // Helper function to map REST API product to component format
 function mapProductToCardFormat(apiProduct: Product): ProductProps {
-  const off = apiProduct.discountPrice && apiProduct.price
-    ? Math.round(((apiProduct.price - apiProduct.discountPrice) / apiProduct.price) * 100)
-    : 0;
+  const off =
+    apiProduct.discountPrice && apiProduct.price
+      ? Math.round(
+          ((apiProduct.price - apiProduct.discountPrice) / apiProduct.price) *
+            100,
+        )
+      : 0;
 
-  const images: ImageProps[] = apiProduct.images?.map((img, index) => ({
-    name: img.alt || `Image ${index + 1}`,
-    url: img.url,
-  })) || [];
+  const images: ImageProps[] =
+    apiProduct.images?.map((img, index) => ({
+      name: img.alt || `Image ${index + 1}`,
+      url: img.url,
+    })) || [];
 
-  const variant: VariantProps[] = [{
-    price: Number(apiProduct.price),
-    size: "Default",
-    available_quantity: 100, // Default value - would need to come from inventory if available
-    stock_status: apiProduct.isActive ? "in_stock" : "out_of_stock",
-  }];
+  const variant: VariantProps[] = [
+    {
+      price: Number(apiProduct.price),
+      size: "Default",
+      available_quantity: 100, // Default value - would need to come from inventory if available
+      stock_status: apiProduct.isActive ? "in_stock" : "out_of_stock",
+    },
+  ];
 
   return {
     SKU: apiProduct.sku,
@@ -58,7 +70,9 @@ function mapProductToCardFormat(apiProduct: Product): ProductProps {
     description: apiProduct.description,
     shortDescription: apiProduct.description,
     price: Number(apiProduct.price),
-    discountPrice: apiProduct.discountPrice ? Number(apiProduct.discountPrice) : 0,
+    discountPrice: apiProduct.discountPrice
+      ? Number(apiProduct.discountPrice)
+      : 0,
   };
 }
 
@@ -70,7 +84,7 @@ const RelatedProducts = async ({ id }: { id: string }) => {
     const currentProduct = await getProductBySlug(id);
     const categoryName = currentProduct.category?.name;
 
-    const allProducts = categoryName 
+    const allProducts = categoryName
       ? await getProductsByCategory(undefined, categoryName)
       : [];
 
@@ -89,10 +103,22 @@ const RelatedProducts = async ({ id }: { id: string }) => {
   }
 
   return (
-    <section className=" max-w-7xl mx-auto  md:pt-10 pt-5 ">
-      <h1 className=" sm:text-2xl text-xl font-bold text-primary">
-        সম্পর্কিত পণ্যসমূহ
-      </h1>
+    <section className="mt-4 md:mt-6">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-3">
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <FiGrid size={18} />
+          </span>
+          <div className="flex flex-col">
+            <h2 className="text-lg md:text-xl font-semibold text-gray-900">
+              সম্পর্কিত পণ্যসমূহ
+            </h2>
+            <p className="text-xs md:text-sm text-gray-500">
+              একই ক্যাটাগরির আরও কিছু পছন্দের পণ্য
+            </p>
+          </div>
+        </div>
+      </div>
       <div>
         <EmblaCarousel dragFree arrowButtons>
           {relatedProducts.map((item, index) => (
