@@ -2,6 +2,7 @@ import { getFlashSaleProducts, Product } from "../../../lib/api-services";
 import Link from "next/link";
 import CountDown from "./CountDown";
 import FlashSaleProduct from "./FlashSaleProduct";
+import { IoFlash } from "react-icons/io5";
 
 interface FlashSaleProps {
   isPage?: boolean;
@@ -158,7 +159,10 @@ const FlashSale = async ({ isPage = false }: FlashSaleProps = {}) => {
                     সীমিত সময়ের অফার
                   </span>
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
+                <h2 className="text-2xl sm:text-3xl font-black tracking-tight flex items-center gap-2">
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-white/15 border border-white/20">
+                    <IoFlash className="text-xl" />
+                  </span>
                   ফ্ল্যাশ সেল
                 </h2>
                 <p className="text-xs sm:text-sm text-white/90 font-medium">

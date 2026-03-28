@@ -1,6 +1,7 @@
 import { getProducts, Product } from "../../lib/api-services";
 import Link from "next/link";
 import ForYouGrid from "./ForYouGrid";
+import { FiShoppingBag } from "react-icons/fi";
 
 const ForYou = async () => {
   let products: Product[] = [];
@@ -21,12 +22,22 @@ const ForYou = async () => {
   return (
     <section className="max-w-7xl mx-auto px-5 overflow-hidden md:pt-8 pt-3">
       <div className=" md:mb-5 mb-3 flex items-center justify-between gap-5">
-        <h1 className=" sm:text-2xl text-xl font-bold text-primary">
-          আমাদের কালেকশন
-        </h1>
+        <div className="flex items-center gap-3">
+          <div className="h-9 w-9 rounded-full bg-primary/5 ring-1 ring-primary/10 text-primary flex items-center justify-center">
+            <FiShoppingBag className="text-xl" />
+          </div>
+          <div>
+            <h2 className="text-base sm:text-lg md:text-xl font-extrabold tracking-tight text-gray-900">
+              আমাদের কালেকশন
+            </h2>
+            <p className="text-xs sm:text-sm text-gray-500 font-medium">
+              আপনার জন্য বাছাই করা নতুন পণ্য
+            </p>
+          </div>
+        </div>
         <Link
           href={"/products"}
-          className=" text-primary underline underline-offset-4 hover:text-gray-700 cursor-pointer transition-all font-medium"
+          className="inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 hover:border-gray-300 transition-colors"
         >
           সব পণ্য দেখুন
         </Link>
