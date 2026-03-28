@@ -2,9 +2,9 @@ import EmblaCarousel from "../../components/shared/EmblaCarousel";
 import { Banner, getBanners } from "../../lib/api-services";
 import { API_CONFIG } from "../../lib/api-config";
 import Image from "next/image";
-import Link from "next/link";
+// import Link from "next/link";
 import React from "react";
-import { log } from "console";
+// import { log } from "console";
 
 const HeroCarousel: React.FC = async () => {
   const banners: Banner[] = await getBanners(API_CONFIG.companyId).catch(
@@ -26,13 +26,13 @@ const HeroCarousel: React.FC = async () => {
             key={banner.id}
             className="[flex:0_0_100%] w-full h-full relative"
           >
-            <div className="relative rounded-sm  w-full sm:aspect-[16/5] aspect-[16/7] overflow-hidden">
+            <div className="relative w-full sm:aspect-[16/5] aspect-[16/7] overflow-hidden rounded-sm md:rounded-2xl lg:rounded-3xl">
               <Image
                 src={banner.imageUrl}
                 alt={banner.title || "Banner Image"}
                 width={1280}
                 height={500}
-                className="sm:aspect-[16/5]   aspect-[16/7] "
+                className="w-full h-full object-cover sm:aspect-[16/5] aspect-[16/7]"
               />
               {/* Overlay content */}
               {/* <div className="absolute inset-0 flex flex-col items-start justify-center px-4 sm:px-8 md:px-12 lg:px-16 bg-gradient-to-r from-black/40 to-transparent">
