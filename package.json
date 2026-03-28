@@ -12,6 +12,7 @@
     "@ant-design/icons": "^5.5.1",
     "@ant-design/nextjs-registry": "^1.0.2",
     "@apollo/client": "^3.13.1",
+    "@radix-ui/react-select": "^2.2.6",
     "@types/node": "20.19.33",
     "@types/react": "19.2.14",
     "@types/react-dom": "^19",

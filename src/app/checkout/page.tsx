@@ -28,6 +28,7 @@ const CheckoutContent = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [district, setDistrict] = useState("");
+  const [upazila, setUpazila] = useState("");
   const [tShirtSize, setTShirtSize] = useState<string>("");
   const [promoCode, setPromoCode] = useState("");
   const [promo, setPromo] = useState<PromoCode | null>(null);
@@ -181,6 +182,7 @@ const CheckoutContent = () => {
       setPhone((userSession.user.phone as string | undefined) || "");
       setAddress((userSession.user.address as string | undefined) || "");
       setDistrict((userSession.user.district as string | undefined) || "");
+      setUpazila(((userSession.user as any).upazila as string | undefined) || "");
     }
   }, [userSession]);
 
@@ -482,6 +484,16 @@ const CheckoutContent = () => {
       return;
     }
 
+    if (!district.trim()) {
+      toast.error("জেলা নির্বাচন করুন");
+      return;
+    }
+
+    if (!upazila.trim()) {
+      toast.error("উপজেলা নির্বাচন করুন");
+      return;
+    }
+
     const trimmedPhone = phone.trim();
     if (!/^[0-9]+$/.test(trimmedPhone)) {
       toast.error("ফোন নম্বর শুধুমাত্র সংখ্যায় লিখুন");
@@ -500,7 +512,7 @@ const CheckoutContent = () => {
     try {
       setOrderLoading(true);
 
-      const combinedAddress = [district.trim(), address.trim()]
+      const combinedAddress = [district.trim(), upazila.trim(), address.trim()]
         .filter(Boolean)
         .join(", ");
 
@@ -600,6 +612,8 @@ const CheckoutContent = () => {
               setPhone={setPhone}
               district={district}
               setDistrict={setDistrict}
+              upazila={upazila}
+              setUpazila={setUpazila}
               address={address}
               setAddress={setAddress}
               paymentMethod={paymentMethod}
