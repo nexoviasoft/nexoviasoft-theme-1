@@ -12,7 +12,11 @@ import CartDrawer from "./shopping cart/CartDrawer";
 import { useAuth } from "../context/AuthContext";
 import { Button, Modal } from "antd";
 import { API_CONFIG } from "../lib/api-config";
-import { getFlashSaleProducts, getSystemUserByCompanyId, Product } from "../lib/api-services";
+import {
+  getFlashSaleProducts,
+  getSystemUserByCompanyId,
+  Product,
+} from "../lib/api-services";
 import { FiLogIn, FiUserPlus } from "react-icons/fi";
 import CountDown from "../app/_components/Flash Sale/CountDown";
 import formatteeNumber from "../utils/formatteNumber";
@@ -27,7 +31,9 @@ const Header = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [flashSaleModalOpen, setFlashSaleModalOpen] = useState(false);
   const [flashSaleModalLoading, setFlashSaleModalLoading] = useState(false);
-  const [flashSaleModalProducts, setFlashSaleModalProducts] = useState<Product[]>([]);
+  const [flashSaleModalProducts, setFlashSaleModalProducts] = useState<
+    Product[]
+  >([]);
   const [flashSaleModalTotalCount, setFlashSaleModalTotalCount] = useState(0);
   const [flashSaleModalMaxDiscount, setFlashSaleModalMaxDiscount] = useState(0);
   const [flashSaleModalSecondsLeft, setFlashSaleModalSecondsLeft] = useState(0);
@@ -108,7 +114,9 @@ const Header = () => {
             p.flashSellEndTime ? new Date(p.flashSellEndTime).getTime() : null,
           )
           .filter((t): t is number => !!t && t > now);
-        const nearestEndTime = validEndTimes.length ? Math.min(...validEndTimes) : null;
+        const nearestEndTime = validEndTimes.length
+          ? Math.min(...validEndTimes)
+          : null;
         const initialSecondsLeft =
           nearestEndTime && nearestEndTime > now
             ? Math.max(0, Math.floor((nearestEndTime - now) / 1000))
