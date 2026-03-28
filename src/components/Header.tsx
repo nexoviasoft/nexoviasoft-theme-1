@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { CiSearch } from "react-icons/ci";
 import { FaBars, FaRegUser, FaXmark } from "react-icons/fa6";
 import { IoLogInOutline } from "react-icons/io5";
@@ -41,6 +41,9 @@ const Header = () => {
   const router = useRouter();
   const isAuthenticated = Boolean(userSession?.accessToken);
 
+  const pathname = usePathname();
+  // const companyId = useMemo(
+
   const companyId = useMemo(
     () => userSession?.companyId || API_CONFIG.companyId,
     [userSession?.companyId],
@@ -56,6 +59,47 @@ const Header = () => {
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
+
+  const openFlashSaleModal = async () => {
+    if (!companyId) return;
+    if (flashSaleModalOpen || flashSaleModalLoading) return;
+
+    setFlashSaleModalLoading(true);
+    try {
+      const products = await getFlashSaleProducts(companyId);
+      if (!products || products.length === 0) return;
+
+      const maxDiscount = products.reduce((max, p) => {
+        const discount =
+          p.flashSellPrice && p.price
+            ? Math.round(((p.price - p.flashSellPrice) / p.price) * 100)
+            : 0;
+        return discount > max ? discount : max;
+      }, 0);
+
+      const now = Date.now();
+      const validEndTimes = products
+        .map((p) =>
+          p.flashSellEndTime ? new Date(p.flashSellEndTime).getTime() : null,
+        )
+        .filter((t): t is number => !!t && t > now);
+      const nearestEndTime = validEndTimes.length
+        ? Math.min(...validEndTimes)
+        : null;
+      const initialSecondsLeft =
+        nearestEndTime && nearestEndTime > now
+          ? Math.max(0, Math.floor((nearestEndTime - now) / 1000))
+          : 0;
+
+      setFlashSaleModalProducts(products.slice(0, 4));
+      setFlashSaleModalTotalCount(products.length);
+      setFlashSaleModalMaxDiscount(maxDiscount);
+      setFlashSaleModalSecondsLeft(initialSecondsLeft);
+      setFlashSaleModalOpen(true);
+    } finally {
+      setFlashSaleModalLoading(false);
+    }
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -79,62 +123,9 @@ const Header = () => {
   }, [companyId]);
 
   useEffect(() => {
-    const getTodayKey = () => {
-      const d = new Date();
-      const yyyy = d.getFullYear();
-      const mm = String(d.getMonth() + 1).padStart(2, "0");
-      const dd = String(d.getDate()).padStart(2, "0");
-      return `${yyyy}-${mm}-${dd}`;
-    };
-
-    const tryOpenDailyFlashSaleModal = async () => {
-      if (!companyId) return;
-      const storageKey = `flash_sale_modal_shown_${companyId}`;
-      const today = getTodayKey();
-      const lastShown = localStorage.getItem(storageKey);
-      if (lastShown === today) return;
-      if (flashSaleModalOpen || flashSaleModalLoading) return;
-
-      setFlashSaleModalLoading(true);
-      try {
-        const products = await getFlashSaleProducts(companyId);
-        if (!products || products.length === 0) return;
-
-        const maxDiscount = products.reduce((max, p) => {
-          const discount =
-            p.flashSellPrice && p.price
-              ? Math.round(((p.price - p.flashSellPrice) / p.price) * 100)
-              : 0;
-          return discount > max ? discount : max;
-        }, 0);
-
-        const now = Date.now();
-        const validEndTimes = products
-          .map((p) =>
-            p.flashSellEndTime ? new Date(p.flashSellEndTime).getTime() : null,
-          )
-          .filter((t): t is number => !!t && t > now);
-        const nearestEndTime = validEndTimes.length
-          ? Math.min(...validEndTimes)
-          : null;
-        const initialSecondsLeft =
-          nearestEndTime && nearestEndTime > now
-            ? Math.max(0, Math.floor((nearestEndTime - now) / 1000))
-            : 0;
-
-        setFlashSaleModalProducts(products.slice(0, 4));
-        setFlashSaleModalTotalCount(products.length);
-        setFlashSaleModalMaxDiscount(maxDiscount);
-        setFlashSaleModalSecondsLeft(initialSecondsLeft);
-        setFlashSaleModalOpen(true);
-        localStorage.setItem(storageKey, today);
-      } finally {
-        setFlashSaleModalLoading(false);
-      }
-    };
-
-    tryOpenDailyFlashSaleModal();
-  }, [companyId, flashSaleModalOpen, flashSaleModalLoading]);
+    if (pathname !== "/") return;
+    openFlashSaleModal();
+  }, [pathname, companyId]);
 
   const handleSearch = () => {
     const query = searchTerm.trim();
@@ -203,6 +194,9 @@ const Header = () => {
             <ul className=" flex gap-2">
               <Link
                 href="/"
+                onClick={() => {
+                  if (pathname === "/") openFlashSaleModal();
+                }}
                 className=" text-lg font-medium px-3 py-2 hover:text-primary transition-all ease-linear duration-200"
               >
                 হোম
@@ -240,7 +234,7 @@ const Header = () => {
 
             <div className="md:block hidden">
               {authLoading ? (
-                <div className="h-9 w-20  rounded-[40px] border border-gray-200 bg-gray-50" />
+                <div className="h-9 w-20  rounded-[60px] border border-gray-200 bg-gray-50" />
               ) : isAuthenticated ? (
                 <ProfileDropDown />
               ) : (
@@ -290,7 +284,10 @@ const Header = () => {
       >
         <ul className=" flex flex-col bg gap-2">
           <Link
-            onClick={() => setToggle(!toggle)}
+            onClick={() => {
+              setToggle(!toggle);
+              if (pathname === "/") openFlashSaleModal();
+            }}
             href="/"
             className=" text-lg font-medium px-5 py-2 hover:text-primary tran95ion-all ease-linear duration-200  hover:bg-primary/5"
           >
@@ -408,11 +405,29 @@ const Header = () => {
         onCancel={() => setFlashSaleModalOpen(false)}
         footer={null}
         centered
-        width={isMobile ? "92vw" : 720}
+        closable={false}
+        width={isMobile ? "92vw" : 980}
+        styles={{
+          content: {
+            padding: 0,
+            borderRadius: isMobile ? 30 : 24,
+            overflow: "hidden",
+          },
+          body: { padding: 0 },
+        }}
         destroyOnClose
       >
-        <div className="space-y-4">
-          <div className="rounded-2xl overflow-hidden bg-gradient-to-r from-red-600 to-orange-500 text-white">
+        <div className="space-y-4 p-4 sm:p-6">
+          <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-red-600 to-orange-500 text-white">
+            <button
+              type="button"
+              onClick={() => setFlashSaleModalOpen(false)}
+              className="absolute right-3 top-3 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur hover:bg-white/30 transition-colors ring-1 ring-white/30"
+              aria-label="Close"
+            >
+              <span className="text-2xl leading-none">×</span>
+            </button>
+
             <div className="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
@@ -443,7 +458,7 @@ const Header = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
             {flashSaleModalProducts.map((p) => {
               const imgSrc = p.thumbnail || p.images?.[0]?.url;
               const discount =
