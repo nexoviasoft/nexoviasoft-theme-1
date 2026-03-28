@@ -17,7 +17,7 @@ const Category = async () => {
   }
 
   return (
-    <section className=" max-w-7xl mx-auto px-5 md:pt-10 pt-5">
+    <section className=" max-w-7xl mx-auto px-5 md:pt-8 pt-3">
       <div>
         <h1 className=" sm:text-2xl text-xl  font-bold text-primary">
           ক্যাটাগরি অনুযায়ী কেনাকাটা করুন

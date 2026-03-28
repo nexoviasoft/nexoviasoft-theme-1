@@ -26,7 +26,7 @@ const TopProduct = async () => {
   const items = section.carouselItems || [];
 
   return (
-    <section className="max-w-7xl mx-auto px-5 md:pt-10 pt-5 overflow-hidden">
+    <section className="max-w-7xl mx-auto px-5 md:pt-8 pt-3 overflow-hidden">
       <h2 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-3">
         জনপ্রিয় কালেকশন
       </h2>

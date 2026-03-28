@@ -19,7 +19,7 @@ export default function Home() {
         />
       }
     >
-      <main className="space-y-8  overflow-hidden">
+      <main className="space-y-4 md:space-y-6 overflow-hidden">
         <HeroCarousel />
 
         <Category />

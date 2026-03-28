@@ -141,7 +141,7 @@ const FlashSale = async ({ isPage = false }: FlashSaleProps = {}) => {
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-5 md:pt-10 pt-5">
+    <section className="max-w-7xl mx-auto px-5 md:pt-8 pt-3">
       <div className="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
         <div className="relative overflow-hidden bg-gradient-to-r from-primary via-primary to-primaryDark text-white">
           <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-white/15 blur-3xl pointer-events-none" />
