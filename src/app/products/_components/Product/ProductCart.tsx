@@ -45,7 +45,13 @@ const ProductCart = ({
         />
       </div>
       <div className=" flex-1 w-full">
-        <AddToCartButton totalQuantity={quantity} price={price} productId={productId} product={product} disabled={disabled} />
+        <AddToCartButton
+          totalQuantity={quantity}
+          price={price}
+          productId={productId}
+          product={product}
+          disabled={disabled}
+        />
       </div>
     </div>
   );

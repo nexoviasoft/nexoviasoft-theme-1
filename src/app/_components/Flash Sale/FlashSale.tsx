@@ -69,13 +69,13 @@ const FlashSale = async ({ isPage = false }: FlashSaleProps = {}) => {
     return (
       <section className="max-w-7xl mx-auto px-5 md:py-10 py-6">
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-gray-950 via-gray-900 to-black text-white border border-white/10">
-          <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-red-500/20 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-orange-500/20 blur-3xl pointer-events-none" />
+          <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-white/10 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-primary/25 blur-3xl pointer-events-none" />
           <div className="relative p-6 md:p-8 flex flex-col gap-6">
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center rounded-full bg-red-600 px-2.5 py-1 text-[11px] font-semibold tracking-wide">
+                  <span className="inline-flex items-center rounded-full bg-primary px-2.5 py-1 text-[11px] font-semibold tracking-wide">
                     LIVE
                   </span>
                   <span className="text-xs sm:text-sm text-white/80 font-medium">
@@ -106,12 +106,12 @@ const FlashSale = async ({ isPage = false }: FlashSaleProps = {}) => {
               <p className="text-xs sm:text-sm text-white/80 font-medium">
                 দ্রুত কিনুন—স্টক ও সময় দুটোই সীমিত
               </p>
-              <div className="flex items-center gap-2">
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center sm:justify-end">
                 <Link
-                 href="/products"
-                  className="inline-flex items-center justify-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-gray-900 hover:bg-white/90 transition-colors"
+                  href="/products"
+                  className="inline-flex w-full sm:w-auto items-center justify-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-gray-900 hover:bg-white/90 transition-colors"
                 >
-                 সব পণ্য
+                  সব পণ্য
                 </Link>
                 {/* <Link
                   href="/products"
@@ -141,33 +141,63 @@ const FlashSale = async ({ isPage = false }: FlashSaleProps = {}) => {
   }
 
   return (
-    <section className=" max-w-7xl mx-auto px-5 md:pt-10 pt-5 ">
-      <div className=" overflow-hidden bg-gradient-to-r from-[#F3F4F6] to-[#E5E7EB] border border-white/50 shadow-sm rounded-2xl relative">
-        {/* Background pattern or decoration */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/40 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+    <section className="max-w-7xl mx-auto px-5 md:pt-10 pt-5">
+      <div className="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
+        <div className="relative overflow-hidden bg-gradient-to-r from-primary via-primary to-primaryDark text-white">
+          <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-white/15 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-black/15 blur-3xl pointer-events-none" />
 
-        <div className="relative z-10 sm:p-8 p-5 flex flex-col gap-5">
-          <div className="flex justify-between items-center gap-4 flex-col sm:flex-row border-b border-gray-200/60 pb-4">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded animate-pulse">
-                  LIVE
-                </span>
-                <h2 className="sm:text-3xl text-2xl font-black text-gray-800 tracking-tight">
+          <div className="relative p-5 sm:p-7 flex flex-col gap-4">
+            <div className="flex items-start justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center rounded-full bg-white/20 px-2.5 py-1 text-[11px] font-semibold tracking-wide">
+                    LIVE
+                  </span>
+                  <span className="text-xs sm:text-sm text-white/90 font-medium">
+                    সীমিত সময়ের অফার
+                  </span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
                   ফ্ল্যাশ সেল
                 </h2>
+                <p className="text-xs sm:text-sm text-white/90 font-medium">
+                  {maxDiscount > 0
+                    ? `${maxDiscount}% পর্যন্ত ছাড়`
+                    : "বিশেষ ছাড়"}{" "}
+                  • {flashSaleProducts.length} টি ডিল
+                </p>
               </div>
-              <p className="sm:text-sm text-xs text-gray-600 mt-1 font-medium">
-                {`${maxDiscount}% পর্যন্ত ফ্ল্যাশ সেল ডিল উপভোগ করুন!`}
-              </p>
+
+              {initialSecondsLeft > 0 && (
+                <div className="rounded-2xl bg-white/15 border border-white/25 px-4 py-4 backdrop-blur">
+                  <div className="text-xs font-semibold text-white/90 mb-2">
+                    অফার শেষ হতে বাকি
+                  </div>
+                  <CountDown initialSecondsLeft={initialSecondsLeft} />
+                </div>
+              )}
             </div>
-            <div>
-              <CountDown initialSecondsLeft={initialSecondsLeft} />
+
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:items-center sm:justify-end">
+              <Link
+                href="/flashSell"
+                className="inline-flex w-full sm:w-auto items-center justify-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-gray-900 hover:bg-white/90 transition-colors"
+              >
+                সব ডিল দেখুন
+              </Link>
+              <Link
+                href="/products"
+                className="inline-flex w-full sm:w-auto items-center justify-center rounded-xl border border-white/20 bg-transparent px-4 py-2 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
+              >
+                সব পণ্য
+              </Link>
             </div>
           </div>
-          <div>
-            <FlashSaleProduct products={flashSaleProducts} />
-          </div>
+        </div>
+
+        <div className="bg-gray-50/70 p-4 sm:p-6">
+          <FlashSaleProduct products={flashSaleProducts} />
         </div>
       </div>
     </section>

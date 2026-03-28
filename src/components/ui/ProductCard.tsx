@@ -2,7 +2,6 @@
 
 import { useCart } from "../../context/CartContext";
 
-
 import formatteeNumber from "../../utils/formatteNumber";
 
 import Image from "next/image";
@@ -71,7 +70,13 @@ interface ProductProps {
   variant?: Variant[]; // Array of price variants
 }
 
-const ProductCard = ({ product, detailHref }: { product: ProductProps; detailHref?: string }) => {
+const ProductCard = ({
+  product,
+  detailHref,
+}: {
+  product: ProductProps;
+  detailHref?: string;
+}) => {
   const { addCartItem } = useCart();
 
   const router = useRouter();
@@ -190,15 +195,23 @@ const ProductCard = ({ product, detailHref }: { product: ProductProps; detailHre
 
     if (available_variant && available_variant.length > 0) {
       try {
-        await addCartItem(Number(productId), 1, {
-          id: Number(productId),
-          name: product?.name || product?.title || "",
-          sku: product?.sku || product?.SKU,
-          price: Number(product?.price || product?.variant?.[0]?.price || 0),
-          discountPrice: Number(product?.discountPrice || 0),
-          thumbnail: product?.thumbnail || product?.images?.[0]?.url,
-          images: (product?.images || []).map((img) => ({ url: img.url, alt: img.name })),
-        }, Number(product?.price || product?.variant?.[0]?.price || 0))
+        await addCartItem(
+          Number(productId),
+          1,
+          {
+            id: Number(productId),
+            name: product?.name || product?.title || "",
+            sku: product?.sku || product?.SKU,
+            price: Number(product?.price || product?.variant?.[0]?.price || 0),
+            discountPrice: Number(product?.discountPrice || 0),
+            thumbnail: product?.thumbnail || product?.images?.[0]?.url,
+            images: (product?.images || []).map((img) => ({
+              url: img.url,
+              alt: img.name,
+            })),
+          },
+          Number(product?.price || product?.variant?.[0]?.price || 0),
+        );
 
         toast.success("Product added to cart!");
       } catch {
@@ -208,15 +221,23 @@ const ProductCard = ({ product, detailHref }: { product: ProductProps; detailHre
       // If no variant but product has price, allow adding
 
       try {
-        await addCartItem(Number(productId), 1, {
-          id: Number(productId),
-          name: product?.name || product?.title || "",
-          sku: product?.sku || product?.SKU,
-          price: Number(product?.price || 0),
-          discountPrice: Number(product?.discountPrice || 0),
-          thumbnail: product?.thumbnail || product?.images?.[0]?.url,
-          images: (product?.images || []).map((img) => ({ url: img.url, alt: img.name })),
-        }, Number(product?.price || 0))
+        await addCartItem(
+          Number(productId),
+          1,
+          {
+            id: Number(productId),
+            name: product?.name || product?.title || "",
+            sku: product?.sku || product?.SKU,
+            price: Number(product?.price || 0),
+            discountPrice: Number(product?.discountPrice || 0),
+            thumbnail: product?.thumbnail || product?.images?.[0]?.url,
+            images: (product?.images || []).map((img) => ({
+              url: img.url,
+              alt: img.name,
+            })),
+          },
+          Number(product?.price || 0),
+        );
 
         toast.success("Product added to cart!");
       } catch {
@@ -233,9 +254,7 @@ const ProductCard = ({ product, detailHref }: { product: ProductProps; detailHre
     event.preventDefault();
 
     const slug = getProductSlug();
-    const href =
-      detailHref ??
-      (slug ? `/products/${slug}` : undefined);
+    const href = detailHref ?? (slug ? `/products/${slug}` : undefined);
 
     if (!href) {
       toast.error("Product ID not available");
@@ -254,8 +273,7 @@ const ProductCard = ({ product, detailHref }: { product: ProductProps; detailHre
     product?.shortDescription || product?.description || "";
 
   const resolvedHref =
-    detailHref ??
-    (getProductSlug() ? `/products/${getProductSlug()}` : "#");
+    detailHref ?? (getProductSlug() ? `/products/${getProductSlug()}` : "#");
 
   return (
     <Link
