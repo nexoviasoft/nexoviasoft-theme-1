@@ -12,8 +12,10 @@ import CartDrawer from "./shopping cart/CartDrawer";
 import { useAuth } from "../context/AuthContext";
 import { Button, Modal } from "antd";
 import { API_CONFIG } from "../lib/api-config";
-import { getSystemUserByCompanyId } from "../lib/api-services";
+import { getFlashSaleProducts, getSystemUserByCompanyId, Product } from "../lib/api-services";
 import { FiLogIn, FiUserPlus } from "react-icons/fi";
+import CountDown from "../app/_components/Flash Sale/CountDown";
+import formatteeNumber from "../utils/formatteNumber";
 
 const Header = () => {
   const { userSession, logout, loading: authLoading } = useAuth();
@@ -23,6 +25,13 @@ const Header = () => {
   const [logoSrc, setLogoSrc] = useState<string | null>(null);
   const [isLogoLoading, setIsLogoLoading] = useState(true);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [flashSaleModalOpen, setFlashSaleModalOpen] = useState(false);
+  const [flashSaleModalLoading, setFlashSaleModalLoading] = useState(false);
+  const [flashSaleModalProducts, setFlashSaleModalProducts] = useState<Product[]>([]);
+  const [flashSaleModalTotalCount, setFlashSaleModalTotalCount] = useState(0);
+  const [flashSaleModalMaxDiscount, setFlashSaleModalMaxDiscount] = useState(0);
+  const [flashSaleModalSecondsLeft, setFlashSaleModalSecondsLeft] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
   const isAuthenticated = Boolean(userSession?.accessToken);
 
@@ -34,6 +43,13 @@ const Header = () => {
   useEffect(() => {
     setImageLoaded(false);
   }, [logoSrc]);
+
+  useEffect(() => {
+    const update = () => setIsMobile(window.innerWidth < 640);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   useEffect(() => {
     let mounted = true;
@@ -55,6 +71,62 @@ const Header = () => {
       mounted = false;
     };
   }, [companyId]);
+
+  useEffect(() => {
+    const getTodayKey = () => {
+      const d = new Date();
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
+      return `${yyyy}-${mm}-${dd}`;
+    };
+
+    const tryOpenDailyFlashSaleModal = async () => {
+      if (!companyId) return;
+      const storageKey = `flash_sale_modal_shown_${companyId}`;
+      const today = getTodayKey();
+      const lastShown = localStorage.getItem(storageKey);
+      if (lastShown === today) return;
+      if (flashSaleModalOpen || flashSaleModalLoading) return;
+
+      setFlashSaleModalLoading(true);
+      try {
+        const products = await getFlashSaleProducts(companyId);
+        if (!products || products.length === 0) return;
+
+        const maxDiscount = products.reduce((max, p) => {
+          const discount =
+            p.flashSellPrice && p.price
+              ? Math.round(((p.price - p.flashSellPrice) / p.price) * 100)
+              : 0;
+          return discount > max ? discount : max;
+        }, 0);
+
+        const now = Date.now();
+        const validEndTimes = products
+          .map((p) =>
+            p.flashSellEndTime ? new Date(p.flashSellEndTime).getTime() : null,
+          )
+          .filter((t): t is number => !!t && t > now);
+        const nearestEndTime = validEndTimes.length ? Math.min(...validEndTimes) : null;
+        const initialSecondsLeft =
+          nearestEndTime && nearestEndTime > now
+            ? Math.max(0, Math.floor((nearestEndTime - now) / 1000))
+            : 0;
+
+        setFlashSaleModalProducts(products.slice(0, 4));
+        setFlashSaleModalTotalCount(products.length);
+        setFlashSaleModalMaxDiscount(maxDiscount);
+        setFlashSaleModalSecondsLeft(initialSecondsLeft);
+        setFlashSaleModalOpen(true);
+        localStorage.setItem(storageKey, today);
+      } finally {
+        setFlashSaleModalLoading(false);
+      }
+    };
+
+    tryOpenDailyFlashSaleModal();
+  }, [companyId, flashSaleModalOpen, flashSaleModalLoading]);
 
   const handleSearch = () => {
     const query = searchTerm.trim();
@@ -321,6 +393,114 @@ const Header = () => {
         ]}
       >
         <p>আপনি কি নিশ্চিত লগআউট করতে চান?</p>
+      </Modal>
+
+      <Modal
+        open={flashSaleModalOpen}
+        onCancel={() => setFlashSaleModalOpen(false)}
+        footer={null}
+        centered
+        width={isMobile ? "92vw" : 720}
+        destroyOnClose
+      >
+        <div className="space-y-4">
+          <div className="rounded-2xl overflow-hidden bg-gradient-to-r from-red-600 to-orange-500 text-white">
+            <div className="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center rounded-full bg-white/20 px-2.5 py-1 text-[11px] font-semibold tracking-wide">
+                    LIVE
+                  </span>
+                  <span className="text-xs sm:text-sm text-white/90 font-medium">
+                    আজকের ফ্ল্যাশ সেল শুরু হয়েছে
+                  </span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black tracking-tight">
+                  {flashSaleModalMaxDiscount > 0
+                    ? `${flashSaleModalMaxDiscount}% পর্যন্ত ছাড়!`
+                    : "বিশেষ ছাড় চলছে!"}
+                </h3>
+                <p className="text-xs sm:text-sm text-white/90 font-medium">
+                  মোট {flashSaleModalTotalCount}টি পণ্যে অফার চলছে
+                </p>
+              </div>
+              {flashSaleModalSecondsLeft > 0 && (
+                <div className="rounded-2xl bg-white/15 border border-white/25 px-4 py-4 backdrop-blur">
+                  <div className="text-xs font-semibold text-white/90 mb-2">
+                    অফার শেষ হতে বাকি
+                  </div>
+                  <CountDown initialSecondsLeft={flashSaleModalSecondsLeft} />
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {flashSaleModalProducts.map((p) => {
+              const imgSrc = p.thumbnail || p.images?.[0]?.url;
+              const discount =
+                p.flashSellPrice && p.price
+                  ? Math.round(((p.price - p.flashSellPrice) / p.price) * 100)
+                  : 0;
+              const finalPrice =
+                p.flashSellPrice && p.price && p.flashSellPrice < p.price
+                  ? p.flashSellPrice
+                  : p.price;
+
+              return (
+                <Link
+                  key={p.sku || p.id}
+                  href={`/flashSell/${p.sku || p.id}`}
+                  onClick={() => setFlashSaleModalOpen(false)}
+                  className="group block rounded-xl border border-gray-100 bg-white overflow-hidden hover:shadow-md transition-shadow"
+                >
+                  <div className="relative bg-gray-50 overflow-hidden">
+                    {imgSrc ? (
+                      <Image
+                        src={imgSrc}
+                        alt={p.name}
+                        width={240}
+                        height={200}
+                        className="aspect-[7/5] w-full object-cover transition-transform duration-300 group-hover:scale-[1.05]"
+                      />
+                    ) : (
+                      <div className="aspect-[7/5] w-full bg-gray-100" />
+                    )}
+                    {discount > 0 && (
+                      <div className="absolute top-2 left-2 rounded-full bg-red-600 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+                        SAVE {discount}%
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-2.5 space-y-1">
+                    <p className="text-[12px] sm:text-sm font-semibold text-gray-900 line-clamp-2">
+                      {p.name}
+                    </p>
+                    <p className="text-sm font-bold text-primary">
+                      ৳ {formatteeNumber(Number(finalPrice || 0))}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          <div className="flex items-center justify-between gap-3">
+            <button
+              onClick={() => setFlashSaleModalOpen(false)}
+              className="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
+            >
+              পরে দেখবো
+            </button>
+            <Link
+              href="/flashSell"
+              onClick={() => setFlashSaleModalOpen(false)}
+              className="inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-gray-800 transition-colors"
+            >
+              সব ফ্ল্যাশ ডিল দেখুন
+            </Link>
+          </div>
+        </div>
       </Modal>
     </nav>
   );
