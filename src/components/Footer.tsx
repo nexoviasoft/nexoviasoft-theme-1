@@ -11,10 +11,6 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import {
   FaFacebookF,
-  FaInstagram,
-  FaPinterest,
-  FaTiktok,
-  FaXTwitter,
 } from "react-icons/fa6";
 import { MdOutlineEmail } from "react-icons/md";
 

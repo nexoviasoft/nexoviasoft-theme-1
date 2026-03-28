@@ -210,7 +210,7 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({ onMenuAction }) => {
       >
         <button
           type="button"
-          className="group flex items-center gap-2 !rounded-full border border-gray-200 bg-white px-2.5 py-1.5 text-sm text-gray-700 hover:border-gray-300 hover:bg-gray-50 hover:shadow-sm transition-all duration-200"
+          className="group inline-flex h-10 items-center gap-2 rounded-full border border-gray-200 bg-white px-3 text-sm text-gray-700 hover:border-gray-300 hover:bg-gray-50 hover:shadow-sm transition-all duration-200"
         >
           <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-gray-800 to-gray-950 text-[11px] font-bold text-white shadow-sm">
             {isAuthenticated ? initials : <FaRegUser size={13} />}

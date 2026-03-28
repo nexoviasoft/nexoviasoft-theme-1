@@ -26,28 +26,31 @@ const TopProduct = async () => {
   const items = section.carouselItems || [];
 
   return (
-    <section className="  max-w-7xl mx-auto px-5 md:pt-10 pt-5 overflow-hidden">
+    <section className="max-w-7xl mx-auto px-5 md:pt-10 pt-5 overflow-hidden">
+      <h2 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-3">
+        জনপ্রিয় কালেকশন
+      </h2>
       <div className=" grid gap-3 md:grid-cols-4 grid-cols-2 w-full ">
-        <div className=" overflow-hidden">
+        <div className="overflow-hidden rounded-md md:rounded-2xl lg:rounded-3xl">
           <Image
             src={left}
             alt="img"
             width={700}
             height={700}
-            className=" aspect-[18/20] h-full "
+            className="aspect-[18/20] h-full w-full object-cover"
           />
         </div>
         {/* slider  */}
-        <div className=" col-span-2  md:order-none order-first  overflow-hidden h-full">
+        <div className="col-span-2 md:order-none order-first overflow-hidden h-full rounded-md md:rounded-2xl lg:rounded-3xl">
           <TopProductCarousel items={items} />
         </div>
-        <div className=" overflow-hidden ">
+        <div className="overflow-hidden rounded-md md:rounded-2xl lg:rounded-3xl">
           <Image
             src={right}
             alt="img"
             width={700}
             height={700}
-            className=" aspect-[18/20] h-full"
+            className="aspect-[18/20] h-full w-full object-cover"
           />
         </div>
       </div>
