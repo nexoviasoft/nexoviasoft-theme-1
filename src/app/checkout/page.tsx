@@ -14,6 +14,7 @@ import {
   getProduct,
   getProductBySlug,
   getSystemUserByCompanyId,
+  saveIncompleteOrder,
 } from "../../lib/api-services";
 import { API_CONFIG } from "../../lib/api-config";
 
@@ -183,8 +184,31 @@ const CheckoutContent = () => {
       setAddress((userSession.user.address as string | undefined) || "");
       setDistrict((userSession.user.district as string | undefined) || "");
       setUpazila(((userSession.user as any).upazila as string | undefined) || "");
+    } else {
+      // For guest users, try to load from localStorage
+      const cached = localStorage.getItem("guest_checkout_info");
+      if (cached) {
+        try {
+          const data = JSON.parse(cached);
+          if (data.name) setName(data.name);
+          if (data.phone) setPhone(data.phone);
+          if (data.email) setEmail(data.email);
+          if (data.address) setAddress(data.address);
+          if (data.district) setDistrict(data.district);
+          if (data.upazila) setUpazila(data.upazila);
+        } catch (e) {}
+      }
     }
   }, [userSession]);
+
+  // Persist guest info to localStorage
+  useEffect(() => {
+    if (!userSession?.user && (name || phone || email || address)) {
+      localStorage.setItem("guest_checkout_info", JSON.stringify({
+        name, phone, email, address, district, upazila
+      }));
+    }
+  }, [name, phone, email, address, district, upazila, userSession]);
 
   // Fetch product details for cart items
   useEffect(() => {
@@ -290,6 +314,85 @@ const CheckoutContent = () => {
     deliveryType === "inside" ? 60 : deliveryType === "outside" ? 120 : 0;
   const total = Math.max(subtotal - discount, 0);
   const grandTotal = total + shippingCharge;
+
+  // Track incomplete orders (debounced)
+  const incompleteOrderIdRef = useRef<number | null>(null);
+  useEffect(() => {
+    // Only track if there is some meaningful data (at least name or phone)
+    if (!name.trim() && !phone.trim() && !email.trim()) return;
+
+    const performSaveIncomplete = async () => {
+      const companyId =
+        searchParams.get("companyId") ||
+        userSession?.companyId ||
+        API_CONFIG.companyId;
+      if (!companyId || !items.length) return;
+
+      try {
+        const combinedAddress = [district.trim(), upazila.trim(), address.trim()]
+          .filter(Boolean)
+          .join(", ");
+
+        const payload = {
+          customerName: name,
+          customerPhone: phone,
+          customerEmail: email,
+          customerAddress: combinedAddress,
+          shippingAddress: combinedAddress,
+          deliveryType: (deliveryType === "inside"
+            ? "INSIDEDHAKA"
+            : deliveryType === "outside"
+              ? "OUTSIDEDHAKA"
+              : undefined) as "INSIDEDHAKA" | "OUTSIDEDHAKA" | undefined,
+          paymentMethod: (paymentMethod === "cod" ? "COD" : "DIRECT") as
+            | "DIRECT"
+            | "COD",
+          orderInfo: tShirtSize ? `tShirtSize ${tShirtSize}` : undefined,
+          items: items.map((i) => ({
+            productId: i.product.id,
+            quantity: i.quantity,
+          })),
+        };
+
+        const res = await saveIncompleteOrder(
+          payload,
+          companyId,
+          incompleteOrderIdRef.current || undefined,
+        );
+        if (res?.id) {
+          incompleteOrderIdRef.current = res.id;
+        }
+      } catch (error) {
+        console.error("Failed to save incomplete order tracking:", error);
+      }
+    };
+
+    const timeoutId = setTimeout(performSaveIncomplete, 2000);
+
+    const handleBeforeUnload = () => {
+      performSaveIncomplete();
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      performSaveIncomplete();
+    };
+  }, [
+    name,
+    phone,
+    email,
+    address,
+    district,
+    upazila,
+    items,
+    deliveryType,
+    paymentMethod,
+    tShirtSize,
+    searchParams,
+    userSession?.companyId,
+  ]);
 
   const handleQueryItemQuantityChange = async (
     item: {
@@ -582,7 +685,6 @@ const CheckoutContent = () => {
           <div className="flex items-center gap-3">
             {companyLogo && (
               <div className="flex h-9 w-9 items-center justify-center  bg-white border border-gray-100 overflow-hidden shadow-sm">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={companyLogo}
                   alt="Store logo"
