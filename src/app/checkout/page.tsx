@@ -317,8 +317,10 @@ const CheckoutContent = () => {
 
   // Track incomplete orders (debounced)
   const incompleteOrderIdRef = useRef<number | null>(null);
+  const orderSucceededRef = useRef(false); // prevent incomplete save after real order placed
   useEffect(() => {
     // Only track if there is some meaningful data (at least name or phone)
+    if (orderSucceededRef.current) return; // real order placed — don't re-save as incomplete
     if (!name.trim() && !phone.trim() && !email.trim()) return;
 
     const performSaveIncomplete = async () => {
@@ -326,7 +328,7 @@ const CheckoutContent = () => {
         searchParams.get("companyId") ||
         userSession?.companyId ||
         API_CONFIG.companyId;
-      if (!companyId || !items.length) return;
+      if (!companyId) return;
 
       try {
         const combinedAddress = [district.trim(), upazila.trim(), address.trim()]
@@ -654,6 +656,7 @@ const CheckoutContent = () => {
 
       const res = (await createOrder(payload, userSession?.accessToken, companyId)) as any;
 
+      orderSucceededRef.current = true; // prevent cleanup from saving incomplete order
       toast.success("Order placed successfully");
 
       if (userSession?.accessToken && userSession?.userId) {
